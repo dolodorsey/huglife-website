@@ -1,160 +1,68 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 
-const C = { base: "#0D0D10", cream: "#F2EBDD", pink: "#D947A8", gold: "#D9B44A", steel: "#2D2F36", dim: "#6A6A72", warm: "#1A1218", glow: "#E85CC0", deep: "#0A0A0D" };
+const C={base:"#07070a",surface:"#0a0810",border:"rgba(255,255,255,0.07)",gold:"#d8b26e",goldLight:"#f2d39b",goldDeep:"#8b6b3d",cream:"#f0ece4",muted:"rgba(255,255,255,0.48)",dim:"rgba(255,255,255,0.22)"};
+const F={serif:"'Cormorant Garamond','Playfair Display',Georgia,serif",sans:"'DM Sans','Inter',system-ui,sans-serif"};
+function useInView(t=0.1){const ref=useRef(null);const[v,setV]=useState(false);useEffect(()=>{const el=ref.current;if(!el)return;const o=new IntersectionObserver(([e])=>{if(e.isIntersecting)setV(true)},{threshold:t});o.observe(el);return()=>o.disconnect();},[]);return[ref,v];}
+function Reveal({children,d=0}){const[ref,v]=useInView();return<div ref={ref} style={{transform:v?"translateY(0)":"translateY(32px)",opacity:v?1:0,transition:`all 0.9s cubic-bezier(0.16,1,0.3,1) ${d}s`}}>{children}</div>;}
+const Grain=()=>(<div style={{position:"absolute",inset:0,opacity:0.04,pointerEvents:"none",backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`}}/>);
 
-function useInView(t = 0.12) { const ref = useRef<HTMLDivElement>(null); const [v, setV] = useState(false); useEffect(() => { const el = ref.current; if (!el) return; const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setV(true); obs.unobserve(el); } }, { threshold: t }); obs.observe(el); return () => obs.disconnect(); }, [t]); return [ref, v] as const; }
-function R({ children, delay = 0, dir = "up", style = {} }: { children: React.ReactNode; delay?: number; dir?: string; style?: React.CSSProperties }) { const [ref, vis] = useInView(); const t: Record<string, string> = { up: "translateY(50px)", left: "translateX(60px)", right: "translateX(-60px)" }; return <div ref={ref} style={{ ...style, opacity: vis ? 1 : 0, transform: vis ? "none" : t[dir] || t.up, transition: `all 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s`, willChange: "transform, opacity" }}>{children}</div>; }
-const Grain = () => <div style={{ position: "fixed", inset: 0, zIndex: 9999, pointerEvents: "none", mixBlendMode: "overlay", opacity: 0.04 }}><svg width="100%" height="100%"><filter id="g"><feTurbulence baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" /></filter><rect width="100%" height="100%" filter="url(#g)" /></svg></div>;
+function Nav(){const[s,setS]=useState(false);useEffect(()=>{const h=()=>setS(window.scrollY>60);window.addEventListener("scroll",h,{passive:true});return()=>window.removeEventListener("scroll",h);},[]);return(<nav style={{position:"fixed",top:0,left:0,right:0,zIndex:100,padding:s?"14px clamp(24px,4vw,64px)":"26px clamp(24px,4vw,64px)",display:"flex",justifyContent:"space-between",alignItems:"center",background:s?"rgba(7,7,10,0.96)":"transparent",backdropFilter:s?"blur(28px)":"none",borderBottom:s?`1px solid ${C.border}`:"none",transition:"all 0.5s cubic-bezier(0.16,1,0.3,1)"}}><div><div style={{fontFamily:F.sans,fontSize:"8px",letterSpacing:"0.5em",textTransform:"uppercase",color:C.gold,marginBottom:"3px"}}>The Event Company</div><span style={{fontFamily:F.serif,fontSize:"22px",fontWeight:600,color:C.cream}}>HUGLIFE</span></div><div style={{display:"flex",gap:"clamp(14px,2.5vw,36px)",alignItems:"center"}}>{["Events","Cities","ICONIC","Access"].map(n=>(<a key={n} href="#" style={{fontFamily:F.sans,fontSize:"10px",fontWeight:500,letterSpacing:"0.22em",textTransform:"uppercase",color:C.muted,textDecoration:"none"}}>{n}</a>))}<button style={{fontFamily:F.sans,fontSize:"10px",fontWeight:600,letterSpacing:"0.14em",textTransform:"uppercase",color:"#07070a",background:`linear-gradient(135deg,${C.gold},${C.goldDeep})`,border:"none",padding:"10px 28px",cursor:"pointer"}}>Get Access</button></div></nav>);}
 
-function Hero() {
-  const [ready, setReady] = useState(false);
-  useEffect(() => { setTimeout(() => setReady(true), 500); }, []);
-  return (
-    <section style={{ height: "100vh", position: "relative", overflow: "hidden", background: C.base }}>
-      <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at 50% 60%, ${C.pink}08, transparent 60%)` }} />
-      <div style={{ position: "absolute", bottom: "14vh", left: "6vw", zIndex: 3 }}>
-        <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, letterSpacing: "0.5em", textTransform: "uppercase", color: C.pink, marginBottom: 24, opacity: ready ? 1 : 0, transform: ready ? "translateX(0)" : "translateX(-20px)", transition: "all 1s ease 0.1s", display: "flex", alignItems: "center", gap: 12 }}>
-          <span style={{ width: 32, height: 2, background: C.pink, display: "inline-block" }} />Events · Culture · Community
-        </div>
-        <h1 style={{ fontFamily: "'Oswald', sans-serif", fontSize: "clamp(64px, 16vw, 240px)", fontWeight: 500, lineHeight: 0.85, letterSpacing: "0.02em", color: C.cream, margin: 0, textTransform: "uppercase" }}>
-          <span style={{ display: "block", opacity: ready ? 1 : 0, transform: ready ? "translateY(0)" : "translateY(100%)", transition: "all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s" }}>Hug</span>
-          <span style={{ display: "block", color: C.pink, opacity: ready ? 1 : 0, transform: ready ? "translateY(0)" : "translateY(100%)", transition: "all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.35s", textShadow: `0 0 80px ${C.pink}20` }}>Life</span>
-        </h1>
-        <div style={{ marginTop: 32, marginLeft: "clamp(60px, 10vw, 160px)", opacity: ready ? 1 : 0, transform: ready ? "translateY(0)" : "translateY(20px)", transition: "all 0.8s ease 0.6s" }}>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(13px, 1.1vw, 16px)", fontWeight: 300, color: C.dim, lineHeight: 1.6, maxWidth: 320 }}>Where culture lives. Curated events, immersive experiences, and community that moves.</p>
-        </div>
-      </div>
-      <div style={{ position: "absolute", right: "6vw", bottom: "14vh", zIndex: 3, fontFamily: "'Oswald', sans-serif", fontSize: "clamp(80px, 10vw, 140px)", fontWeight: 300, color: C.steel, opacity: ready ? 0.1 : 0, transition: "opacity 1.5s ease 0.8s", textTransform: "uppercase" }}>24</div>
-    </section>
-  );
-}
+const EVENTS=[{name:"NOIR",type:"Luxury Nightlife",desc:"Curated access. Elevated crowd. City prestige. NOIR is the standard.",accent:C.gold,cities:"ATL · HTX · CLT · MIA · LV · NY"},{name:"Taste of Art",type:"Culinary Experience",desc:"A luxury dining and art experience that redefines the evening out.",accent:"#c9a87a",cities:"ATL · LA · DC"},{name:"REMIX",type:"Music Event",desc:"Premium live music and DJ culture for the intentional crowd.",accent:"#c8c8d8",cities:"ATL · HTX · MIA"},{name:"Sunday's Best",type:"Brunch Experience",desc:"A curated Sunday ritual — elevated brunch with culture and community.",accent:"#e8c97a",cities:"ATL · MIA · LA"},{name:"Gangsta Gospel",type:"Culture Event",desc:"Where faith, culture, and community intersect in an unforgettable experience.",accent:"#b87a5a",cities:"ATL · HTX · DC"},{name:"WRST BHVR",type:"Nightlife Event",desc:"High-energy nightlife for the city's boldest crowd.",accent:"#c8c8c8",cities:"ATL · HTX · CLT · MIA"},{name:"Paparazzi",type:"Social Event",desc:"The see-and-be-seen experience built for the culturally aware.",accent:"#e8e8e8",cities:"ATL · MIA · NY"},{name:"Pawchella",type:"Pet Festival",desc:"The premium outdoor festival experience for the city's most stylish pet owners.",accent:"#c8b87a",cities:"ATL · Austin · CLT"}];
 
-function EventPosterWall() {
-  const [expanded, setExpanded] = useState<number | null>(null);
-  const events = [
-    { name: "NOIR", type: "Nightlife Experience", desc: "An all-black luxury nightlife event. DJs, live performers, premium bars. Pure atmosphere.", color: "#0B0A0C", accent: "#D2B98B" },
-    { name: "Taste of Art", type: "Art + Food + Music", desc: "Where canvas meets cuisine. Local artists, chef collaborations, live music. A multisensory evening.", color: "#111114", accent: "#A75C43" },
-    { name: "Paparazzi", type: "Red Carpet Social", desc: "Dress up. Show up. Be seen. Photography-forward social events where everyone is the star.", color: "#0F0F12", accent: "#B73A4B" },
-    { name: "Sunday&apos;s Best", type: "Brunch + Fashion", desc: "The intersection of Sunday brunch culture and fashion. Come dressed. Leave inspired.", color: "#1C1B1F", accent: "#D8BA7C" },
-    { name: "REMIX", type: "Music + Culture", desc: "Genre-bending music events. Where hip-hop meets house meets afrobeats meets something new.", color: "#0D0E12", accent: "#B6E03E" },
-    { name: "WRST BHVR", type: "Premium Party", desc: "Controlled chaos. The party brand for people who refuse to be boring.", color: "#111216", accent: "#BB2C35" },
-  ];
+export default function HUGLIFEFlagship(){const[loaded,setLoaded]=useState(false);const[hover,setHover]=useState(null);useEffect(()=>{setTimeout(()=>setLoaded(true),80);},[]);
+return(<div style={{background:C.base}}>
+<Nav/>
+<section style={{minHeight:"100vh",position:"relative",overflow:"hidden",background:`radial-gradient(ellipse at 60% 20%, rgba(216,178,110,0.14) 0%, transparent 50%), radial-gradient(ellipse at 20% 80%, rgba(80,30,10,0.12) 0%, transparent 55%), ${C.base}`,display:"flex",flexDirection:"column",justifyContent:"flex-end",padding:"0 clamp(32px,6vw,96px) 96px"}}>
+<Grain/>
+<div style={{position:"absolute",inset:0,opacity:0.03,backgroundImage:"linear-gradient(rgba(255,255,255,0.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.1) 1px,transparent 1px)",backgroundSize:"100px 100px"}}/>
+<div style={{position:"absolute",top:"20%",right:"5%",width:"500px",height:"500px",borderRadius:"50%",background:`radial-gradient(circle, rgba(216,178,110,0.12), transparent 70%)`,pointerEvents:"none"}}/>
+<div style={{position:"relative",zIndex:2,maxWidth:"1400px",margin:"0 auto",width:"100%"}}>
+<div style={{fontFamily:F.sans,fontSize:"9px",letterSpacing:"0.55em",textTransform:"uppercase",color:C.gold,opacity:loaded?1:0,transition:"opacity 0.9s ease 0.3s",marginBottom:"20px"}}>The Event Company · 8 Cities · 8 Experiences</div>
+<h1 style={{fontFamily:F.serif,fontSize:"clamp(60px,11vw,152px)",fontWeight:600,lineHeight:0.87,letterSpacing:"-0.02em",color:C.cream,opacity:loaded?1:0,transform:loaded?"translateY(0)":"translateY(40px)",transition:"all 1.1s cubic-bezier(0.16,1,0.3,1) 0.5s"}}>This Is<br/><em style={{color:`rgba(240,236,228,0.22)`}}>What</em><br/><em style={{backgroundImage:`linear-gradient(135deg,${C.goldLight},${C.gold},${C.goldDeep})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text"}}>HUGLIFE.</em></h1>
+<p style={{fontFamily:F.sans,fontSize:"clamp(14px,1.2vw,17px)",lineHeight:1.85,color:C.muted,maxWidth:"540px",marginTop:"32px",opacity:loaded?1:0,transition:"opacity 0.9s ease 0.9s"}}>An event company operating 8 distinct experiences across 8 cities. Not every event deserves your presence. Ours do.</p>
+<div style={{display:"flex",gap:"16px",marginTop:"48px",opacity:loaded?1:0,transition:"opacity 0.9s ease 1.2s",flexWrap:"wrap"}}>
+<button style={{fontFamily:F.sans,fontSize:"10px",fontWeight:600,letterSpacing:"0.15em",textTransform:"uppercase",color:"#07070a",background:`linear-gradient(135deg,${C.gold},${C.goldDeep})`,border:"none",padding:"16px 44px",cursor:"pointer"}}>Explore Events</button>
+<button style={{fontFamily:F.sans,fontSize:"10px",fontWeight:500,letterSpacing:"0.15em",textTransform:"uppercase",color:C.cream,background:"transparent",border:`1px solid ${C.border}`,padding:"16px 38px",cursor:"pointer"}}>Get Access</button>
+</div>
+<div style={{display:"flex",gap:"32px",marginTop:"64px",opacity:loaded?1:0,transition:"opacity 1s ease 1.4s",flexWrap:"wrap"}}>
+{[["8","Event Brands"],["8","Active Cities"],["NOIR","Gold Standard"],["Prestige","Access Level"]].map(([v,l])=>(<div key={l}><div style={{fontFamily:F.serif,fontSize:"clamp(24px,3vw,40px)",fontWeight:600,color:C.gold,fontStyle:"italic"}}>{v}</div><div style={{fontFamily:F.sans,fontSize:"9px",fontWeight:500,letterSpacing:"0.3em",textTransform:"uppercase",color:C.dim,marginTop:"6px"}}>{l}</div></div>))}
+</div></div></section>
 
-  return (
-    <section style={{ padding: "120px 6vw", background: C.deep }}>
-      <R><div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, letterSpacing: "0.4em", textTransform: "uppercase", color: C.pink, marginBottom: 64, display: "flex", alignItems: "center", gap: 12 }}><span style={{ width: 32, height: 2, background: C.pink, display: "inline-block" }} />The Events</div></R>
-      <R delay={0.1}><h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: "clamp(40px, 6vw, 80px)", fontWeight: 500, lineHeight: 0.95, color: C.cream, margin: "0 0 64px", textTransform: "uppercase" }}>Every night<br /><span style={{ color: C.pink }}>tells a story.</span></h2></R>
+<section style={{background:C.base,padding:"120px clamp(32px,6vw,96px)"}}>
+<div style={{maxWidth:"1400px",margin:"0 auto"}}>
+<Reveal><div style={{fontFamily:F.sans,fontSize:"9px",letterSpacing:"0.48em",textTransform:"uppercase",color:C.gold,marginBottom:"16px"}}>Event Universe</div>
+<h2 style={{fontFamily:F.serif,fontSize:"clamp(36px,5vw,72px)",fontWeight:600,lineHeight:1.0,color:C.cream,marginBottom:"64px"}}>8 Experiences.<br/><em>1 Standard.</em></h2></Reveal>
+<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:"2px",background:C.border}}>
+{EVENTS.map((ev,i)=>(<div key={ev.name} onMouseEnter={()=>setHover(i)} onMouseLeave={()=>setHover(null)} style={{background:hover===i?"#0a0810":C.base,padding:"44px 32px",cursor:"pointer",transition:"background 0.3s",position:"relative",overflow:"hidden"}}>
+{hover===i&&<div style={{position:"absolute",inset:0,background:`radial-gradient(circle at 80% 20%, ${ev.accent}12, transparent 70%)`}}/>}
+<div style={{position:"relative",zIndex:1}}>
+<div style={{width:"40px",height:"2px",background:`linear-gradient(90deg,${ev.accent},transparent)`,marginBottom:"24px"}}/>
+<div style={{fontFamily:F.sans,fontSize:"8px",fontWeight:600,letterSpacing:"0.38em",textTransform:"uppercase",color:ev.accent,marginBottom:"10px"}}>{ev.type}</div>
+<div style={{fontFamily:F.serif,fontSize:"28px",fontWeight:600,color:C.cream,marginBottom:"12px"}}>{ev.name}</div>
+<p style={{fontFamily:F.sans,fontSize:"13px",lineHeight:1.7,color:C.muted,marginBottom:"16px"}}>{ev.desc}</p>
+<div style={{fontFamily:F.sans,fontSize:"9px",fontWeight:500,letterSpacing:"0.25em",color:ev.accent}}>{ev.cities}</div>
+</div></div>))}
+</div></div></section>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 3 }}>
-        {events.map((ev, i) => (
-          <R key={ev.name} delay={0.06 * i}>
-            <div onClick={() => setExpanded(expanded === i ? null : i)} style={{
-              background: expanded === i ? ev.color : C.steel,
-              padding: expanded === i ? "clamp(40px, 4vw, 64px)" : "clamp(32px, 3vw, 48px)",
-              cursor: "pointer", position: "relative", overflow: "hidden",
-              transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
-              border: `1px solid ${expanded === i ? ev.accent + "30" : C.steel}`,
-              gridColumn: expanded === i ? "1 / -1" : "auto",
-              minHeight: expanded === i ? 240 : "auto",
-            }}>
-              <div style={{ position: "absolute", top: 8, right: 16, fontFamily: "'Oswald', sans-serif", fontSize: "clamp(48px, 5vw, 80px)", fontWeight: 300, color: ev.accent, opacity: expanded === i ? 0.12 : 0.04, transition: "opacity 0.4s ease", textTransform: "uppercase" }}>{String(i + 1).padStart(2, "0")}</div>
-              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: ev.accent, marginBottom: 10 }}>{ev.type}</div>
-              <h3 style={{ fontFamily: "'Oswald', sans-serif", fontSize: expanded === i ? "clamp(32px, 4vw, 52px)" : "clamp(22px, 2.5vw, 32px)", fontWeight: 500, color: C.cream, margin: "0 0 12px", textTransform: "uppercase", transition: "font-size 0.4s ease" }}>{ev.name}</h3>
-              <div style={{ maxHeight: expanded === i ? 180 : 0, opacity: expanded === i ? 1 : 0, overflow: "hidden", transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)" }}>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 300, lineHeight: 1.7, color: C.cream, opacity: 0.55, maxWidth: 480, marginBottom: 20 }}>{ev.desc}</p>
-                <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: ev.accent, borderBottom: `1px solid ${ev.accent}40`, paddingBottom: 2 }}>Get Tickets →</span>
-              </div>
-            </div>
-          </R>
-        ))}
-      </div>
-    </section>
-  );
-}
+<section style={{background:C.surface,padding:"120px clamp(32px,6vw,96px)",position:"relative",overflow:"hidden"}}>
+<Grain/>
+<div style={{position:"absolute",inset:0,background:`radial-gradient(ellipse at 50% 50%, rgba(216,178,110,0.08), transparent 65%)`}}/>
+<div style={{maxWidth:"860px",margin:"0 auto",textAlign:"center",position:"relative",zIndex:2}}>
+<Reveal>
+<div style={{fontFamily:F.sans,fontSize:"9px",letterSpacing:"0.55em",textTransform:"uppercase",color:C.gold,marginBottom:"28px"}}>The Standard</div>
+<h2 style={{fontFamily:F.serif,fontSize:"clamp(36px,6vw,88px)",fontWeight:600,lineHeight:0.92,color:C.cream,marginBottom:"24px"}}>Not Every Event<br/><em style={{backgroundImage:`linear-gradient(135deg,${C.goldLight},${C.gold},${C.goldDeep})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text"}}>Deserves You.</em></h2>
+<p style={{fontFamily:F.sans,fontSize:"16px",lineHeight:1.85,color:C.muted,maxWidth:"520px",margin:"0 auto 52px"}}>HUGLIFE does. Explore the city nearest you and find your next unforgettable experience.</p>
+<div style={{display:"flex",gap:"16px",justifyContent:"center",flexWrap:"wrap"}}>
+<button style={{fontFamily:F.sans,fontSize:"10px",fontWeight:600,letterSpacing:"0.15em",textTransform:"uppercase",color:"#07070a",background:`linear-gradient(135deg,${C.gold},${C.goldDeep})`,border:"none",padding:"16px 48px",cursor:"pointer"}}>Find My City</button>
+<button style={{fontFamily:F.sans,fontSize:"10px",fontWeight:500,letterSpacing:"0.15em",textTransform:"uppercase",color:C.cream,background:"transparent",border:`1px solid ${C.border}`,padding:"16px 40px",cursor:"pointer"}}>Get on the List</button>
+<button style={{fontFamily:F.sans,fontSize:"10px",fontWeight:500,letterSpacing:"0.15em",textTransform:"uppercase",color:C.dim,background:"transparent",border:"none",padding:"16px 24px",cursor:"pointer"}}>Promote an Event →</button>
+</div></Reveal></div></section>
 
-function Stats() {
-  return (
-    <section style={{ padding: "140px 6vw", background: C.base }}>
-      <R><h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: "clamp(48px, 8vw, 120px)", fontWeight: 500, lineHeight: 0.85, color: C.cream, margin: "0 0 80px", textTransform: "uppercase" }}>The <span style={{ color: C.gold }}>Impact.</span></h2></R>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
-        {[{ v: "50", u: "K+", l: "Attendees" }, { v: "120", u: "+", l: "Events Produced" }, { v: "8", u: "", l: "Cities" }, { v: "6", u: "", l: "Event Brands" }].map((s, i) => (
-          <R key={s.l} delay={0.08 + i * 0.08}>
-            <div style={{ padding: "40px 20px 40px 0", borderLeft: i > 0 ? `1px solid ${C.steel}` : "none", paddingLeft: i > 0 ? 20 : 0 }}>
-              <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: "clamp(48px, 6vw, 80px)", fontWeight: 400, color: C.pink, lineHeight: 1, display: "flex", alignItems: "baseline" }}>{s.v}<span style={{ fontSize: "clamp(14px, 1.5vw, 20px)", fontFamily: "'DM Mono', monospace", marginLeft: 2, color: C.dim }}>{s.u}</span></div>
-              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, letterSpacing: "0.25em", textTransform: "uppercase", color: C.dim, marginTop: 12 }}>{s.l}</div>
-            </div>
-          </R>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Cities() {
-  const [hov, setHov] = useState<number | null>(null);
-  return (
-    <section style={{ padding: "140px 6vw", background: C.deep }}>
-      <R><h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: "clamp(40px, 7vw, 100px)", fontWeight: 500, lineHeight: 0.9, color: C.cream, margin: "0 0 64px", textTransform: "uppercase" }}>Where we<br /><span style={{ color: C.pink }}>show up.</span></h2></R>
-      <R delay={0.15}><div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", borderTop: `1px solid ${C.steel}` }}>
-        {["Atlanta", "Houston", "Miami", "LA", "Charlotte", "New York", "DC", "Las Vegas"].map((c, i) => (
-          <div key={c} onMouseEnter={() => setHov(i)} onMouseLeave={() => setHov(null)} style={{ padding: "28px 16px", borderBottom: `1px solid ${C.steel}`, borderRight: (i + 1) % 4 !== 0 ? `1px solid ${C.steel}` : "none", background: hov === i ? C.pink : "transparent", transition: "all 0.3s ease", cursor: "default" }}>
-            <span style={{ fontFamily: "'Oswald', sans-serif", fontSize: 18, fontWeight: 400, color: hov === i ? C.base : C.dim, transition: "color 0.3s ease", textTransform: "uppercase" }}>{c}</span>
-          </div>
-        ))}
-      </div></R>
-    </section>
-  );
-}
-
-function Conversion() {
-  const [email, setEmail] = useState(""); const [done, setDone] = useState(false);
-  return (
-    <section id="contact" style={{ minHeight: "70vh", background: C.base, display: "flex", alignItems: "center", position: "relative", overflow: "hidden" }}>
-      <div style={{ position: "absolute", right: "-5vw", top: "50%", transform: "translateY(-50%)", fontFamily: "'Oswald', sans-serif", fontSize: "clamp(200px, 35vw, 500px)", fontWeight: 700, color: C.steel, opacity: 0.04, textTransform: "uppercase" }}>HUG</div>
-      <div style={{ padding: "100px 6vw", position: "relative", zIndex: 1 }}>
-        <R><h2 style={{ fontFamily: "'Oswald', sans-serif", fontSize: "clamp(48px, 10vw, 140px)", fontWeight: 500, lineHeight: 0.85, color: C.cream, margin: "0 0 40px", textTransform: "uppercase" }}>Join the<br /><span style={{ color: C.pink }}>movement.</span></h2></R>
-        <R delay={0.15}><div style={{ maxWidth: 480 }}>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, fontWeight: 300, lineHeight: 1.7, color: C.dim, marginBottom: 36 }}>Early access to events, exclusive guest lists, and culture updates.</p>
-          {!done ? (
-            <div style={{ display: "flex", border: `1px solid ${C.steel}` }}>
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="your@email.com" style={{ flex: 1, padding: "16px 20px", fontFamily: "'DM Mono', monospace", fontSize: 13, border: "none", outline: "none", background: "transparent", color: C.cream }} />
-              <button onClick={() => email && setDone(true)} style={{ fontFamily: "'Oswald', sans-serif", fontSize: 16, letterSpacing: "0.1em", textTransform: "uppercase", padding: "16px 28px", background: C.pink, color: C.cream, border: "none", cursor: "pointer", transition: "background 0.3s ease" }} onMouseEnter={(e) => { (e.target as HTMLElement).style.background = C.gold; (e.target as HTMLElement).style.color = C.base; }} onMouseLeave={(e) => { (e.target as HTMLElement).style.background = C.pink; (e.target as HTMLElement).style.color = C.cream; }}>Join</button>
-            </div>
-          ) : <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 28, textTransform: "uppercase", color: C.gold }}>You&apos;re on the list.</div>}
-        </div></R>
-      </div>
-    </section>
-  );
-}
-
-function Nav() {
-  const [s, setS] = useState(false);
-  useEffect(() => { const fn = () => setS(window.scrollY > 80); window.addEventListener("scroll", fn, { passive: true }); return () => window.removeEventListener("scroll", fn); }, []);
-  return <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: "20px 6vw", display: "flex", justifyContent: "space-between", alignItems: "center", background: s ? `${C.base}F2` : "transparent", backdropFilter: s ? "blur(24px)" : "none", borderBottom: s ? `1px solid ${C.steel}` : "1px solid transparent", transition: "all 0.5s ease" }}>
-    <a href="#" style={{ fontFamily: "'Oswald', sans-serif", fontSize: 22, fontWeight: 500, color: C.cream, textDecoration: "none", letterSpacing: "0.1em", textTransform: "uppercase" }}>Hug<span style={{ color: C.pink }}>Life</span></a>
-    <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
-      {["Events", "Cities"].map(i => <a key={i} href="#" style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: C.dim, textDecoration: "none", transition: "color 0.3s ease" }} onMouseEnter={(e) => { (e.target as HTMLElement).style.color = C.cream; }} onMouseLeave={(e) => { (e.target as HTMLElement).style.color = C.dim; }}>{i}</a>)}
-      <a href="#contact" style={{ fontFamily: "'Oswald', sans-serif", fontSize: 13, letterSpacing: "0.1em", textTransform: "uppercase", color: C.base, background: C.pink, padding: "6px 18px", textDecoration: "none" }}>Tickets</a>
-    </div>
-  </nav>;
-}
-
-function Footer() {
-  return <footer style={{ background: C.base, padding: "56px 6vw 40px", borderTop: `1px solid ${C.steel}` }}>
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
-      <div>
-        <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: 20, fontWeight: 500, color: C.cream, textTransform: "uppercase", marginBottom: 8 }}>Hug<span style={{ color: C.pink }}>Life</span></div>
-        <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, color: C.dim, opacity: 0.3 }}>© 2026 HugLife — A Kollective Hospitality Group Brand</div>
-      </div>
-      <div style={{ display: "flex", gap: 24 }}>{["Instagram", "TikTok", "Contact"].map(l => <a key={l} href="#" style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: C.dim, textDecoration: "none", opacity: 0.3, transition: "opacity 0.3s" }} onMouseEnter={(e) => { (e.target as HTMLElement).style.opacity = "1"; }} onMouseLeave={(e) => { (e.target as HTMLElement).style.opacity = "0.3"; }}>{l}</a>)}</div>
-    </div>
-  </footer>;
-}
-
-export default function HugLife() {
-  return <main style={{ overflowX: "hidden" }}>
-    <style>{`@media (max-width: 900px) { div[style*="repeat(4"] { grid-template-columns: 1fr 1fr !important; } div[style*="repeat(3"] { grid-template-columns: 1fr !important; } h1 { font-size: 56px !important; } nav > div:first-child ~ div a:not(:last-child) { display: none; } }`}</style>
-    <Grain /><Nav /><Hero /><EventPosterWall /><Stats /><Cities /><Conversion /><Footer />
-  </main>;
-}
+<footer style={{background:"#04040a",borderTop:`1px solid ${C.border}`,padding:"64px clamp(32px,6vw,96px) 40px"}}>
+<div style={{maxWidth:"1400px",margin:"0 auto",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:"16px"}}>
+<div><div style={{fontFamily:F.serif,fontSize:"24px",fontWeight:600,color:C.cream,marginBottom:"8px"}}>HUGLIFE</div><p style={{fontFamily:F.sans,fontSize:"13px",color:C.muted}}>The Event Company. 8 Cities. 8 Experiences.</p><div style={{marginTop:"12px",fontFamily:F.sans,fontSize:"12px",color:C.dim}}>justhuglife.forever@gmail.com</div></div>
+<div style={{fontFamily:F.sans,fontSize:"11px",color:"rgba(255,255,255,0.22)"}}>© 2026 HUGLIFE. A KHG Enterprise. All rights reserved.</div>
+</div></footer>
+</div>);}
