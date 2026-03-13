@@ -899,9 +899,8 @@ function Footer() {
   ];
 
   return (
-    
+    <>
       <EventbriteTickets />
-
       <footer className="px-6 lg:px-12 pb-12 pt-20" style={{ background: "#06060a", borderTop: `1px solid rgba(255,255,255,0.06)` }}>
       <div className="max-w-7xl mx-auto">
         <div className="grid gap-10 lg:grid-cols-[1.5fr_repeat(4,1fr)] mb-16">
@@ -938,6 +937,7 @@ function Footer() {
         </div>
       </div>
     </footer>
+    </>
   );
 }
 
@@ -963,8 +963,7 @@ function EventbriteTickets() {
               background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.08)",
               textDecoration:"none", color:"inherit",
               transition:"all 0.3s ease", cursor:"pointer"
-            }} onMouseEnter={(e:any)=>{e.currentTarget.style.background="rgba(255,255,255,0.08)";e.currentTarget.style.transform="translateX(4px)"}}
-            onMouseLeave={(e:any)=>{e.currentTarget.style.background="rgba(255,255,255,0.04)";e.currentTarget.style.transform="translateX(0)"}}>
+            }}>
               <div>
                 <div style={{fontSize:"14px",fontWeight:700,color:"#fff"}}>September (Beauty & the Beast)</div>
                 <div style={{fontSize:"11px",color:"rgba(255,255,255,0.4)",marginTop:"2px"}}>Eventbrite · Tickets Available</div>
@@ -977,8 +976,7 @@ function EventbriteTickets() {
               background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.08)",
               textDecoration:"none", color:"inherit",
               transition:"all 0.3s ease", cursor:"pointer"
-            }} onMouseEnter={(e:any)=>{e.currentTarget.style.background="rgba(255,255,255,0.08)";e.currentTarget.style.transform="translateX(4px)"}}
-            onMouseLeave={(e:any)=>{e.currentTarget.style.background="rgba(255,255,255,0.04)";e.currentTarget.style.transform="translateX(0)"}}>
+            }}>
               <div>
                 <div style={{fontSize:"14px",fontWeight:700,color:"#fff"}}>October (Haunted House)</div>
                 <div style={{fontSize:"11px",color:"rgba(255,255,255,0.4)",marginTop:"2px"}}>Eventbrite · Tickets Available</div>
@@ -991,8 +989,7 @@ function EventbriteTickets() {
               background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.08)",
               textDecoration:"none", color:"inherit",
               transition:"all 0.3s ease", cursor:"pointer"
-            }} onMouseEnter={(e:any)=>{e.currentTarget.style.background="rgba(255,255,255,0.08)";e.currentTarget.style.transform="translateX(4px)"}}
-            onMouseLeave={(e:any)=>{e.currentTarget.style.background="rgba(255,255,255,0.04)";e.currentTarget.style.transform="translateX(0)"}}>
+            }}>
               <div>
                 <div style={{fontSize:"14px",fontWeight:700,color:"#fff"}}>November (Black Ball)</div>
                 <div style={{fontSize:"11px",color:"rgba(255,255,255,0.4)",marginTop:"2px"}}>Eventbrite · Tickets Available</div>
@@ -1005,8 +1002,7 @@ function EventbriteTickets() {
               background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.08)",
               textDecoration:"none", color:"inherit",
               transition:"all 0.3s ease", cursor:"pointer"
-            }} onMouseEnter={(e:any)=>{e.currentTarget.style.background="rgba(255,255,255,0.08)";e.currentTarget.style.transform="translateX(4px)"}}
-            onMouseLeave={(e:any)=>{e.currentTarget.style.background="rgba(255,255,255,0.04)";e.currentTarget.style.transform="translateX(0)"}}>
+            }}>
               <div>
                 <div style={{fontSize:"14px",fontWeight:700,color:"#fff"}}>December (Snow Ball)</div>
                 <div style={{fontSize:"11px",color:"rgba(255,255,255,0.4)",marginTop:"2px"}}>Eventbrite · Tickets Available</div>
@@ -1019,8 +1015,7 @@ function EventbriteTickets() {
               background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.08)",
               textDecoration:"none", color:"inherit",
               transition:"all 0.3s ease", cursor:"pointer"
-            }} onMouseEnter={(e:any)=>{e.currentTarget.style.background="rgba(255,255,255,0.08)";e.currentTarget.style.transform="translateX(4px)"}}
-            onMouseLeave={(e:any)=>{e.currentTarget.style.background="rgba(255,255,255,0.04)";e.currentTarget.style.transform="translateX(0)"}}>
+            }}>
               <div>
                 <div style={{fontSize:"14px",fontWeight:700,color:"#fff"}}>December (Winter Wonderland)</div>
                 <div style={{fontSize:"11px",color:"rgba(255,255,255,0.4)",marginTop:"2px"}}>Eventbrite · Tickets Available</div>
