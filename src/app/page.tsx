@@ -899,9 +899,7 @@ function Footer() {
   ];
 
   return (
-    <>
-      <EventbriteTickets />
-      <footer className="px-6 lg:px-12 pb-12 pt-20" style={{ background: "#06060a", borderTop: `1px solid rgba(255,255,255,0.06)` }}>
+    <footer className="px-6 lg:px-12 pb-12 pt-20" style={{ background: "#06060a", borderTop: `1px solid rgba(255,255,255,0.06)` }}>
       <div className="max-w-7xl mx-auto">
         <div className="grid gap-10 lg:grid-cols-[1.5fr_repeat(4,1fr)] mb-16">
           <div>
@@ -937,99 +935,10 @@ function Footer() {
         </div>
       </div>
     </footer>
-    </>
   );
 }
 
 // ─── ROOT ─────────────────────────────────────────────────────────────────────
-
-// ─── EVENTBRITE TICKETS SECTION ───────────────────────────────────────
-function EventbriteTickets() {
-  return (
-    <section id="tickets" style={{
-      padding:"80px 24px", maxWidth:"720px", margin:"0 auto",
-      position:"relative"
-    }}>
-      <div style={{textAlign:"center",marginBottom:"40px"}}>
-        <div style={{fontSize:"10px",fontWeight:700,letterSpacing:"0.2em",color:"#FF6B35",marginBottom:"12px",textTransform:"uppercase"}}>TICKETS</div>
-        <h2 style={{fontFamily:"'Cormorant Garamond','Playfair Display',serif",fontSize:"clamp(28px,5vw,42px)",fontWeight:600,color:"#fff",lineHeight:1.15,marginBottom:"12px"}}>Upcoming Events</h2>
-        <p style={{fontSize:"14px",color:"rgba(255,255,255,0.45)",maxWidth:"400px",margin:"0 auto"}}>Secure your spot. All tickets powered by Eventbrite.</p>
-      </div>
-      <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
-        
-            <a href="https://www.eventbrite.com/e/beauty-the-beast-tickets-1983359980091" target="_blank" rel="noopener noreferrer" style={{
-              display:"flex", justifyContent:"space-between", alignItems:"center",
-              padding:"16px 20px", borderRadius:"14px",
-              background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.08)",
-              textDecoration:"none", color:"inherit",
-              transition:"all 0.3s ease", cursor:"pointer"
-            }}>
-              <div>
-                <div style={{fontSize:"14px",fontWeight:700,color:"#fff"}}>September (Beauty & the Beast)</div>
-                <div style={{fontSize:"11px",color:"rgba(255,255,255,0.4)",marginTop:"2px"}}>Eventbrite · Tickets Available</div>
-              </div>
-              <div style={{padding:"8px 16px",borderRadius:"10px",background:"linear-gradient(135deg,#FF6B35,#FFB347)",color:"#000",fontSize:"11px",fontWeight:800,letterSpacing:"0.04em"}}>GET TICKETS</div>
-            </a>
-            <a href="https://www.eventbrite.com/e/haunted-house-tickets-1983440545063" target="_blank" rel="noopener noreferrer" style={{
-              display:"flex", justifyContent:"space-between", alignItems:"center",
-              padding:"16px 20px", borderRadius:"14px",
-              background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.08)",
-              textDecoration:"none", color:"inherit",
-              transition:"all 0.3s ease", cursor:"pointer"
-            }}>
-              <div>
-                <div style={{fontSize:"14px",fontWeight:700,color:"#fff"}}>October (Haunted House)</div>
-                <div style={{fontSize:"11px",color:"rgba(255,255,255,0.4)",marginTop:"2px"}}>Eventbrite · Tickets Available</div>
-              </div>
-              <div style={{padding:"8px 16px",borderRadius:"10px",background:"linear-gradient(135deg,#FF6B35,#FFB347)",color:"#000",fontSize:"11px",fontWeight:800,letterSpacing:"0.04em"}}>GET TICKETS</div>
-            </a>
-            <a href="https://www.eventbrite.com/e/black-ball-tickets-1983359039277" target="_blank" rel="noopener noreferrer" style={{
-              display:"flex", justifyContent:"space-between", alignItems:"center",
-              padding:"16px 20px", borderRadius:"14px",
-              background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.08)",
-              textDecoration:"none", color:"inherit",
-              transition:"all 0.3s ease", cursor:"pointer"
-            }}>
-              <div>
-                <div style={{fontSize:"14px",fontWeight:700,color:"#fff"}}>November (Black Ball)</div>
-                <div style={{fontSize:"11px",color:"rgba(255,255,255,0.4)",marginTop:"2px"}}>Eventbrite · Tickets Available</div>
-              </div>
-              <div style={{padding:"8px 16px",borderRadius:"10px",background:"linear-gradient(135deg,#FF6B35,#FFB347)",color:"#000",fontSize:"11px",fontWeight:800,letterSpacing:"0.04em"}}>GET TICKETS</div>
-            </a>
-            <a href="https://www.eventbrite.com/e/snow-ball-tickets-1983441304334" target="_blank" rel="noopener noreferrer" style={{
-              display:"flex", justifyContent:"space-between", alignItems:"center",
-              padding:"16px 20px", borderRadius:"14px",
-              background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.08)",
-              textDecoration:"none", color:"inherit",
-              transition:"all 0.3s ease", cursor:"pointer"
-            }}>
-              <div>
-                <div style={{fontSize:"14px",fontWeight:700,color:"#fff"}}>December (Snow Ball)</div>
-                <div style={{fontSize:"11px",color:"rgba(255,255,255,0.4)",marginTop:"2px"}}>Eventbrite · Tickets Available</div>
-              </div>
-              <div style={{padding:"8px 16px",borderRadius:"10px",background:"linear-gradient(135deg,#FF6B35,#FFB347)",color:"#000",fontSize:"11px",fontWeight:800,letterSpacing:"0.04em"}}>GET TICKETS</div>
-            </a>
-            <a href="https://www.eventbrite.com/e/winter-wonderland-tickets-1983440921188" target="_blank" rel="noopener noreferrer" style={{
-              display:"flex", justifyContent:"space-between", alignItems:"center",
-              padding:"16px 20px", borderRadius:"14px",
-              background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.08)",
-              textDecoration:"none", color:"inherit",
-              transition:"all 0.3s ease", cursor:"pointer"
-            }}>
-              <div>
-                <div style={{fontSize:"14px",fontWeight:700,color:"#fff"}}>December (Winter Wonderland)</div>
-                <div style={{fontSize:"11px",color:"rgba(255,255,255,0.4)",marginTop:"2px"}}>Eventbrite · Tickets Available</div>
-              </div>
-              <div style={{padding:"8px 16px",borderRadius:"10px",background:"linear-gradient(135deg,#FF6B35,#FFB347)",color:"#000",fontSize:"11px",fontWeight:800,letterSpacing:"0.04em"}}>GET TICKETS</div>
-            </a>
-      </div>
-      <div style={{textAlign:"center",marginTop:"32px"}}>
-        <p style={{fontSize:"11px",color:"rgba(255,255,255,0.25)"}}>Powered by Eventbrite · Secure checkout</p>
-      </div>
-    </section>
-  );
-}
-
 
 export default function HUGLIFEFlagshipV3() {
   return (
@@ -1044,7 +953,258 @@ export default function HUGLIFEFlagshipV3() {
       <OperatingEngine />
       <SocialProof />
       <ClosingCTA />
+      <EventbriteTickets />
       <Footer />
     </div>
   );
 }
+
+
+
+// ─── EVENTBRITE TICKETS — ALL HUGLIFE EVENTS ─────────────────────────────────
+function EventbriteTickets() {
+  const [activeSection, setActiveSection] = useState<string | null>(null);
+
+  const eventBrands = [
+    {
+      brand: "NOIR",
+      subtitle: "Espresso Series",
+      color: "#C8A96E",
+      events: [
+        { month: "April", url: "https://www.eventbrite.com/e/espresso-tickets-1982504948669" },
+        { month: "May", url: "https://www.eventbrite.com/e/espresso-tickets-1982507090074" },
+        { month: "June", url: "https://www.eventbrite.com/e/espresso-tickets-1982507780138" },
+        { month: "July", url: "https://www.eventbrite.com/e/espresso-tickets-1982510403986" },
+        { month: "August", url: "https://www.eventbrite.com/e/espresso-tickets-1982511495250" },
+        { month: "September", url: "https://www.eventbrite.com/e/espresso-tickets-1982511951615" },
+      ],
+    },
+    {
+      brand: "TASTE OF ART",
+      subtitle: "Canvas, Cuisine & Culture",
+      color: "#A75C43",
+      events: [
+        { month: "April", url: "https://www.eventbrite.com/e/taste-of-art-tickets-1982512459133" },
+        { month: "May", url: "https://www.eventbrite.com/e/taste-of-art-tickets-1982512754015" },
+        { month: "June", url: "https://www.eventbrite.com/e/taste-of-art-tickets-1982513123119" },
+        { month: "July", url: "https://www.eventbrite.com/e/taste-of-art-tickets-1982513445082" },
+        { month: "August", url: "https://www.eventbrite.com/e/taste-of-art-tickets-1982514621601" },
+        { month: "December", url: "https://www.eventbrite.com/e/taste-of-art-tickets-1982515491202" },
+      ],
+    },
+    {
+      brand: "REMIX",
+      subtitle: "Music & Movement",
+      color: "#B6E03E",
+      events: [
+        { month: "May", url: "https://www.eventbrite.com/e/shut-up-dance-tickets-1982516283572" },
+        { month: "July 10", url: "https://www.eventbrite.com/e/remix-tickets-1983356687242" },
+        { month: "July", url: "https://www.eventbrite.com/e/shut-up-dance-tickets-1982517243443" },
+        { month: "September", url: "https://www.eventbrite.com/e/shut-up-dance-tickets-1982517496199" },
+      ],
+    },
+    {
+      brand: "GANGSTA GOSPEL",
+      subtitle: "Soul & Spirit",
+      color: "#D9AF4A",
+      events: [
+        { month: "June", url: "https://www.eventbrite.com/e/gangsta-gospel-tickets-1983357015223" },
+        { month: "August", url: "https://www.eventbrite.com/e/gangsta-gospel-tickets-1983357554837" },
+        { month: "September", url: "https://www.eventbrite.com/e/gangsta-gospel-tickets-1983358448510" },
+      ],
+    },
+    {
+      brand: "PAPARAZZI",
+      subtitle: "Flash & Fashion",
+      color: "#BEC3CB",
+      events: [
+        { month: "May", url: "https://www.eventbrite.com/e/paparazzi-tickets-1983361435444" },
+        { month: "June", url: "https://www.eventbrite.com/e/paparazzi-tickets-1983361684188" },
+        { month: "July", url: "https://www.eventbrite.com/e/paparazzi-tickets-1983430772834" },
+        { month: "August", url: "https://www.eventbrite.com/e/paparazzi-tickets-1983432236211" },
+        { month: "September", url: "https://www.eventbrite.com/e/paparazzi-tickets-1983432751753" },
+      ],
+    },
+    {
+      brand: "WRST BHVR",
+      subtitle: "Napkin Wars Edition",
+      color: "#BB2C35",
+      events: [
+        { month: "May", url: "https://www.eventbrite.com/e/napkin-wars-tickets-1983443338418" },
+        { month: "July", url: "https://www.eventbrite.com/e/napkin-wars-tickets-1983443502910" },
+        { month: "August", url: "https://www.eventbrite.com/e/napkin-wars-tickets-1983443736609" },
+        { month: "September", url: "https://www.eventbrite.com/e/napkin-wars-tickets-1983447530958" },
+        { month: "October", url: "https://www.eventbrite.com/e/napkin-wars-tickets-1983447784717" },
+      ],
+    },
+    {
+      brand: "SUNDAY\'S BEST",
+      subtitle: "Brunch & Vibes",
+      color: "#D8BA7C",
+      events: [
+        { month: "May", url: "https://www.eventbrite.com/e/sunday-best-tickets-1983529471043" },
+        { month: "July", url: "https://www.eventbrite.com/e/sundays-best-tickets-1983552321389" },
+        { month: "September", url: "https://www.eventbrite.com/e/sundays-best-tickets-1983552570133" },
+        { month: "November", url: "https://www.eventbrite.com/e/sundays-best-tickets-1983552744655" },
+      ],
+    },
+    {
+      brand: "PAWCHELLA",
+      subtitle: "Summer Festival",
+      color: "#FFB347",
+      events: [
+        { month: "August", url: "https://www.eventbrite.com/e/pawchella-summer-tickets-1983440350481" },
+      ],
+    },
+    {
+      brand: "BEAUTY & THE BEAST",
+      subtitle: "Signature Gala",
+      color: "#D947A8",
+      events: [
+        { month: "September", url: "https://www.eventbrite.com/e/beauty-the-beast-tickets-1983359980091" },
+      ],
+    },
+    {
+      brand: "HAUNTED HOUSE",
+      subtitle: "Halloween Special",
+      color: "#6B2F8A",
+      events: [
+        { month: "October", url: "https://www.eventbrite.com/e/haunted-house-tickets-1983440545063" },
+      ],
+    },
+    {
+      brand: "BLACK BALL",
+      subtitle: "The Annual Affair",
+      color: "#1a1a1a",
+      events: [
+        { month: "November", url: "https://www.eventbrite.com/e/black-ball-tickets-1983359039277" },
+      ],
+    },
+    {
+      brand: "SNOW BALL",
+      subtitle: "Winter Formal",
+      color: "#87CEEB",
+      events: [
+        { month: "December", url: "https://www.eventbrite.com/e/snow-ball-tickets-1983441304334" },
+      ],
+    },
+    {
+      brand: "WINTER WONDERLAND",
+      subtitle: "Holiday Celebration",
+      color: "#4ECDC4",
+      events: [
+        { month: "December", url: "https://www.eventbrite.com/e/winter-wonderland-tickets-1983440921188" },
+      ],
+    },
+    {
+      brand: "FOREVER FUTBOL",
+      subtitle: "The Beautiful Game",
+      color: "#335A42",
+      events: [
+        { month: "Event 1", url: "https://www.eventbrite.com/e/forever-futbol-tickets-1983442211046" },
+        { month: "Event 2", url: "https://www.eventbrite.com/e/forever-futbol-tickets-1983442556078" },
+        { month: "Event 3", url: "https://www.eventbrite.com/e/forever-futbol-tickets-1983442708534" },
+      ],
+    },
+  ];
+
+  return (
+    <section id="tickets" style={{ padding: "100px 24px 80px", maxWidth: "900px", margin: "0 auto" }}>
+      <div style={{ textAlign: "center", marginBottom: "56px" }}>
+        <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.28em", color: "#D947A8", marginBottom: "14px", textTransform: "uppercase" }}>
+          HUGLIFE × ICONIC PRESENTS
+        </div>
+        <h2 style={{ fontFamily: "'Cormorant Garamond','Playfair Display',serif", fontSize: "clamp(32px,6vw,52px)", fontWeight: 600, color: "#fff", lineHeight: 1.1, marginBottom: "16px" }}>
+          2026 Event Calendar
+        </h2>
+        <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.45)", maxWidth: "500px", margin: "0 auto", lineHeight: 1.7 }}>
+          Every event. Every city. All tickets powered by Eventbrite.
+        </p>
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        {eventBrands.map((brand) => (
+          <div key={brand.brand} style={{
+            borderRadius: "20px",
+            background: "rgba(255,255,255,0.03)",
+            border: `1px solid ${activeSection === brand.brand ? brand.color + "40" : "rgba(255,255,255,0.06)"}`,
+            overflow: "hidden",
+            transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
+          }}>
+            <button
+              onClick={() => setActiveSection(activeSection === brand.brand ? null : brand.brand)}
+              style={{
+                width: "100%", padding: "20px 24px", background: "transparent", border: "none",
+                color: "#fff", cursor: "pointer", display: "flex", justifyContent: "space-between",
+                alignItems: "center", textAlign: "left",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                <div style={{
+                  width: "10px", height: "10px", borderRadius: "50%",
+                  background: brand.color, boxShadow: `0 0 12px ${brand.color}60`,
+                }} />
+                <div>
+                  <div style={{ fontSize: "16px", fontWeight: 800, letterSpacing: "0.02em" }}>{brand.brand}</div>
+                  <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)", marginTop: "2px" }}>{brand.subtitle}</div>
+                </div>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <span style={{
+                  padding: "4px 10px", borderRadius: "8px",
+                  background: `${brand.color}15`, color: brand.color,
+                  fontSize: "10px", fontWeight: 800,
+                }}>
+                  {brand.events.length} {brand.events.length === 1 ? "DATE" : "DATES"}
+                </span>
+                <span style={{
+                  fontSize: "18px", color: "rgba(255,255,255,0.3)",
+                  transform: activeSection === brand.brand ? "rotate(180deg)" : "rotate(0)",
+                  transition: "transform 0.3s ease",
+                  display: "inline-block",
+                }}>▾</span>
+              </div>
+            </button>
+
+            {activeSection === brand.brand && (
+              <div style={{ padding: "0 24px 20px", display: "flex", flexDirection: "column", gap: "8px" }}>
+                {brand.events.map((ev) => (
+                  <a
+                    key={ev.month}
+                    href={ev.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "flex", justifyContent: "space-between", alignItems: "center",
+                      padding: "14px 18px", borderRadius: "12px",
+                      background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)",
+                      textDecoration: "none", color: "inherit", transition: "all 0.25s ease",
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                      <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: brand.color, opacity: 0.6 }} />
+                      <span style={{ fontSize: "13px", fontWeight: 600, color: "#fff" }}>{ev.month}</span>
+                    </div>
+                    <div style={{
+                      padding: "6px 14px", borderRadius: "8px",
+                      background: `linear-gradient(135deg, ${brand.color}, ${brand.color}cc)`,
+                      color: brand.color === "#1a1a1a" || brand.color === "#335A42" || brand.color === "#6B2F8A" ? "#fff" : "#000",
+                      fontSize: "10px", fontWeight: 800, letterSpacing: "0.06em",
+                    }}>
+                      GET TICKETS
+                    </div>
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div style={{ textAlign: "center", marginTop: "40px" }}>
+        <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.2)" }}>All tickets powered by Eventbrite · Secure checkout</p>
+      </div>
+    </section>
+  );
+}
+
