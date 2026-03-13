@@ -1,69 +1,926 @@
 "use client";
 import type { ReactNode } from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, MutableRefObject } from "react";
+  ArrowRight, Crown, MapPin, Calendar, Users, Camera, Music4,
+  Sparkles, Star, ChevronRight, Play, Building2, Wine, Clock, Zap
+} from "lucide-react";
 
-const C={base:"#07070a",surface:"#0a0810",border:"rgba(255,255,255,0.07)",gold:"#d8b26e",goldLight:"#f2d39b",goldDeep:"#8b6b3d",cream:"#f0ece4",muted:"rgba(255,255,255,0.48)",dim:"rgba(255,255,255,0.22)"};
-const F={serif:"'Cormorant Garamond','Playfair Display',Georgia,serif",sans:"'DM Sans','Inter',system-ui,sans-serif"};
-function useInView(t=0.1){const ref=useRef<HTMLDivElement>(null);const[v,setV]=useState(false);useEffect(()=>{const el=ref.current;if(!el)return;const o=new IntersectionObserver(([e])=>{if(e.isIntersecting)setV(true)},{threshold:t});o.observe(el);return()=>o.disconnect();},[]);return[ref,v];}
-function Reveal({children, d = 0}: {children: ReactNode; d?: number}){const[ref,v]=useInView();return<div ref={ref} style={{transform:v?"translateY(0)":"translateY(32px)",opacity:v?1:0,transition:`all 0.9s cubic-bezier(0.16,1,0.3,1) ${d}s`}}>{children}</div>;}
-const Grain=()=>(<div style={{position:"absolute",inset:0,opacity:0.04,pointerEvents:"none",backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`}}/>);
+// ─── DESIGN TOKENS ───────────────────────────────────────────────────────────
+const GOLD = {
+  light: "#f2d39b",
+  mid:   "#d8b26e",
+  deep:  "#8b6b3d",
+  glow:  "rgba(216,178,110,0.18)",
+};
 
-function Nav(){const[s,setS]=useState(false);useEffect(()=>{const h=()=>setS(window.scrollY>60);window.addEventListener("scroll",h,{passive:true});return()=>window.removeEventListener("scroll",h);},[]);return(<nav style={{position:"fixed",top:0,left:0,right:0,zIndex:100,padding:s?"14px clamp(24px,4vw,64px)":"26px clamp(24px,4vw,64px)",display:"flex",justifyContent:"space-between",alignItems:"center",background:s?"rgba(7,7,10,0.96)":"transparent",backdropFilter:s?"blur(28px)":"none",borderBottom:s?`1px solid ${C.border}`:"none",transition:"all 0.5s cubic-bezier(0.16,1,0.3,1)"}}><div><div style={{fontFamily:F.sans,fontSize:"8px",letterSpacing:"0.5em",textTransform:"uppercase",color:C.gold,marginBottom:"3px"}}>The Event Company</div><span style={{fontFamily:F.serif,fontSize:"22px",fontWeight:600,color:C.cream}}>HUGLIFE</span></div><div style={{display:"flex",gap:"clamp(14px,2.5vw,36px)",alignItems:"center"}}>{["Events","Cities","ICONIC","Access"].map(n=>(<a key={n} href="#" style={{fontFamily:F.sans,fontSize:"10px",fontWeight:500,letterSpacing:"0.22em",textTransform:"uppercase",color:C.muted,textDecoration:"none"}}>{n}</a>))}<button style={{fontFamily:F.sans,fontSize:"10px",fontWeight:600,letterSpacing:"0.14em",textTransform:"uppercase",color:"#07070a",background:`linear-gradient(135deg,${C.gold},${C.goldDeep})`,border:"none",padding:"10px 28px",cursor:"pointer"}}>Get Access</button></div></nav>);}
+const BG = {
+  base:   "#07070a",
+  dark:   "#080809",
+  panel:  "rgba(255,255,255,0.03)",
+  border: "rgba(255,255,255,0.08)",
+};
 
-const EVENTS=[{name:"NOIR",type:"Luxury Nightlife",desc:"Curated access. Elevated crowd. City prestige. NOIR is the standard.",accent:C.gold,cities:"ATL · HTX · CLT · MIA · LV · NY"},{name:"Taste of Art",type:"Culinary Experience",desc:"A luxury dining and art experience that redefines the evening out.",accent:"#c9a87a",cities:"ATL · LA · DC"},{name:"REMIX",type:"Music Event",desc:"Premium live music and DJ culture for the intentional crowd.",accent:"#c8c8d8",cities:"ATL · HTX · MIA"},{name:"Sunday's Best",type:"Brunch Experience",desc:"A curated Sunday ritual — elevated brunch with culture and community.",accent:"#e8c97a",cities:"ATL · MIA · LA"},{name:"Gangsta Gospel",type:"Culture Event",desc:"Where faith, culture, and community intersect in an unforgettable experience.",accent:"#b87a5a",cities:"ATL · HTX · DC"},{name:"WRST BHVR",type:"Nightlife Event",desc:"High-energy nightlife for the city&apos;s boldest crowd.",accent:"#c8c8c8",cities:"ATL · HTX · CLT · MIA"},{name:"Paparazzi",type:"Social Event",desc:"The see-and-be-seen experience built for the culturally aware.",accent:"#e8e8e8",cities:"ATL · MIA · NY"},{name:"Pawchella",type:"Pet Festival",desc:"The premium outdoor festival experience for the city&apos;s most stylish pet owners.",accent:"#c8b87a",cities:"ATL · Austin · CLT"}];
+// ─── EVENT WORLDS ─────────────────────────────────────────────────────────────
+const EVENTS = [
+  {
+    id: "noir",
+    name: "NOIR",
+    tag: "Selective Nightlife",
+    thesis: "The Art of Being Selective.",
+    body: "A luxury nightlife property built around access, curation, and social prestige. The room is intentional. The energy is controlled. The memory is premium.",
+    cta: "Enter NOIR",
+    mood: "Obsidian • Gold • Shadow • Velvet",
+    accent: ["#d8b26e", "#8b6b3d"],
+    glow: "rgba(216,178,110,0.12)",
+    icons: [Crown, Wine, Camera],
+    cities: ["Atlanta", "Houston", "Charlotte", "Miami"],
+    status: "Active",
+  },
+  {
+    id: "taste-of-art",
+    name: "Taste of Art",
+    tag: "Canvas, Cuisine & Culture",
+    thesis: "Where the Canvas Becomes the Table.",
+    body: "An immersive social experience where food, creativity, culture, and conversation live in the same frame. Art is the atmosphere. Cuisine is the medium.",
+    cta: "Enter Taste of Art",
+    mood: "Cream • Wine • Brushstroke • Gold",
+    accent: ["#c9a87a", "#7d5a3c"],
+    glow: "rgba(201,168,122,0.12)",
+    icons: [Sparkles, Camera, Users],
+    cities: ["Atlanta", "Los Angeles", "DC"],
+    status: "April Event",
+  },
+  {
+    id: "remix",
+    name: "REMIX",
+    tag: "The Mashup Music Experience",
+    thesis: "Where Sounds Collide and the Room Shifts.",
+    body: "A high-energy sound-driven experience where genres collide and the crowd has range. No rules. No predictable playlist. Pure room momentum.",
+    cta: "Enter REMIX",
+    mood: "Obsidian • Electric Silver • Motion",
+    accent: ["#c8c8d8", "#6a6a7a"],
+    glow: "rgba(200,200,216,0.10)",
+    icons: [Music4, Zap, Users],
+    cities: ["Atlanta", "Houston", "Charlotte"],
+    status: "Upcoming",
+  },
+  {
+    id: "sundays-best",
+    name: "Sunday's Best",
+    tag: "Where Style Meets Sun",
+    thesis: "Fashion, Brunch, and Rooftop Energy.",
+    body: "A daytime social experience where fashion, brunch, music, and rooftop energy come together with polish. Sun-soaked luxury at its most curated.",
+    cta: "Enter Sunday's Best",
+    mood: "Champagne • Ivory • Warm Gold • Daylight",
+    accent: ["#e8c97a", "#9a7b42"],
+    glow: "rgba(232,201,122,0.12)",
+    icons: [Star, Camera, Crown],
+    cities: ["Atlanta", "Miami", "LA"],
+    status: "Upcoming",
+  },
+  {
+    id: "gangsta-gospel",
+    name: "Gangsta Gospel",
+    tag: "Not Your Average Sunday Service",
+    thesis: "Soulful. Rebellious. Unforgettable.",
+    body: "A bold cultural gathering blending spiritual undertones, cultural expression, and unforgettable room energy. Church clothes optional. Presence required.",
+    cta: "Enter Gangsta Gospel",
+    mood: "Burgundy • Cream • Stained-Light • Black",
+    accent: ["#b87a5a", "#6b3a28"],
+    glow: "rgba(184,122,90,0.12)",
+    icons: [Sparkles, Users, Star],
+    cities: ["Atlanta", "Houston"],
+    status: "Upcoming",
+  },
+  {
+    id: "wrst-bhvr",
+    name: "WRST BHVR",
+    tag: "Napkin Wars Edition",
+    thesis: "Where the Napkins Fly and the Room Goes Up.",
+    body: "A high-impact celebration built for spectacle, participation, chaos, and the kind of moment people do not forget. The room becomes the content.",
+    cta: "Enter Napkin Wars",
+    mood: "Black • Chrome • Silver Motion Bursts",
+    accent: ["#c8c8c8", "#6a6a6a"],
+    glow: "rgba(200,200,200,0.08)",
+    icons: [Zap, Camera, Crown],
+    cities: ["Atlanta", "Houston", "Charlotte"],
+    status: "Upcoming",
+  },
+  {
+    id: "paparazzi",
+    name: "Paparazzi",
+    tag: "The Ultimate Pop-Up Photo Moment Experience",
+    thesis: "Built for the Moment Everyone Posts.",
+    body: "A visibility-driven event built around flash moments, camera-ready arrivals, and social proof in real time. Every angle is an entrance. Every moment is shareable.",
+    cta: "Enter Paparazzi",
+    mood: "Flash-White • Chrome • Camera Red • Black",
+    accent: ["#e8e8e8", "#8a8a8a"],
+    glow: "rgba(232,232,232,0.08)",
+    icons: [Camera, Star, Sparkles],
+    cities: ["Atlanta", "Miami", "LA"],
+    status: "Upcoming",
+  },
+  {
+    id: "pawchella",
+    name: "Pawchella",
+    tag: "Dog Lover's Festival",
+    thesis: "A Festival World for Dog Lovers and Their People.",
+    body: "A premium lifestyle festival for the dog-obsessed, community moments, brand activations, and playful cultural energy. Canines welcome. Energy required.",
+    cta: "Enter Pawchella",
+    mood: "Warm Ivory • Sage • Gold Pop • Premium Playful",
+    accent: ["#c8b87a", "#7a6842"],
+    glow: "rgba(200,184,122,0.12)",
+    icons: [Sparkles, Users, Star],
+    cities: ["Atlanta", "Austin"],
+    status: "Planned",
+  },
+];
 
-export default function HUGLIFEFlagship(){const[loaded,setLoaded]=useState(false);const[hover,setHover]=useState(null);useEffect(()=>{setTimeout(()=>setLoaded(true),80);},[]);
-return(<div style={{background:C.base}}>
-<Nav/>
-<section style={{minHeight:"100vh",position:"relative",overflow:"hidden",background:`radial-gradient(ellipse at 60% 20%, rgba(216,178,110,0.14) 0%, transparent 50%), radial-gradient(ellipse at 20% 80%, rgba(80,30,10,0.12) 0%, transparent 55%), ${C.base}`,display:"flex",flexDirection:"column",justifyContent:"flex-end",padding:"0 clamp(32px,6vw,96px) 96px"}}>
-<Grain/>
-<div style={{position:"absolute",inset:0,opacity:0.03,backgroundImage:"linear-gradient(rgba(255,255,255,0.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.1) 1px,transparent 1px)",backgroundSize:"100px 100px"}}/>
-<div style={{position:"absolute",top:"20%",right:"5%",width:"500px",height:"500px",borderRadius:"50%",background:`radial-gradient(circle, rgba(216,178,110,0.12), transparent 70%)`,pointerEvents:"none"}}/>
-<div style={{position:"relative",zIndex:2,maxWidth:"1400px",margin:"0 auto",width:"100%"}}>
-<div style={{fontFamily:F.sans,fontSize:"9px",letterSpacing:"0.55em",textTransform:"uppercase",color:C.gold,opacity:loaded?1:0,transition:"opacity 0.9s ease 0.3s",marginBottom:"20px"}}>The Event Company · 8 Cities · 8 Experiences</div>
-<h1 style={{fontFamily:F.serif,fontSize:"clamp(60px,11vw,152px)",fontWeight:600,lineHeight:0.87,letterSpacing:"-0.02em",color:C.cream,opacity:loaded?1:0,transform:loaded?"translateY(0)":"translateY(40px)",transition:"all 1.1s cubic-bezier(0.16,1,0.3,1) 0.5s"}}>This Is<br/><em style={{color:`rgba(240,236,228,0.22)`}}>What</em><br/><em style={{backgroundImage:`linear-gradient(135deg,${C.goldLight},${C.gold},${C.goldDeep})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text"}}>HUGLIFE.</em></h1>
-<p style={{fontFamily:F.sans,fontSize:"clamp(14px,1.2vw,17px)",lineHeight:1.85,color:C.muted,maxWidth:"540px",marginTop:"32px",opacity:loaded?1:0,transition:"opacity 0.9s ease 0.9s"}}>An event company operating 8 distinct experiences across 8 cities. Not every event deserves your presence. Ours do.</p>
-<div style={{display:"flex",gap:"16px",marginTop:"48px",opacity:loaded?1:0,transition:"opacity 0.9s ease 1.2s",flexWrap:"wrap"}}>
-<button style={{fontFamily:F.sans,fontSize:"10px",fontWeight:600,letterSpacing:"0.15em",textTransform:"uppercase",color:"#07070a",background:`linear-gradient(135deg,${C.gold},${C.goldDeep})`,border:"none",padding:"16px 44px",cursor:"pointer"}}>Explore Events</button>
-<button style={{fontFamily:F.sans,fontSize:"10px",fontWeight:500,letterSpacing:"0.15em",textTransform:"uppercase",color:C.cream,background:"transparent",border:`1px solid ${C.border}`,padding:"16px 38px",cursor:"pointer"}}>Get Access</button>
-</div>
-<div style={{display:"flex",gap:"32px",marginTop:"64px",opacity:loaded?1:0,transition:"opacity 1s ease 1.4s",flexWrap:"wrap"}}>
-{[["8","Event Brands"],["8","Active Cities"],["NOIR","Gold Standard"],["Prestige","Access Level"]].map(([v,l])=>(<div key={l}><div style={{fontFamily:F.serif,fontSize:"clamp(24px,3vw,40px)",fontWeight:600,color:C.gold,fontStyle:"italic"}}>{v}</div><div style={{fontFamily:F.sans,fontSize:"9px",fontWeight:500,letterSpacing:"0.3em",textTransform:"uppercase",color:C.dim,marginTop:"6px"}}>{l}</div></div>))}
-</div></div></section>
+// ─── UPCOMING DROPS ───────────────────────────────────────────────────────────
+const DROPS = [
+  { date: "April 12", city: "Atlanta", event: "Taste of Art", status: "VIP Tables Open", access: "Early Access Active" },
+  { date: "April 26", city: "Atlanta", event: "NOIR", status: "RSVP Live", access: "Request Access" },
+  { date: "May 10", city: "Houston", event: "Sunday's Best", status: "Talent Applications Open", access: "Apply Now" },
+  { date: "May 25", city: "Las Vegas", event: "NOIR", status: "VIP Tables Open", access: "Reserve Table" },
+  { date: "June 8", city: "Miami", event: "NOIR", status: "Sponsor Open", access: "Partner Now" },
+  { date: "June 22", city: "Charlotte", event: "REMIX", status: "Tickets Open", access: "Get Tickets" },
+];
 
-<section style={{background:C.base,padding:"120px clamp(32px,6vw,96px)"}}>
-<div style={{maxWidth:"1400px",margin:"0 auto"}}>
-<Reveal><div style={{fontFamily:F.sans,fontSize:"9px",letterSpacing:"0.48em",textTransform:"uppercase",color:C.gold,marginBottom:"16px"}}>Event Universe</div>
-<h2 style={{fontFamily:F.serif,fontSize:"clamp(36px,5vw,72px)",fontWeight:600,lineHeight:1.0,color:C.cream,marginBottom:"64px"}}>8 Experiences.<br/><em>1 Standard.</em></h2></Reveal>
-<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:"2px",background:C.border}}>
-{EVENTS.map((ev,i)=>(<div key={ev.name} onMouseEnter={()=>setHover(i)} onMouseLeave={()=>setHover(null)} style={{background:hover===i?"#0a0810":C.base,padding:"44px 32px",cursor:"pointer",transition:"background 0.3s",position:"relative",overflow:"hidden"}}>
-{hover===i&&<div style={{position:"absolute",inset:0,background:`radial-gradient(circle at 80% 20%, ${ev.accent}12, transparent 70%)`}}/>}
-<div style={{position:"relative",zIndex:1}}>
-<div style={{width:"40px",height:"2px",background:`linear-gradient(90deg,${ev.accent},transparent)`,marginBottom:"24px"}}/>
-<div style={{fontFamily:F.sans,fontSize:"8px",fontWeight:600,letterSpacing:"0.38em",textTransform:"uppercase",color:ev.accent,marginBottom:"10px"}}>{ev.type}</div>
-<div style={{fontFamily:F.serif,fontSize:"28px",fontWeight:600,color:C.cream,marginBottom:"12px"}}>{ev.name}</div>
-<p style={{fontFamily:F.sans,fontSize:"13px",lineHeight:1.7,color:C.muted,marginBottom:"16px"}}>{ev.desc}</p>
-<div style={{fontFamily:F.sans,fontSize:"9px",fontWeight:500,letterSpacing:"0.25em",color:ev.accent}}>{ev.cities}</div>
-</div></div>))}
-</div></div></section>
+// ─── CITY MARKETS ─────────────────────────────────────────────────────────────
+const CITIES = [
+  { city: "Atlanta", status: "Flagship", events: ["NOIR", "Taste of Art", "WRST BHVR", "Sunday's Best"], note: "Flagship Market" },
+  { city: "Houston", status: "Active", events: ["NOIR", "Sunday's Best", "Gangsta Gospel"], note: "Expansion Market" },
+  { city: "Los Angeles", status: "Active", events: ["NOIR", "Taste of Art", "Paparazzi"], note: "West Coast Launch" },
+  { city: "DC", status: "Active", events: ["NOIR", "Taste of Art"], note: "Premium Selective" },
+  { city: "Charlotte", status: "Active", events: ["NOIR", "REMIX", "WRST BHVR"], note: "High-Social Market" },
+  { city: "Miami", status: "Active", events: ["NOIR", "Paparazzi"], note: "High-Visibility" },
+];
 
-<section style={{background:C.surface,padding:"120px clamp(32px,6vw,96px)",position:"relative",overflow:"hidden"}}>
-<Grain/>
-<div style={{position:"absolute",inset:0,background:`radial-gradient(ellipse at 50% 50%, rgba(216,178,110,0.08), transparent 65%)`}}/>
-<div style={{maxWidth:"860px",margin:"0 auto",textAlign:"center",position:"relative",zIndex:2}}>
-<Reveal>
-<div style={{fontFamily:F.sans,fontSize:"9px",letterSpacing:"0.55em",textTransform:"uppercase",color:C.gold,marginBottom:"28px"}}>The Standard</div>
-<h2 style={{fontFamily:F.serif,fontSize:"clamp(36px,6vw,88px)",fontWeight:600,lineHeight:0.92,color:C.cream,marginBottom:"24px"}}>Not Every Event<br/><em style={{backgroundImage:`linear-gradient(135deg,${C.goldLight},${C.gold},${C.goldDeep})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text"}}>Deserves You.</em></h2>
-<p style={{fontFamily:F.sans,fontSize:"16px",lineHeight:1.85,color:C.muted,maxWidth:"520px",margin:"0 auto 52px"}}>HUGLIFE does. Explore the city nearest you and find your next unforgettable experience.</p>
-<div style={{display:"flex",gap:"16px",justifyContent:"center",flexWrap:"wrap"}}>
-<button style={{fontFamily:F.sans,fontSize:"10px",fontWeight:600,letterSpacing:"0.15em",textTransform:"uppercase",color:"#07070a",background:`linear-gradient(135deg,${C.gold},${C.goldDeep})`,border:"none",padding:"16px 48px",cursor:"pointer"}}>Find My City</button>
-<button style={{fontFamily:F.sans,fontSize:"10px",fontWeight:500,letterSpacing:"0.15em",textTransform:"uppercase",color:C.cream,background:"transparent",border:`1px solid ${C.border}`,padding:"16px 40px",cursor:"pointer"}}>Get on the List</button>
-<button style={{fontFamily:F.sans,fontSize:"10px",fontWeight:500,letterSpacing:"0.15em",textTransform:"uppercase",color:C.dim,background:"transparent",border:"none",padding:"16px 24px",cursor:"pointer"}}>Promote an Event →</button>
-</div></Reveal></div></section>
+// ─── AUDIENCE PATHS ───────────────────────────────────────────────────────────
+const PATHS = [
+  { title: "For Attendees", icon: Users, body: "Access upcoming experiences, RSVP, VIP tables, and early drops before the crowd catches up.", cta: "Get Access" },
+  { title: "For Promoters", icon: Zap, body: "Join city campaigns, push awareness, drive turnout, and earn through structured event promotion.", cta: "Apply as Promoter" },
+  { title: "For Talent", icon: Music4, body: "DJs, hosts, photographers, creators, performers, and event staff ready for premium cultural experiences.", cta: "Join Talent Network" },
+  { title: "For Sponsors", icon: Building2, body: "Activate through culture, content, audience access, and visual placement at premium social experiences.", cta: "Partner as Sponsor" },
+  { title: "For Venues & Cities", icon: MapPin, body: "Host recurring energy and bring premium event IP into your venue or market.", cta: "Bring HUGLIFE Here" },
+];
 
-<footer style={{background:"#04040a",borderTop:`1px solid ${C.border}`,padding:"64px clamp(32px,6vw,96px) 40px"}}>
-<div style={{maxWidth:"1400px",margin:"0 auto",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:"16px"}}>
-<div><div style={{fontFamily:F.serif,fontSize:"24px",fontWeight:600,color:C.cream,marginBottom:"8px"}}>HUGLIFE</div><p style={{fontFamily:F.sans,fontSize:"13px",color:C.muted}}>The Event Company. 8 Cities. 8 Experiences.</p><div style={{marginTop:"12px",fontFamily:F.sans,fontSize:"12px",color:C.dim}}>justhuglife.forever@gmail.com</div></div>
-<div style={{fontFamily:F.sans,fontSize:"11px",color:"rgba(255,255,255,0.22)"}}>© 2026 HUGLIFE. A KHG Enterprise. All rights reserved.</div>
-</div></footer>
-</div>);}
+// ─── SHARED COMPONENTS ────────────────────────────────────────────────────────
+function GoldDivider() {
+  return (
+    <div className="flex items-center gap-4 my-2">
+      <div className="flex-1 h-px" style={{ background: `linear-gradient(90deg, transparent, ${GOLD.mid}40, transparent)` }} />
+      <div className="w-1 h-1 rounded-full" style={{ background: GOLD.mid }} />
+      <div className="flex-1 h-px" style={{ background: `linear-gradient(90deg, transparent, ${GOLD.mid}40, transparent)` }} />
+    </div>
+  );
+}
+
+function StatusPill({ label, size = "sm" }) {
+  const sizeClass = size === "sm" ? "px-3 py-1 text-[10px]" : "px-4 py-1.5 text-[11px]";
+  return (
+    <span
+      className={`inline-flex items-center rounded-full font-semibold uppercase tracking-[0.2em] ${sizeClass}`}
+      style={{ background: `${GOLD.mid}18`, color: GOLD.light, border: `1px solid ${GOLD.mid}30` }}
+    >
+      {label}
+    </span>
+  );
+}
+
+function SectionLabel({ eyebrow, headline, sub, center = false }) {
+  return (
+    <div className={center ? "text-center" : ""}>
+      <div className="text-[10px] uppercase tracking-[0.4em] mb-3" style={{ color: GOLD.mid }}>
+        {eyebrow}
+      </div>
+      <h2
+        className="text-4xl font-black tracking-[-0.04em] leading-[1.05] md:text-5xl"
+        style={{ color: "#f0ece4" }}
+      >
+        {headline}
+      </h2>
+      {sub && (
+        <p className="mt-4 text-base leading-7" style={{ color: "rgba(255,255,255,0.5)", maxWidth: center ? "600px" : undefined, margin: center ? "16px auto 0" : "16px 0 0" }}>
+          {sub}
+        </p>
+      )}
+    </div>
+  );
+}
+
+// ─── NAV ──────────────────────────────────────────────────────────────────────
+function Nav() {
+  return (
+    <header
+      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 lg:px-12"
+      style={{
+        background: "rgba(7,7,10,0.88)",
+        backdropFilter: "blur(20px)",
+        borderBottom: `1px solid ${BG.border}`,
+      }}
+    >
+      <div>
+        <div className="text-[9px] uppercase tracking-[0.38em]" style={{ color: GOLD.mid }}>
+          Multi-City Event IP
+        </div>
+        <div className="text-xl font-black tracking-tight text-white mt-0.5">HUGLIFE</div>
+      </div>
+
+      <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium" style={{ color: "rgba(255,255,255,0.58)" }}>
+        {["Events", "Cities", "Access", "Talent", "Partners"].map((n) => (
+          <a key={n} href={`#${n.toLowerCase()}`} className="hover:text-white transition-colors">
+            {n}
+          </a>
+        ))}
+      </nav>
+
+      <button
+        className="rounded-full px-6 py-2.5 text-sm font-semibold"
+        style={{ background: `linear-gradient(135deg, ${GOLD.mid}, ${GOLD.deep})`, color: "#0a0a0c" }}
+      >
+        Get Access
+      </button>
+    </header>
+  );
+}
+
+// ─── HERO ─────────────────────────────────────────────────────────────────────
+function Hero() {
+  return (
+    <section
+      className="relative min-h-screen flex flex-col justify-end overflow-hidden pt-32 pb-20 px-6 lg:px-12"
+      style={{ background: "linear-gradient(180deg, #06060a 0%, #0a0810 50%, #07070a 100%)" }}
+    >
+      {/* Ambient glows */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-[10%] w-[600px] h-[600px] rounded-full opacity-20" style={{ background: `radial-gradient(circle, ${GOLD.mid}20, transparent 70%)` }} />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-10" style={{ background: "radial-gradient(circle, rgba(255,200,150,0.15), transparent 70%)" }} />
+        <div className="absolute bottom-0 left-1/3 w-[400px] h-[400px] rounded-full opacity-8" style={{ background: `radial-gradient(circle, ${GOLD.mid}10, transparent 70%)` }} />
+        {/* Grain texture */}
+        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E\")" }} />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto w-full grid lg:grid-cols-[1fr_1fr] gap-16 items-end">
+        {/* Left: Text */}
+        <div>
+          <div
+            className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-[10px] uppercase tracking-[0.35em] mb-8"
+            style={{ background: `${GOLD.mid}12`, color: GOLD.light, border: `1px solid ${GOLD.mid}25` }}
+          >
+            Multi-City Cultural Experiences
+          </div>
+
+          <h1 className="text-6xl font-black tracking-[-0.05em] leading-[0.9] md:text-7xl xl:text-[5.5rem]" style={{ color: "#f0ece4" }}>
+            Moments Don&apos;t
+            <span className="block" style={{ color: "rgba(255,255,255,0.28)" }}>Go Viral</span>
+            <span
+              className="block"
+              style={{ backgroundImage: `linear-gradient(135deg, ${GOLD.light}, ${GOLD.mid}, ${GOLD.deep})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}
+            >
+              By Accident.
+            </span>
+          </h1>
+
+          <p className="mt-6 text-lg leading-8 max-w-xl" style={{ color: "rgba(255,255,255,0.55)" }}>
+            HUGLIFE creates premium nightlife, brunch, art, music, and social experiences designed to move crowds, activate cities, and turn live moments into cultural momentum.
+          </p>
+
+          <div className="mt-10 flex flex-wrap gap-3">
+            <button className="rounded-full px-8 py-3.5 text-sm font-semibold" style={{ background: `linear-gradient(135deg, ${GOLD.mid}, ${GOLD.deep})`, color: "#0a0a0c" }}>
+              Explore Events
+            </button>
+            <button className="rounded-full px-8 py-3.5 text-sm font-semibold" style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.88)", border: `1px solid ${BG.border}` }}>
+              Get Access
+            </button>
+            <button className="rounded-full px-6 py-3.5 text-sm font-medium" style={{ color: "rgba(255,255,255,0.55)" }}>
+              Partner With HUGLIFE →
+            </button>
+          </div>
+
+          {/* Proof strip */}
+          <div className="mt-12 flex flex-wrap gap-x-8 gap-y-2">
+            {["Premium Event IP", "Multi-City Rollouts", "Talent Network", "VIP Access"].map((p) => (
+              <div key={p} className="flex items-center gap-2">
+                <div className="w-1 h-1 rounded-full" style={{ background: GOLD.mid }} />
+                <span className="text-[11px] uppercase tracking-[0.25em]" style={{ color: "rgba(255,255,255,0.38)" }}>{p}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right: Visual composition */}
+        <div className="relative hidden lg:block">
+          <div
+            className="relative rounded-[2.5rem] overflow-hidden"
+            style={{ background: "linear-gradient(145deg, #0e0c12, #141018)", border: `1px solid ${BG.border}`, minHeight: "520px" }}
+          >
+            {/* Inner ambient */}
+            <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 70% 30%, ${GOLD.mid}15, transparent 60%)` }} />
+
+            {/* Event world panels */}
+            <div className="relative z-10 p-8 h-full flex flex-col justify-between" style={{ minHeight: "520px" }}>
+              <div className="grid grid-cols-2 gap-3">
+                {EVENTS.slice(0, 4).map((ev) => (
+                  <div
+                    key={ev.id}
+                    className="rounded-2xl p-4"
+                    style={{ background: "rgba(255,255,255,0.04)", border: `1px solid rgba(255,255,255,0.07)` }}
+                  >
+                    <div className="text-[9px] uppercase tracking-[0.3em] mb-1" style={{ color: ev.accent[0] }}>
+                      {ev.tag}
+                    </div>
+                    <div className="font-black text-sm text-white">{ev.name}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div
+                className="rounded-2xl p-5 mt-4"
+                style={{ background: `linear-gradient(135deg, ${GOLD.mid}18, ${GOLD.deep}10)`, border: `1px solid ${GOLD.mid}25` }}
+              >
+                <div className="text-[9px] uppercase tracking-[0.35em] mb-2" style={{ color: GOLD.light }}>
+                  Next Drop
+                </div>
+                <div className="text-lg font-black text-white">Taste of Art — Atlanta</div>
+                <div className="text-sm mt-1" style={{ color: "rgba(255,255,255,0.55)" }}>April 12 · VIP Tables Open</div>
+                <button className="mt-3 text-[11px] font-semibold uppercase tracking-[0.25em] flex items-center gap-1" style={{ color: GOLD.mid }}>
+                  Early Access <ArrowRight size={10} />
+                </button>
+              </div>
+
+              {/* City tags */}
+              <div className="flex flex-wrap gap-2 mt-4">
+                {["ATL", "HTX", "LA", "DC", "CLT", "MIA"].map((c) => (
+                  <span key={c} className="rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em]" style={{ background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.4)", border: `1px solid rgba(255,255,255,0.08)` }}>
+                    {c}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── EVENT UNIVERSE ───────────────────────────────────────────────────────────
+function EventUniverse() {
+  const [active, setActive] = useState(null);
+
+  return (
+    <section id="events" className="py-28 px-6 lg:px-12" style={{ background: "#07070a" }}>
+      <div className="max-w-7xl mx-auto">
+        <SectionLabel
+          eyebrow="Event Portfolio"
+          headline="Choose the Experience"
+          sub="Every HUGLIFE event is built with its own atmosphere, audience, and signature moment. Explore the worlds shaping different rooms in different ways."
+        />
+
+        <div className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {/* NOIR — featured large */}
+          <div
+            className="md:col-span-2 lg:col-span-2 row-span-2 rounded-[2rem] overflow-hidden relative cursor-pointer group"
+            style={{ background: "linear-gradient(145deg, #0e0c12, #181420)", border: `1px solid ${BG.border}`, minHeight: "420px" }}
+            onMouseEnter={() => setActive("noir")}
+            onMouseLeave={() => setActive(null)}
+          >
+            <div className="absolute inset-0 transition-opacity duration-500" style={{ background: `radial-gradient(circle at 60% 40%, ${GOLD.mid}20, transparent 65%)`, opacity: active === "noir" ? 1 : 0.4 }} />
+            <div className="relative z-10 p-8 h-full flex flex-col justify-between" style={{ minHeight: "420px" }}>
+              <div>
+                <StatusPill label="Active" />
+                <h3 className="mt-4 text-5xl font-black tracking-[-0.04em]" style={{ color: "#f0ece4" }}>NOIR</h3>
+                <div className="text-[11px] uppercase tracking-[0.3em] mt-1" style={{ color: GOLD.mid }}>Selective Nightlife</div>
+                <p className="mt-4 text-sm leading-7 max-w-sm" style={{ color: "rgba(255,255,255,0.52)" }}>
+                  A luxury nightlife property built around access, atmosphere, curation, and social prestige. The room is intentional. The energy is controlled.
+                </p>
+              </div>
+              <div>
+                <div className="text-[10px] uppercase tracking-[0.28em] mb-3" style={{ color: "rgba(255,255,255,0.3)" }}>
+                  Obsidian · Gold · Shadow · Velvet
+                </div>
+                <button
+                  className="flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-300"
+                  style={{ background: `linear-gradient(135deg, ${GOLD.mid}, ${GOLD.deep})`, color: "#0a0a0c" }}
+                >
+                  Enter NOIR <ArrowRight size={14} />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Taste of Art */}
+          <div
+            className="rounded-[1.5rem] overflow-hidden relative cursor-pointer"
+            style={{ background: "linear-gradient(145deg, #0f0c0a, #1a1208)", border: `1px solid rgba(201,168,122,0.12)`, minHeight: "200px" }}
+          >
+            <div className="absolute inset-0 opacity-30" style={{ background: "radial-gradient(circle at 70% 30%, rgba(201,168,122,0.2), transparent 70%)" }} />
+            <div className="relative z-10 p-6 h-full flex flex-col justify-between" style={{ minHeight: "200px" }}>
+              <div>
+                <StatusPill label="April Event" />
+                <h4 className="mt-3 text-2xl font-black" style={{ color: "#f0ece4" }}>Taste of Art</h4>
+                <div className="text-[10px] uppercase tracking-[0.28em] mt-1" style={{ color: "#c9a87a" }}>Canvas · Cuisine · Culture</div>
+              </div>
+              <button className="text-[11px] font-semibold uppercase tracking-[0.2em] flex items-center gap-1 mt-3" style={{ color: "#c9a87a" }}>
+                Enter <ArrowRight size={10} />
+              </button>
+            </div>
+          </div>
+
+          {/* REMIX */}
+          <div
+            className="rounded-[1.5rem] overflow-hidden relative cursor-pointer"
+            style={{ background: "linear-gradient(145deg, #0a0a0e, #10101a)", border: `1px solid rgba(200,200,216,0.10)`, minHeight: "200px" }}
+          >
+            <div className="absolute inset-0 opacity-30" style={{ background: "radial-gradient(circle at 30% 70%, rgba(150,150,200,0.15), transparent 70%)" }} />
+            <div className="relative z-10 p-6 h-full flex flex-col justify-between" style={{ minHeight: "200px" }}>
+              <div>
+                <StatusPill label="Upcoming" />
+                <h4 className="mt-3 text-2xl font-black" style={{ color: "#f0ece4" }}>REMIX</h4>
+                <div className="text-[10px] uppercase tracking-[0.28em] mt-1" style={{ color: "#c8c8d8" }}>Mashup Music Experience</div>
+              </div>
+              <button className="text-[11px] font-semibold uppercase tracking-[0.2em] flex items-center gap-1 mt-3" style={{ color: "#c8c8d8" }}>
+                Enter <ArrowRight size={10} />
+              </button>
+            </div>
+          </div>
+
+          {/* Remaining events: smaller grid */}
+          {EVENTS.slice(3).map((ev) => (
+            <div
+              key={ev.id}
+              className="rounded-[1.5rem] overflow-hidden relative cursor-pointer"
+              style={{ background: "linear-gradient(145deg, #0c0c0e, #121212)", border: `1px solid rgba(255,255,255,0.07)`, minHeight: "160px" }}
+            >
+              <div className="absolute inset-0 opacity-20" style={{ background: `radial-gradient(circle at 60% 40%, ${ev.glow}, transparent 70%)` }} />
+              <div className="relative z-10 p-5 h-full flex flex-col justify-between" style={{ minHeight: "160px" }}>
+                <div>
+                  <h4 className="text-xl font-black" style={{ color: "#f0ece4" }}>{ev.name}</h4>
+                  <div className="text-[9px] uppercase tracking-[0.25em] mt-1" style={{ color: ev.accent[0] }}>{ev.tag}</div>
+                </div>
+                <button className="text-[10px] font-semibold uppercase tracking-[0.2em] flex items-center gap-1 mt-2" style={{ color: ev.accent[0] }}>
+                  Enter <ArrowRight size={9} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── SIGNATURE MOMENTS ────────────────────────────────────────────────────────
+function SignatureMoments() {
+  const moments = [
+    { title: "The Arrival", body: "The entrance that sets the tone before a single word is said.", icon: Crown },
+    { title: "The Flash", body: "The frame, the fit, and the exact second the room starts paying attention.", icon: Camera },
+    { title: "The Drop", body: "The music changes, the energy lifts, and the room turns into something bigger.", icon: Music4 },
+    { title: "The Pour", body: "Celebration becomes content. Content becomes momentum.", icon: Wine },
+    { title: "The Crowd Break", body: "The exact second the atmosphere turns into a shared experience.", icon: Users },
+    { title: "The Repost Moment", body: "The clip, the photo, or the memory everybody shares after.", icon: Sparkles },
+  ];
+
+  return (
+    <section className="py-28 px-6 lg:px-12 relative overflow-hidden" style={{ background: "linear-gradient(180deg, #07070a 0%, #0a0810 50%, #07070a 100%)" }}>
+      <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse at 50% 50%, ${GOLD.mid}08, transparent 70%)` }} />
+
+      <div className="relative z-10 max-w-7xl mx-auto">
+        <SectionLabel
+          eyebrow="Signature Moments"
+          headline={<>The Moments<br />People Come For</>}
+          sub="The real power of an event is not the flyer. It is the moment the room shifts, the cameras turn, and everybody knows they are in the right place."
+        />
+
+        <GoldDivider />
+
+        <div className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {moments.map((m, i) => {
+            const Icon = m.icon;
+            return (
+              <div
+                key={i}
+                className="rounded-2xl p-7 relative overflow-hidden"
+                style={{ background: "rgba(255,255,255,0.03)", border: `1px solid rgba(255,255,255,0.07)` }}
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-10" style={{ background: `radial-gradient(circle, ${GOLD.mid}, transparent)`, transform: "translate(50%, -50%)" }} />
+                <div className="relative z-10">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style={{ background: `${GOLD.mid}18`, border: `1px solid ${GOLD.mid}28` }}>
+                    <Icon size={18} style={{ color: GOLD.mid }} />
+                  </div>
+                  <h4 className="text-lg font-black mb-3" style={{ color: "#f0ece4" }}>{m.title}</h4>
+                  <p className="text-sm leading-7" style={{ color: "rgba(255,255,255,0.48)" }}>{m.body}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── CITY TAKEOVER ────────────────────────────────────────────────────────────
+function CityTakeover() {
+  const [selected, setSelected] = useState(0);
+  const city = CITIES[selected];
+
+  return (
+    <section id="cities" className="py-28 px-6 lg:px-12" style={{ background: "#07070a" }}>
+      <div className="max-w-7xl mx-auto">
+        <SectionLabel
+          eyebrow="City Rollout"
+          headline="Built to Move From City to City"
+          sub="HUGLIFE develops event experiences designed to live, evolve, and scale across markets with the right venues, talent, partnerships, and cultural timing."
+        />
+
+        <div className="mt-16 grid lg:grid-cols-[1fr_1fr] gap-6">
+          {/* City list */}
+          <div className="space-y-2">
+            {CITIES.map((c, i) => (
+              <button
+                key={c.city}
+                onClick={() => setSelected(i)}
+                className="w-full text-left rounded-2xl p-5 transition-all duration-300"
+                style={{
+                  background: selected === i ? `linear-gradient(135deg, ${GOLD.mid}15, ${GOLD.deep}08)` : "rgba(255,255,255,0.03)",
+                  border: `1px solid ${selected === i ? GOLD.mid + "30" : "rgba(255,255,255,0.07)"}`,
+                }}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="font-black text-base" style={{ color: selected === i ? "#f0ece4" : "rgba(255,255,255,0.65)" }}>
+                      {c.city}
+                    </div>
+                    <div className="text-[11px] mt-0.5" style={{ color: selected === i ? GOLD.mid : "rgba(255,255,255,0.3)" }}>
+                      {c.note}
+                    </div>
+                  </div>
+                  <StatusPill label={c.status} />
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {/* City detail panel */}
+          <div
+            className="rounded-[2rem] p-8 relative overflow-hidden"
+            style={{ background: "linear-gradient(145deg, #0e0c12, #181420)", border: `1px solid ${BG.border}`, minHeight: "400px" }}
+          >
+            <div className="absolute inset-0 opacity-30" style={{ background: `radial-gradient(circle at 70% 30%, ${GOLD.mid}20, transparent 65%)` }} />
+            <div className="relative z-10">
+              <div className="text-[10px] uppercase tracking-[0.38em] mb-2" style={{ color: GOLD.mid }}>{city.status} Market</div>
+              <h3 className="text-4xl font-black mb-2" style={{ color: "#f0ece4" }}>{city.city}</h3>
+              <p className="text-sm mb-6" style={{ color: "rgba(255,255,255,0.45)" }}>{city.note}</p>
+
+              <GoldDivider />
+
+              <div className="mt-6">
+                <div className="text-[10px] uppercase tracking-[0.3em] mb-3" style={{ color: "rgba(255,255,255,0.3)" }}>Active Events</div>
+                <div className="flex flex-wrap gap-2">
+                  {city.events.map((ev) => (
+                    <span
+                      key={ev}
+                      className="rounded-full px-4 py-1.5 text-[11px] font-semibold"
+                      style={{ background: `${GOLD.mid}12`, color: GOLD.light, border: `1px solid ${GOLD.mid}25` }}
+                    >
+                      {ev}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-8 flex gap-3">
+                <button className="rounded-full px-6 py-2.5 text-sm font-semibold" style={{ background: `linear-gradient(135deg, ${GOLD.mid}, ${GOLD.deep})`, color: "#0a0a0c" }}>
+                  View City Events
+                </button>
+                <button className="rounded-full px-6 py-2.5 text-sm font-semibold" style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.7)", border: `1px solid ${BG.border}` }}>
+                  Partner Opportunities
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── UPCOMING DROPS ───────────────────────────────────────────────────────────
+function UpcomingDrops() {
+  return (
+    <section id="access" className="py-28 px-6 lg:px-12" style={{ background: "linear-gradient(180deg, #07070a 0%, #0a0810 100%)" }}>
+      <div className="max-w-7xl mx-auto">
+        <SectionLabel
+          eyebrow="Upcoming"
+          headline="What's Next"
+          sub="The next wave of HUGLIFE experiences, city drops, and access opportunities."
+        />
+
+        <div className="mt-16 space-y-2">
+          {DROPS.map((d, i) => (
+            <div
+              key={i}
+              className="group rounded-2xl p-5 flex flex-wrap items-center justify-between gap-4 transition-all duration-300 cursor-pointer"
+              style={{ background: "rgba(255,255,255,0.03)", border: `1px solid rgba(255,255,255,0.07)` }}
+            >
+              <div className="flex items-center gap-6">
+                <div className="text-2xl font-black tabular-nums" style={{ color: GOLD.mid, minWidth: "90px" }}>{d.date}</div>
+                <div>
+                  <div className="font-black text-base" style={{ color: "#f0ece4" }}>{d.event}</div>
+                  <div className="text-[11px] flex items-center gap-1.5 mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>
+                    <MapPin size={10} /> {d.city}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <StatusPill label={d.status} />
+                <button
+                  className="rounded-full px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] flex items-center gap-1.5"
+                  style={{ background: `linear-gradient(135deg, ${GOLD.mid}, ${GOLD.deep})`, color: "#0a0a0c" }}
+                >
+                  {d.access} <ArrowRight size={10} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 flex gap-4">
+          <button className="rounded-full px-8 py-3 text-sm font-semibold" style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.7)", border: `1px solid ${BG.border}` }}>
+            View Full Calendar
+          </button>
+          <button className="rounded-full px-8 py-3 text-sm font-semibold" style={{ background: `linear-gradient(135deg, ${GOLD.mid}, ${GOLD.deep})`, color: "#0a0a0c" }}>
+            Join Early Access
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── AUDIENCE PATHWAYS ────────────────────────────────────────────────────────
+function AudiencePathways() {
+  return (
+    <section id="talent" className="py-28 px-6 lg:px-12" style={{ background: "#07070a" }}>
+      <div className="max-w-7xl mx-auto">
+        <SectionLabel
+          eyebrow="Entry Points"
+          headline="Find Your Place in the World of HUGLIFE"
+          sub="Whether you are coming to experience it, build with it, work it, promote it, or partner around it — HUGLIFE has a path for you."
+          center
+        />
+
+        <div className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          {PATHS.map((p) => {
+            const Icon = p.icon;
+            return (
+              <div
+                key={p.title}
+                className="rounded-2xl p-6 relative overflow-hidden cursor-pointer group transition-all duration-300 hover:border-[color:rgba(216,178,110,0.3)]"
+                style={{ background: "rgba(255,255,255,0.03)", border: `1px solid rgba(255,255,255,0.07)` }}
+              >
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: `radial-gradient(circle at 50% 0%, ${GOLD.mid}10, transparent 70%)` }} />
+                <div className="relative z-10">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style={{ background: `${GOLD.mid}15`, border: `1px solid ${GOLD.mid}25` }}>
+                    <Icon size={18} style={{ color: GOLD.mid }} />
+                  </div>
+                  <h4 className="font-black text-sm mb-2" style={{ color: "#f0ece4" }}>{p.title}</h4>
+                  <p className="text-xs leading-6" style={{ color: "rgba(255,255,255,0.45)" }}>{p.body}</p>
+                  <button className="mt-4 text-[10px] font-semibold uppercase tracking-[0.22em] flex items-center gap-1" style={{ color: GOLD.mid }}>
+                    {p.cta} <ArrowRight size={9} />
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── OPERATING ENGINE ─────────────────────────────────────────────────────────
+function OperatingEngine() {
+  const modules = [
+    { n: "01", title: "Event Concept Development", body: "Every experience begins with a clear identity, audience behavior strategy, and signature social trigger." },
+    { n: "02", title: "City Launch Strategy", body: "We align event concepts with city timing, venue fit, local talent, and rollout opportunity." },
+    { n: "03", title: "Talent + Staffing", body: "From DJs and hosts to photographers, waitstaff, and support staff — the room gets built with intention." },
+    { n: "04", title: "Promoter + Audience Growth", body: "Promotion systems, local influence, and demand-building to drive turnout and city-wide visibility." },
+    { n: "05", title: "Sponsor Integration", body: "Brands plug into experiences through activations, placement, audience access, and live moments." },
+    { n: "06", title: "Content Capture + Amplification", body: "The event does not end when the room clears. Moments are designed to keep traveling after they happen." },
+  ];
+
+  return (
+    <section className="py-28 px-6 lg:px-12" style={{ background: "linear-gradient(180deg, #07070a 0%, #0a0810 50%, #07070a 100%)" }}>
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_1.5fr] gap-16 items-start">
+        <div>
+          <SectionLabel
+            eyebrow="Operating System"
+            headline="The System Behind the Scene"
+            sub="HUGLIFE is built to concept, launch, staff, market, monetize, and amplify live experiences across multiple cities and audiences."
+          />
+          <div className="mt-8 flex flex-col gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full" style={{ background: GOLD.mid }} />
+              <span className="text-[11px] uppercase tracking-[0.28em]" style={{ color: "rgba(255,255,255,0.45)" }}>8+ Event Properties</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full" style={{ background: GOLD.mid }} />
+              <span className="text-[11px] uppercase tracking-[0.28em]" style={{ color: "rgba(255,255,255,0.45)" }}>6 City Markets Active</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full" style={{ background: GOLD.mid }} />
+              <span className="text-[11px] uppercase tracking-[0.28em]" style={{ color: "rgba(255,255,255,0.45)" }}>Full Talent Network</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          {modules.map((m) => (
+            <div
+              key={m.n}
+              className="rounded-2xl p-5 relative overflow-hidden"
+              style={{ background: "rgba(255,255,255,0.03)", border: `1px solid rgba(255,255,255,0.07)` }}
+            >
+              <div className="text-[10px] uppercase tracking-[0.38em] mb-3 font-semibold" style={{ color: GOLD.deep }}>
+                {m.n}
+              </div>
+              <h5 className="font-black text-sm mb-2" style={{ color: "#f0ece4" }}>{m.title}</h5>
+              <p className="text-xs leading-6" style={{ color: "rgba(255,255,255,0.42)" }}>{m.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── SOCIAL PROOF ─────────────────────────────────────────────────────────────
+function SocialProof() {
+  const quotes = [
+    { q: "You could feel the difference as soon as you walked in.", attr: "NOIR Atlanta Attendee" },
+    { q: "It was not just a party. It felt like a real moment.", attr: "Sunday's Best Houston" },
+    { q: "Everything about it looked, felt, and moved premium.", attr: "Taste of Art DC" },
+  ];
+
+  return (
+    <section id="partners" className="py-28 px-6 lg:px-12" style={{ background: "#07070a" }}>
+      <div className="max-w-7xl mx-auto">
+        <SectionLabel
+          eyebrow="Proof"
+          headline="The Rooms. The Reach. The Reaction."
+          sub="HUGLIFE experiences are built to create attention in the room and stay relevant after the room clears."
+          center
+        />
+
+        <div className="mt-16 grid gap-4 md:grid-cols-3">
+          {quotes.map((q, i) => (
+            <div
+              key={i}
+              className="rounded-2xl p-8 relative overflow-hidden"
+              style={{ background: "rgba(255,255,255,0.03)", border: `1px solid rgba(255,255,255,0.07)` }}
+            >
+              <div className="absolute top-4 left-6 text-5xl font-black opacity-15" style={{ color: GOLD.mid }}>"</div>
+              <p className="relative z-10 text-base leading-8 font-medium" style={{ color: "rgba(255,255,255,0.72)" }}>
+                {q.q}
+              </p>
+              <div className="mt-5 text-[10px] uppercase tracking-[0.28em]" style={{ color: GOLD.mid }}>{q.attr}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── CLOSING CTA ──────────────────────────────────────────────────────────────
+function ClosingCTA() {
+  return (
+    <section
+      className="py-32 px-6 lg:px-12 relative overflow-hidden"
+      style={{ background: "linear-gradient(180deg, #07070a 0%, #0a0810 50%, #07070a 100%)" }}
+    >
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at 50% 40%, ${GOLD.mid}15, transparent 65%)` }} />
+        {/* Drifting city names */}
+        {["NOIR", "REMIX", "Taste of Art", "Sunday's Best", "Paparazzi", "WRST BHVR", "Gangsta Gospel"].map((name, i) => (
+          <div
+            key={name}
+            className="absolute text-[11px] uppercase tracking-[0.4em] select-none"
+            style={{
+              color: "rgba(255,255,255,0.04)",
+              top: `${15 + i * 12}%`,
+              left: `${5 + ((i * 13) % 85)}%`,
+              fontWeight: 900,
+              fontSize: i === 0 ? "2rem" : "0.7rem",
+            }}
+          >
+            {name}
+          </div>
+        ))}
+      </div>
+
+      <div className="relative z-10 max-w-3xl mx-auto text-center">
+        <div className="text-[10px] uppercase tracking-[0.45em] mb-8" style={{ color: GOLD.mid }}>
+          Access · Culture · Moments
+        </div>
+        <h2 className="text-5xl font-black tracking-[-0.04em] leading-[1.05] md:text-6xl" style={{ color: "#f0ece4" }}>
+          Not Every Event Deserves Your Presence.
+          <span
+            className="block mt-2"
+            style={{ backgroundImage: `linear-gradient(135deg, ${GOLD.light}, ${GOLD.mid}, ${GOLD.deep})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}
+          >
+            Ours Do.
+          </span>
+        </h2>
+
+        <p className="mt-6 text-base leading-8" style={{ color: "rgba(255,255,255,0.5)" }}>
+          Get access, join the network, or build unforgettable experiences with HUGLIFE.
+        </p>
+
+        <div className="mt-10 flex flex-wrap justify-center gap-4">
+          <button className="rounded-full px-9 py-3.5 text-sm font-semibold" style={{ background: `linear-gradient(135deg, ${GOLD.mid}, ${GOLD.deep})`, color: "#0a0a0c" }}>
+            Get Event Access
+          </button>
+          <button className="rounded-full px-8 py-3.5 text-sm font-semibold" style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.7)", border: `1px solid ${BG.border}` }}>
+            Join the Talent Network
+          </button>
+          <button className="rounded-full px-8 py-3.5 text-sm font-semibold" style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.7)", border: `1px solid ${BG.border}` }}>
+            Partner With HUGLIFE
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── FOOTER ───────────────────────────────────────────────────────────────────
+function Footer() {
+  const cols = [
+    { label: "Events", links: ["NOIR", "Taste of Art", "REMIX", "Sunday's Best", "Gangsta Gospel", "WRST BHVR", "Paparazzi", "Pawchella"] },
+    { label: "Cities", links: ["Atlanta", "Houston", "Los Angeles", "DC", "Charlotte", "Miami"] },
+    { label: "Access", links: ["Get Tickets", "VIP Tables", "Early Access", "RSVP", "Bottle Service"] },
+    { label: "Connect", links: ["Talent Network", "Sponsors", "Venues", "Promoters", "Contact"] },
+  ];
+
+  return (
+    <footer className="px-6 lg:px-12 pb-12 pt-20" style={{ background: "#06060a", borderTop: `1px solid rgba(255,255,255,0.06)` }}>
+      <div className="max-w-7xl mx-auto">
+        <div className="grid gap-10 lg:grid-cols-[1.5fr_repeat(4,1fr)] mb-16">
+          <div>
+            <div className="text-[9px] uppercase tracking-[0.38em] mb-1" style={{ color: GOLD.mid }}>Multi-City Event IP</div>
+            <div className="text-2xl font-black text-white mb-4">HUGLIFE</div>
+            <p className="text-sm leading-7" style={{ color: "rgba(255,255,255,0.38)" }}>
+              Premium nightlife, brunch, art, music, and social experiences across 6+ cities.
+            </p>
+          </div>
+          {cols.map((col) => (
+            <div key={col.label}>
+              <div className="text-[10px] uppercase tracking-[0.35em] mb-5 font-semibold" style={{ color: GOLD.mid }}>{col.label}</div>
+              <ul className="space-y-2.5">
+                {col.links.map((l) => (
+                  <li key={l}>
+                    <a href="#" className="text-sm" style={{ color: "rgba(255,255,255,0.38)" }}>{l}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between gap-4 pt-8" style={{ borderTop: `1px solid rgba(255,255,255,0.06)` }}>
+          <div className="text-[11px]" style={{ color: "rgba(255,255,255,0.25)" }}>
+            © 2026 HUGLIFE. A KHG Enterprise Property. All rights reserved.
+          </div>
+          <div className="flex gap-6">
+            {["Privacy", "Terms", "Contact"].map((l) => (
+              <a key={l} href="#" className="text-[11px]" style={{ color: "rgba(255,255,255,0.28)" }}>{l}</a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ─── ROOT ─────────────────────────────────────────────────────────────────────
+export default function HUGLIFEFlagshipV3() {
+  return (
+    <div style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif", background: "#07070a" }}>
+      <Nav />
+      <Hero />
+      <EventUniverse />
+      <SignatureMoments />
+      <CityTakeover />
+      <UpcomingDrops />
+      <AudiencePathways />
+      <OperatingEngine />
+      <SocialProof />
+      <ClosingCTA />
+      <Footer />
+    </div>
+  );
+}
