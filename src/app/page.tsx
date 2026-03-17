@@ -110,6 +110,176 @@ function FeelsLike(){const images=[{src:"/images/lifestyle-festival.png",label:"
 {images.map((img,i)=>(<div key={i} style={{position:"relative",overflow:"hidden",aspectRatio:i===0||i===3?"16/10":"3/4"}}><img src={img.src} alt={img.label} loading="lazy" style={{width:"100%",height:"100%",objectFit:"cover",transition:"transform 0.8s cubic-bezier(0.16,1,0.3,1)"}} onMouseEnter={e=>e.currentTarget.style.transform="scale(1.04)"} onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}/><div style={{position:"absolute",bottom:0,left:0,right:0,padding:"40px 20px 16px",background:"linear-gradient(transparent,rgba(0,0,0,0.75))"}}><div style={{fontFamily:F.sans,fontSize:"8px",fontWeight:600,letterSpacing:"0.4em",textTransform:"uppercase",color:C.pink}}>{img.label}</div></div></div>))}</div></section>)}
 
 // ─── CTA ─────────────────────────────────────────────────────────────────────
+
+// ─── ALL EVENTBRITE TICKET DATA ───────────────────────────────────────────────
+const ALL_EVENTS = [
+  // ── HAPPENING SOON ──
+  { name:"TASTE OF ART",      date:"Apr 18",  month:"Apr", url:"https://www.eventbrite.com/e/taste-of-art-tickets-1982512459133",      color:"#A75C43", tag:"Art & Culture",     city:"Atlanta" },
+  { name:"PAPARAZZI",         date:"May 1",   month:"May", url:"https://www.eventbrite.com/e/paparazzi-tickets-1983361435444",         color:"#BEC3CB", tag:"Nightlife",         city:"Atlanta" },
+  { name:"NO SECTIONS PARTY", date:"May 1",   month:"May", url:"https://www.eventbrite.com/e/shut-up-dance-tickets-1982516283572",     color:"#D947A8", tag:"Dance Night",       city:"Atlanta" },
+  { name:"NOIR",              date:"May 17",  month:"May", url:"https://www.eventbrite.com/e/espresso-tickets-1982507090074",          color:"#D2B98B", tag:"Upscale Night",     city:"Atlanta" },
+  { name:"NAPKIN WARS",       date:"May 30",  month:"May", url:"https://www.eventbrite.com/e/napkin-wars-tickets-1983443338418",       color:"#BB2C35", tag:"WRST BHVR",         city:"Atlanta" },
+  { name:"PAPARAZZI",         date:"Jun 1",   month:"Jun", url:"https://www.eventbrite.com/e/paparazzi-tickets-1983361684188",         color:"#BEC3CB", tag:"Nightlife",         city:"Atlanta" },
+  { name:"FOREVER FUTBOL",    date:"Jun 5",   month:"Jun", url:"https://www.eventbrite.com/e/forever-futbol-tickets-1983442211046",   color:"#C6A65B", tag:"Museum Opening",    city:"Atlanta" },
+  { name:"FOREVER FUTBOL",    date:"Jun 15",  month:"Jun", url:"https://www.eventbrite.com/e/forever-futbol-tickets-1983442556078",   color:"#C6A65B", tag:"Museum",            city:"Washington DC" },
+  { name:"TASTE OF ART",      date:"Jun 20",  month:"Jun", url:"https://www.eventbrite.com/e/taste-of-art-tickets-1982513123119",      color:"#A75C43", tag:"Art & Culture",     city:"Atlanta" },
+  { name:"GANGSTA GOSPEL",    date:"Jun 21",  month:"Jun", url:"https://www.eventbrite.com/e/gangsta-gospel-tickets-1983357015223",   color:"#3C5B8A", tag:"Gospel Hip-Hop",    city:"Atlanta" },
+  { name:"FOREVER FUTBOL",    date:"Jun 25",  month:"Jun", url:"https://www.eventbrite.com/e/forever-futbol-tickets-1983442708534",   color:"#C6A65B", tag:"Museum",            city:"Los Angeles" },
+  { name:"PAPARAZZI",         date:"Jul 1",   month:"Jul", url:"https://www.eventbrite.com/e/paparazzi-tickets-1983430772834",         color:"#BEC3CB", tag:"Nightlife",         city:"Atlanta" },
+  { name:"SUNDAY'S BEST",     date:"Jul 1",   month:"Jul", url:"https://www.eventbrite.com/e/sundays-best-tickets-1983552321389",      color:"#D8BA7C", tag:"R&B Brunch",        city:"Atlanta" },
+  { name:"REMIX",             date:"Jul 11",  month:"Jul", url:"https://www.eventbrite.com/e/remix-tickets-1983356687242",            color:"#B6E03E", tag:"DJ Night",          city:"Atlanta" },
+  { name:"NOIR",              date:"Jul 19",  month:"Jul", url:"https://www.eventbrite.com/e/espresso-tickets-1982510403986",          color:"#D2B98B", tag:"Upscale Night",     city:"Atlanta" },
+  { name:"NAPKIN WARS",       date:"Jul 25",  month:"Jul", url:"https://www.eventbrite.com/e/napkin-wars-tickets-1983443502910",       color:"#BB2C35", tag:"WRST BHVR",         city:"Atlanta" },
+  { name:"PAPARAZZI",         date:"Aug 1",   month:"Aug", url:"https://www.eventbrite.com/e/paparazzi-tickets-1983432236211",         color:"#BEC3CB", tag:"Nightlife",         city:"Atlanta" },
+  { name:"PAWCHELLA",         date:"Aug 8",   month:"Aug", url:"https://www.eventbrite.com/e/pawchella-summer-tickets-1983440350481", color:"#FF9500", tag:"Pet Festival",       city:"Atlanta" },
+  { name:"TASTE OF ART",      date:"Aug 22",  month:"Aug", url:"https://www.eventbrite.com/e/taste-of-art-tickets-1982514621601",      color:"#A75C43", tag:"Art & Culture",     city:"Atlanta" },
+  { name:"PAPARAZZI",         date:"Sep 1",   month:"Sep", url:"https://www.eventbrite.com/e/paparazzi-tickets-1983432751753",         color:"#BEC3CB", tag:"Nightlife",         city:"Atlanta" },
+  { name:"NO SECTIONS PARTY", date:"Sep 4",   month:"Sep", url:"https://www.eventbrite.com/e/shut-up-dance-tickets-1982517496199",    color:"#D947A8", tag:"Dance Night",       city:"Atlanta" },
+  { name:"NOIR",              date:"Sep 6",   month:"Sep", url:"https://www.eventbrite.com/e/espresso-tickets-1982511951615",          color:"#D2B98B", tag:"Upscale Night",     city:"Atlanta" },
+  { name:"BEAUTY & THE BEAST",date:"Sep 12",  month:"Sep", url:"https://www.eventbrite.com/e/beauty-the-beast-tickets-1983359980091", color:"#D947A8", tag:"Themed Party",      city:"Atlanta" },
+  { name:"GANGSTA GOSPEL",    date:"Sep 13",  month:"Sep", url:"https://www.eventbrite.com/e/gangsta-gospel-tickets-1983358448510",   color:"#3C5B8A", tag:"Gospel Hip-Hop",    city:"Atlanta" },
+];
+
+const MONTHS = ["All","Apr","May","Jun","Jul","Aug","Sep"];
+
+function Tickets(){
+  const [activeMonth, setActiveMonth] = useState("All");
+  const filtered = activeMonth === "All" ? ALL_EVENTS : ALL_EVENTS.filter(e => e.month === activeMonth);
+
+  return (
+    <section id="tickets" style={{background:C.dark,padding:"100px clamp(32px,6vw,80px)",position:"relative",overflow:"hidden"}}>
+      <div style={{position:"absolute",inset:0,background:`radial-gradient(ellipse at 30% 50%, ${C.pinkGlow} 0%, transparent 50%), radial-gradient(ellipse at 70% 50%, ${C.goldGlow} 0%, transparent 50%)`}}/>
+      <Grain o={0.03}/>
+      <div style={{maxWidth:"1400px",margin:"0 auto",position:"relative",zIndex:2}}>
+
+        {/* Header */}
+        <Reveal>
+          <div style={{fontFamily:F.sans,fontSize:"9px",letterSpacing:"0.5em",textTransform:"uppercase",color:C.pink,marginBottom:"16px"}}>
+            2026 Event Calendar
+          </div>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",flexWrap:"wrap",gap:"24px",marginBottom:"48px"}}>
+            <h2 style={{fontFamily:F.serif,fontSize:"clamp(36px,5.5vw,76px)",fontWeight:400,fontStyle:"italic",lineHeight:0.9,color:C.cream}}>
+              Get Your<br/><span style={{color:C.pink}}>Tickets.</span>
+            </h2>
+            <div style={{display:"flex",alignItems:"center",gap:"8px"}}>
+              <div style={{width:"8px",height:"8px",borderRadius:"50%",background:"#4ADE80",boxShadow:"0 0 8px #4ADE80",animation:"hl_pulse 2s ease-in-out infinite"}}/>
+              <span style={{fontFamily:F.sans,fontSize:"11px",fontWeight:600,color:"#4ADE80",letterSpacing:"0.1em"}}>On Sale Now</span>
+            </div>
+          </div>
+        </Reveal>
+
+        {/* Month filter */}
+        <div style={{display:"flex",gap:"0",marginBottom:"32px",borderBottom:`1px solid ${C.border}`,overflowX:"auto"}}>
+          {MONTHS.map(m=>(
+            <button key={m} onClick={()=>setActiveMonth(m)} style={{
+              fontFamily:F.sans,fontSize:"10px",fontWeight:600,letterSpacing:"0.15em",
+              textTransform:"uppercase",color:activeMonth===m?C.cream:C.muted,
+              background:"transparent",border:"none",padding:"14px 24px",cursor:"pointer",
+              borderBottom:activeMonth===m?`2px solid ${C.pink}`:"2px solid transparent",
+              transition:"all 0.3s",whiteSpace:"nowrap",flexShrink:0,
+            }}>
+              {m}
+            </button>
+          ))}
+        </div>
+
+        {/* Event grid */}
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(300px, 1fr))",gap:"2px",background:C.border}}>
+          {filtered.map((event, i) => (
+            <a key={`${event.name}-${event.date}-${i}`} href={event.url} target="_blank" rel="noopener noreferrer"
+              style={{textDecoration:"none",display:"block"}}>
+              <div style={{
+                background:C.surface,padding:"28px 24px",
+                display:"flex",flexDirection:"column",gap:"10px",
+                transition:"background 0.25s",cursor:"pointer",
+                borderTop:`2px solid ${event.color}20`,
+                position:"relative",overflow:"hidden",
+              }}
+                onMouseEnter={e=>{
+                  const el = e.currentTarget as HTMLDivElement;
+                  el.style.background = `${event.color}12`;
+                  el.style.borderTopColor = event.color;
+                }}
+                onMouseLeave={e=>{
+                  const el = e.currentTarget as HTMLDivElement;
+                  el.style.background = "";
+                  el.style.borderTopColor = `${event.color}20`;
+                }}
+              >
+                {/* Date badge */}
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+                  <div style={{
+                    fontFamily:F.sans,fontSize:"11px",fontWeight:700,
+                    color:event.color,letterSpacing:"0.05em",
+                  }}>
+                    {event.date}
+                  </div>
+                  <div style={{
+                    fontFamily:F.sans,fontSize:"8px",fontWeight:600,
+                    letterSpacing:"0.2em",textTransform:"uppercase",
+                    color:"rgba(242,235,221,0.35)",
+                    background:"rgba(242,235,221,0.05)",
+                    padding:"4px 8px",
+                  }}>
+                    {event.city}
+                  </div>
+                </div>
+
+                {/* Event name */}
+                <div style={{fontFamily:F.serif,fontSize:"clamp(17px,1.8vw,22px)",fontStyle:"italic",color:C.cream,lineHeight:1.1}}>
+                  {event.name}
+                </div>
+
+                {/* Tag */}
+                <div style={{fontFamily:F.sans,fontSize:"10px",color:"rgba(242,235,221,0.4)",letterSpacing:"0.1em"}}>
+                  {event.tag}
+                </div>
+
+                {/* CTA arrow */}
+                <div style={{
+                  fontFamily:F.sans,fontSize:"9px",fontWeight:700,
+                  letterSpacing:"0.2em",textTransform:"uppercase",
+                  color:event.color,marginTop:"4px",
+                  display:"flex",alignItems:"center",gap:"6px",
+                }}>
+                  Buy Tickets <span style={{fontSize:"14px"}}>→</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        {/* Bottom CTA strip */}
+        <div style={{marginTop:"3px",background:C.surface,padding:"28px 32px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:"20px"}}>
+          <div>
+            <div style={{fontFamily:F.sans,fontSize:"9px",letterSpacing:"0.4em",textTransform:"uppercase",color:C.pink,marginBottom:"6px"}}>Groups · Schools · Corporate</div>
+            <div style={{fontFamily:F.serif,fontSize:"18px",fontStyle:"italic",color:C.cream}}>Need 10+ tickets?</div>
+          </div>
+          <div style={{display:"flex",gap:"12px",flexWrap:"wrap"}}>
+            <a href="mailto:thekollectiveworldwide@gmail.com?subject=Group Ticket Inquiry" style={{
+              fontFamily:F.sans,fontSize:"10px",fontWeight:700,letterSpacing:"0.12em",textTransform:"uppercase",
+              color:C.dark,background:C.pink,padding:"13px 32px",textDecoration:"none",display:"inline-block",
+            }}>Book a Group</a>
+            <a href="mailto:thekollectiveworldwide@gmail.com?subject=Corporate Event Inquiry" style={{
+              fontFamily:F.sans,fontSize:"10px",fontWeight:500,letterSpacing:"0.12em",textTransform:"uppercase",
+              color:C.cream,background:"transparent",border:`1px solid ${C.border}`,padding:"13px 28px",
+              textDecoration:"none",display:"inline-block",
+            }}>Corporate Events</a>
+          </div>
+        </div>
+
+        {/* Trust */}
+        <div style={{marginTop:"24px",display:"flex",gap:"28px",justifyContent:"center",flexWrap:"wrap"}}>
+          {["Powered by Eventbrite","Secure Checkout","Instant Confirmation","All Ages Unless Noted"].map(s=>(
+            <div key={s} style={{fontFamily:F.sans,fontSize:"9px",color:"rgba(242,235,221,0.2)",letterSpacing:"0.15em"}}>{s}</div>
+          ))}
+        </div>
+      </div>
+      <style>{\`@keyframes hl_pulse{0%,100%{opacity:1}50%{opacity:0.3}}\`}</style>
+    </section>
+  );
+}
+
 function CTA(){return(<section style={{background:C.dark,padding:"140px clamp(32px,6vw,80px)",position:"relative",overflow:"hidden"}}><Grain o={0.04}/>
 <div style={{position:"absolute",inset:0,background:`radial-gradient(ellipse at 40% 50%,${C.pinkGlow},transparent 55%),radial-gradient(ellipse at 60% 50%,${C.goldGlow},transparent 55%)`}}/>
 <div style={{maxWidth:"800px",margin:"0 auto",textAlign:"center",position:"relative",zIndex:2}}><Reveal>
@@ -120,4 +290,4 @@ function CTA(){return(<section style={{background:C.dark,padding:"140px clamp(32
 
 function Footer(){return(<footer style={{background:C.dark,borderTop:`1px solid ${C.border}`,padding:"56px clamp(32px,6vw,80px) 36px"}}><div style={{maxWidth:"1400px",margin:"0 auto"}}><div style={{display:"grid",gridTemplateColumns:"1.5fr repeat(3,1fr)",gap:"40px",marginBottom:"48px"}}><div><img src="/images/huglife-logo.png" alt="HugLife" style={{height:"36px",marginBottom:"14px",filter:"invert(1)"}}/><p style={{fontFamily:F.sans,fontSize:"12px",lineHeight:1.7,color:C.muted}}>Events. Culture. Community. A KHG Enterprise.</p></div>{[{h:"Events",l:["NOIR","REMIX","WRST BHVR","Taste of Art","Gangsta Gospel","CRVNGS","Stella"]},{h:"Company",l:["About HugLife","Tickets","Sponsor","Vendor Inquiry","Press"]},{h:"Connect",l:["@justhuglife","justhuglife.forever@gmail.com","Atlanta, GA"]}].map(col=>(<div key={col.h}><div style={{fontFamily:F.sans,fontSize:"8px",fontWeight:600,letterSpacing:"0.4em",textTransform:"uppercase",color:C.pink,marginBottom:"16px"}}>{col.h}</div><ul style={{listStyle:"none",padding:0,margin:0,display:"flex",flexDirection:"column",gap:"8px"}}>{col.l.map(item=><li key={item} style={{fontFamily:F.sans,fontSize:"12px",color:C.muted}}>{item}</li>)}</ul></div>))}</div><div style={{borderTop:`1px solid ${C.border}`,paddingTop:"20px",fontFamily:F.sans,fontSize:"10px",color:"rgba(242,235,221,0.2)"}}>© 2026 HugLife Events. A KHG Enterprise.</div></div></footer>)}
 
-export default function HugLifeV4(){return(<div style={{background:C.base}}><Nav/><Hero/><EventBrands/><Calendar/><FeelsLike/><CTA/><Footer/></div>)}
+export default function HugLifeV4(){return(<div style={{background:C.base}}><Nav/><Hero/><EventBrands/><Calendar/><FeelsLike/><Tickets/><CTA/><Footer/></div>)}
