@@ -275,7 +275,7 @@ function Tickets(){
           ))}
         </div>
       </div>
-      <style>{\`@keyframes hl_pulse{0%,100%{opacity:1}50%{opacity:0.3}}\`}</style>
+      <style>{`@keyframes hl_pulse{0%,100%{opacity:1}50%{opacity:0.3}}`}</style>
     </section>
   );
 }
