@@ -93,21 +93,16 @@ const CALENDAR_2026 = [
 ];
 
 const TICKETS = [
+  // VERIFIED WORKING (200 or 301→200)
   { name: "TASTE OF ART",       date: "Apr 18",  month: "Apr", url: "https://www.eventbrite.com/e/taste-of-art-tickets-1982512459133",      color: "#A75C43", tag: "Art & Culture",  city: "Atlanta" },
   { name: "NOIR",               date: "May 17",  month: "May", url: "https://www.eventbrite.com/e/espresso-tickets-1982507090074",          color: "#D2B98B", tag: "Upscale Night",  city: "Atlanta" },
-  { name: "WRST BHVR",          date: "May 30",  month: "May", url: "https://www.eventbrite.com/e/napkin-wars-tickets-1983443338418",       color: "#BB2C35", tag: "Food Fights",    city: "Atlanta" },
   { name: "FOREVER FUTBOL",     date: "Jun 5",   month: "Jun", url: "https://www.eventbrite.com/e/forever-futbol-tickets-1983442211046",   color: "#C6A65B", tag: "Museum Opening", city: "Atlanta" },
-  { name: "FOREVER FUTBOL",     date: "Jun 15",  month: "Jun", url: "https://www.eventbrite.com/e/forever-futbol-tickets-1983442556078",   color: "#C6A65B", tag: "Museum",         city: "Washington DC" },
   { name: "TASTE OF ART",       date: "Jun 20",  month: "Jun", url: "https://www.eventbrite.com/e/taste-of-art-tickets-1982513123119",      color: "#A75C43", tag: "Art & Culture",  city: "Atlanta" },
   { name: "GANGSTA GOSPEL",     date: "Jun 21",  month: "Jun", url: "https://www.eventbrite.com/e/gangsta-gospel-tickets-1983357015223",   color: "#3C5B8A", tag: "Gospel Hip-Hop", city: "Atlanta" },
-  { name: "FOREVER FUTBOL",     date: "Jun 25",  month: "Jun", url: "https://www.eventbrite.com/e/forever-futbol-tickets-1983442708534",   color: "#C6A65B", tag: "Museum",         city: "Los Angeles" },
   { name: "REMIX",              date: "Jul 11",  month: "Jul", url: "https://www.eventbrite.com/e/remix-tickets-1983356687242",            color: "#B6E03E", tag: "DJ Night",       city: "Atlanta" },
-  { name: "NOIR",               date: "Jul 19",  month: "Jul", url: "https://www.eventbrite.com/e/espresso-tickets-1982510403986",          color: "#D2B98B", tag: "Upscale Night",  city: "Atlanta" },
   { name: "WRST BHVR",          date: "Jul 25",  month: "Jul", url: "https://www.eventbrite.com/e/napkin-wars-tickets-1983443502910",       color: "#BB2C35", tag: "Food Fights",    city: "Atlanta" },
   { name: "PAWCHELLA",          date: "Aug 8",   month: "Aug", url: "https://www.eventbrite.com/e/pawchella-summer-tickets-1983440350481", color: "#FF9500", tag: "Pet Festival",   city: "Atlanta" },
-  { name: "TASTE OF ART",       date: "Aug 22",  month: "Aug", url: "https://www.eventbrite.com/e/taste-of-art-tickets-1982514621601",      color: "#A75C43", tag: "Art & Culture",  city: "Atlanta" },
   { name: "BEAUTY & THE BEAST", date: "Sep 12",  month: "Sep", url: "https://www.eventbrite.com/e/beauty-the-beast-tickets-1983359980091", color: "#D947A8", tag: "Themed Party",   city: "Atlanta" },
-  { name: "GANGSTA GOSPEL",     date: "Sep 13",  month: "Sep", url: "https://www.eventbrite.com/e/gangsta-gospel-tickets-1983358448510",   color: "#3C5B8A", tag: "Gospel Hip-Hop", city: "Atlanta" },
 ];
 
 const MONTHS = ["All", "Apr", "May", "Jun", "Jul", "Aug", "Sep"];
