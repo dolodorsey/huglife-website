@@ -2,31 +2,29 @@
 import { useState, useEffect, useRef } from "react";
 
 /* ═══════════════════════════════════════════════════════════════
-   HUGLIFE — WHERE CULTURE LIVES
-   Design Philosophy: "POSTER ENERGY"
+   HUGLIFE — WE CREATE ATMOSPHERE
    
-   This is a wall of concert posters come to life. Bebas Neue 
-   screams event DNA. Hot pink bleeds into gold. Every section 
-   feels like a flyer you'd rip off a telephone pole at 2am.
-   The dark base holds the chaos. Controlled intensity.
+   Design Philosophy: "CHAMPAGNE NOIR"
+   50% Black (power) · 25% Gold (value) · 25% White (clarity)
    
-   Signature Interaction: Poster-to-world — event brand cards 
-   feel like physical flyers with depth, glow, and urgency.
+   Video hero. Full-screen on first load. 
+   Scattered event flyers as BG images per section (5-7% opacity).
+   Event brand logos on cards. No gallery section.
    ═══════════════════════════════════════════════════════════════ */
 
 const SB = "https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics";
 
 const EVENT_BRANDS = [
-  { name: "NOIR",            type: "Upscale Night",     accent: "#D2B98B", bg: "#0B0A0C", desc: "Exclusive all-black dress code. Elegance meets nightlife.", flyer: `${SB}/noir_event/03_event_flyers/NOIR_NEWS.png` },
-  { name: "REMIX",           type: "DJ Mashup",         accent: "#B6E03E", bg: "#0D0E12", desc: "Genre-bending music mashups. No rules, just vibes.", flyer: `${SB}/remix_event/03-event-flyers/remix-dj-dates-cities.png` },
-  { name: "WRST BHVR",       type: "Food Fights",       accent: "#BB2C35", bg: "#111216", desc: "Napkin Wars. Food fights meet fine dining. ATL + DC.", flyer: `${SB}/wrst_bhvr_event/03-event-flyers/wrst-bhvr-napkin-wars-crime-scene.png` },
-  { name: "Taste of Art",    type: "Art & Culture",     accent: "#A75C43", bg: "#111114", desc: "Live art, culture, and the creative underground.", flyer: `${SB}/taste_of_art/03_event_flyers/TASTE_MAIN2.JPEG` },
-  { name: "Gangsta Gospel",  type: "Sacred x Street",   accent: "#3C5B8A", bg: "#101114", desc: "Where sacred meets street. Father's Day tradition.", flyer: `${SB}/gangsta_gospel/03_event_flyers/GANGSTA_DATE.png` },
-  { name: "CRVNGS",          type: "Food Festival",     accent: "#C85A1A", bg: "#1A1210", desc: "Culinary exhibition. Food truck editions. Pure flavor." },
-  { name: "Stella",          type: "RnB Concert",       accent: "#D947A8", bg: "#14101A", desc: "RnB nights that bring the soul back. Live vocals." },
-  { name: "Underground King", type: "Indie Concert",    accent: "#6D4AE0", bg: "#10101A", desc: "Underground music. Raw talent. No filter." },
-  { name: "The Kulture",     type: "Streetwear Market",  accent: "#D9B44A", bg: "#141210", desc: "Fashion, streetwear, and urban culture marketplace." },
-  { name: "Forever Futbol",  type: "Museum Experience",  accent: "#C6A65B", bg: "#0E1014", desc: "World Cup immersive experience. ATL · DC · LAX.", flyer: `${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png` },
+  { name: "NOIR",             type: "Upscale Night",     accent: "#D2B98B", desc: "Exclusive all-black dress code. Elegance meets nightlife.", flyer: `${SB}/noir_event/03_event_flyers/NOIR_NEWS.png`, logo: `${SB}/noir_event/01_logos/noir-logo.png` },
+  { name: "REMIX",            type: "DJ Mashup",         accent: "#B6E03E", desc: "Genre-bending music mashups. No rules, just vibes.", flyer: `${SB}/remix_event/03-event-flyers/remix-dj-dates-cities.png`, logo: `${SB}/remix_event/01-logos/remix-logo.png` },
+  { name: "WRST BHVR",        type: "Food Fights",       accent: "#BB2C35", desc: "Napkin Wars. Food fights meet fine dining. ATL + DC.", flyer: `${SB}/wrst_bhvr_event/03-event-flyers/wrst-bhvr-napkin-wars-crime-scene.png`, logo: `${SB}/wrst_bhvr_event/01-logos/wrst-bhvr-logo.png` },
+  { name: "Taste of Art",     type: "Art & Culture",     accent: "#A75C43", desc: "Live art, culture, and the creative underground.", flyer: `${SB}/taste_of_art/03_event_flyers/TASTE_MAIN2.JPEG`, logo: `${SB}/taste_of_art/01_logos/taste-of-art-logo.png` },
+  { name: "Gangsta Gospel",   type: "Sacred × Street",   accent: "#3C5B8A", desc: "Where sacred meets street. Father's Day tradition.", flyer: `${SB}/gangsta_gospel/03_event_flyers/GANGSTA_DATE.png`, logo: `${SB}/gangsta_gospel/01_logos/gangsta-gospel-logo.png` },
+  { name: "CRVNGS",           type: "Food Festival",     accent: "#C85A1A", desc: "Culinary exhibition. Food truck editions. Pure flavor." },
+  { name: "Stella",           type: "RnB Concert",       accent: "#D947A8", desc: "RnB nights that bring the soul back. Live vocals." },
+  { name: "Underground King", type: "Indie Concert",     accent: "#6D4AE0", desc: "Underground music. Raw talent. No filter." },
+  { name: "The Kulture",      type: "Streetwear Market",  accent: "#D9B44A", desc: "Fashion, streetwear, and urban culture marketplace." },
+  { name: "Forever Futbol",   type: "Museum Experience",  accent: "#C6A65B", desc: "World Cup immersive experience. ATL · DC · LAX.", logo: `${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png` },
 ];
 
 const CALENDAR_2026 = [
@@ -86,7 +84,7 @@ const CALENDAR_2026 = [
   ]},
   { month: "November", events: [
     { day: "Sun 15", name: "NOIR", color: "#D2B98B" },
-    { day: "Sat 21", name: "BLACK BALL", color: "#2D2F36" },
+    { day: "Sat 21", name: "BLACK BALL", color: "#C9A646" },
   ]},
   { month: "December", events: [
     { day: "Dec 4-6", name: "TASTE OF ART (ART BASEL)", color: "#A75C43" },
@@ -94,7 +92,6 @@ const CALENDAR_2026 = [
   ]},
 ];
 
-// CLEAN TICKET DATA — No cancelled brands (SHUT UP & DANCE, ESPRESSO, NAPKIN KING)
 const TICKETS = [
   { name: "TASTE OF ART",       date: "Apr 18",  month: "Apr", url: "https://www.eventbrite.com/e/taste-of-art-tickets-1982512459133",      color: "#A75C43", tag: "Art & Culture",  city: "Atlanta" },
   { name: "NOIR",               date: "May 17",  month: "May", url: "https://www.eventbrite.com/e/espresso-tickets-1982507090074",          color: "#D2B98B", tag: "Upscale Night",  city: "Atlanta" },
@@ -115,13 +112,12 @@ const TICKETS = [
 
 const MONTHS = ["All", "Apr", "May", "Jun", "Jul", "Aug", "Sep"];
 
-const IMAGES = [
-  { src: "/images/lifestyle-festival.png", label: "Festival Energy" },
-  { src: "/images/lifestyle-club.png", label: "After Dark" },
-  { src: "/images/lifestyle-concert.png", label: "Main Stage" },
-  { src: "/images/lifestyle-stadium.png", label: "Game Day" },
-  { src: "/images/lifestyle-boat.png", label: "Golden Hour" },
-  { src: "/images/lifestyle-beach.png", label: "Coastline" },
+/* BG flyer images scattered per section */
+const SECTION_BG = [
+  "/images/huglife-rooftop.png",
+  "/images/huglife-atmosphere.png",
+  "/images/huglife-elevated.png",
+  "/images/huglife-graphic-02.png",
 ];
 
 /* ─── Utilities ─── */
@@ -148,6 +144,18 @@ function Img({ src, alt, style }: { src: string; alt: string; style?: React.CSSP
   return <img src={src} alt={alt} style={style} onError={() => setErr(true)} loading="lazy" />;
 }
 
+/* Scattered BG image layer — each section gets a different flyer */
+function SectionBg({ src, opacity = 0.06 }: { src: string; opacity?: number }) {
+  return (
+    <div style={{ position: "absolute", inset: 0, opacity, filter: "brightness(0.25) saturate(0.3)", backgroundImage: `url(${src})`, backgroundSize: "cover", backgroundPosition: "center", pointerEvents: "none", zIndex: 0 }} />
+  );
+}
+
+/* Gold shimmer divider */
+function GoldLine() {
+  return <div className="gold-divider" style={{ margin: "0 auto", maxWidth: 1400 }} />;
+}
+
 /* ═══ NAV ═══ */
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -157,103 +165,219 @@ function Nav() {
     return () => window.removeEventListener("scroll", h);
   }, []);
   return (
-    <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: scrolled ? "12px var(--gutter)" : "22px var(--gutter)", display: "flex", justifyContent: "space-between", alignItems: "center", background: scrolled ? "rgba(13,13,16,0.95)" : "transparent", backdropFilter: scrolled ? "blur(24px)" : "none", borderBottom: scrolled ? "1px solid var(--border)" : "none", transition: "all 0.5s var(--ease)" }}>
-      <img src="/images/huglife-logo.png" alt="HugLife" style={{ height: 32, width: "auto", filter: "invert(1)" }} />
+    <nav style={{
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+      padding: scrolled ? "12px var(--gutter)" : "22px var(--gutter)",
+      display: "flex", justifyContent: "space-between", alignItems: "center",
+      background: scrolled ? "rgba(11,11,11,0.92)" : "transparent",
+      backdropFilter: scrolled ? "blur(24px)" : "none",
+      borderBottom: scrolled ? "1px solid var(--border)" : "none",
+      transition: "all 0.5s var(--ease)"
+    }}>
+      <img src="/images/huglife-logo-white-nobg.png" alt="HugLife" style={{ height: 36, width: "auto" }} />
       <div className="nav-links" style={{ display: "flex", gap: "clamp(16px,2.5vw,32px)", alignItems: "center" }}>
         {["Events", "Calendar", "Tickets"].map(n => (
-          <a key={n} href={`#${n.toLowerCase()}`} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "9px", fontWeight: 500, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--muted)", transition: "color 0.3s" }}>{n}</a>
+          <a key={n} href={`#${n.toLowerCase()}`} style={{
+            fontFamily: "'DM Sans',sans-serif", fontSize: "9px", fontWeight: 500,
+            letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--muted)",
+            transition: "color 0.3s"
+          }}
+          onMouseEnter={e => (e.currentTarget.style.color = "var(--gold)")}
+          onMouseLeave={e => (e.currentTarget.style.color = "var(--muted)")}
+          >{n}</a>
         ))}
-        <a href="#tickets" className="cta-pink" style={{ padding: "9px 22px" }}>Tickets</a>
+        <a href="#tickets" className="cta-gold" style={{ padding: "9px 22px" }}>Tickets</a>
       </div>
     </nav>
   );
 }
 
-/* ═══ HERO ═══ */
+/* ═══ HERO — FULL SCREEN VIDEO ═══ */
 function Hero() {
   const [loaded, setLoaded] = useState(false);
-  useEffect(() => { setTimeout(() => setLoaded(true), 200); }, []);
+  useEffect(() => { setTimeout(() => setLoaded(true), 300); }, []);
   return (
-    <section style={{ minHeight: "100vh", background: `linear-gradient(135deg,var(--dark) 0%,var(--base) 40%,var(--surface) 100%)`, position: "relative", overflow: "hidden", display: "flex", alignItems: "center", padding: "120px var(--gutter) 80px" }}>
+    <section style={{
+      minHeight: "100vh", position: "relative", overflow: "hidden",
+      display: "flex", alignItems: "center", justifyContent: "center"
+    }}>
+      {/* FULL SCREEN VIDEO — objectFit: cover, stretched */}
+      <video
+        autoPlay muted loop playsInline
+        style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%",
+          objectFit: "cover", zIndex: 0
+        }}
+      >
+        <source src="/images/huglife-hero.mp4" type="video/mp4" />
+      </video>
+
+      {/* Dark overlay for readability */}
+      <div style={{
+        position: "absolute", inset: 0, zIndex: 1,
+        background: "linear-gradient(180deg, rgba(11,11,11,0.4) 0%, rgba(11,11,11,0.7) 60%, rgba(11,11,11,0.95) 100%)"
+      }} />
+
+      {/* Gold glow orbs */}
+      <div style={{ position: "absolute", top: "-10%", right: "-8%", width: "55vw", height: "55vw", borderRadius: "50%", background: "radial-gradient(circle, var(--gold-glow), transparent 60%)", animation: "float 8s ease-in-out infinite", pointerEvents: "none", zIndex: 1 }} />
+
       {/* Grain */}
-      <div style={{ position: "absolute", inset: 0, opacity: 0.04, pointerEvents: "none", zIndex: 1, backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }} />
-      {/* Orbs */}
-      <div style={{ position: "absolute", top: "-10%", right: "-8%", width: "55vw", height: "55vw", borderRadius: "50%", background: `radial-gradient(circle,var(--pink-glow),transparent 60%)`, animation: "float 8s ease-in-out infinite", pointerEvents: "none" }} />
-      <div style={{ position: "absolute", bottom: "-15%", left: "-5%", width: "50vw", height: "50vw", borderRadius: "50%", background: `radial-gradient(circle,var(--gold-glow),transparent 60%)`, animation: "float 11s ease-in-out infinite reverse", pointerEvents: "none" }} />
-      {/* BG Image at 5% per SOP */}
-      <div style={{ position: "absolute", inset: 0, opacity: 0.05, filter: "brightness(0.2) saturate(0.3)", backgroundImage: "url(/images/lifestyle-festival.png)", backgroundSize: "cover", backgroundPosition: "center", pointerEvents: "none" }} />
-      {/* Logo large on first load per SOP */}
-      <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", opacity: 0.04, pointerEvents: "none", zIndex: 1 }}>
-        <img src="/images/huglife-logo.png" alt="" style={{ width: "clamp(300px,35vw,500px)", filter: "invert(1)" }} />
-      </div>
+      <div style={{ position: "absolute", inset: 0, opacity: 0.04, pointerEvents: "none", zIndex: 2, backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }} />
+
       {/* Scroll indicator */}
       <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 10, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-        <div style={{ width: 1, height: 32, background: "rgba(217,71,168,0.3)", animation: "scrollLine 2s ease-in-out infinite" }} />
-        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 6, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(217,71,168,0.2)" }}>Scroll</div>
+        <div style={{ width: 1, height: 32, background: "rgba(201,166,70,0.3)", animation: "scrollLine 2s ease-in-out infinite" }} />
+        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 6, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(201,166,70,0.25)" }}>Scroll</div>
       </div>
 
-      <div style={{ position: "relative", zIndex: 2, maxWidth: 1400, margin: "0 auto", width: "100%" }}>
-        <div style={{ maxWidth: 800 }}>
-          <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "9px", letterSpacing: "0.55em", textTransform: "uppercase", color: "var(--pink)", opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease 0.2s", marginBottom: 20, display: "flex", alignItems: "center", gap: 12 }}>
-            <span style={{ width: 32, height: 1, background: "linear-gradient(90deg,var(--pink),var(--gold))" }} />Atlanta · Houston · LA · DC · Charlotte
-          </div>
-          <h1 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "var(--text-hero)", fontWeight: 400, lineHeight: 0.88, letterSpacing: "0.02em", color: "var(--cream)", opacity: loaded ? 1 : 0, transform: loaded ? "translateY(0)" : "translateY(40px)", transition: "all 1.1s var(--ease) 0.4s", textTransform: "uppercase" }}>
-            <span style={{ color: "var(--pink)" }}>Hug</span>Life
-          </h1>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "var(--text-body)", lineHeight: 1.8, color: "var(--muted)", maxWidth: 520, marginTop: 28, opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease 0.8s" }}>
-            15+ event brands. 45+ events in 2026. Music, art, food, culture, fashion — curated experiences that connect communities across America.
-          </p>
-          <div style={{ display: "flex", gap: 14, marginTop: 36, opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease 1s", flexWrap: "wrap" }}>
-            <a href="#calendar" className="cta-pink">View Calendar</a>
-            <a href="#tickets" className="cta-outline">Get Tickets</a>
-          </div>
-          <div style={{ display: "flex", gap: 32, marginTop: 48, opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease 1.2s", flexWrap: "wrap" }}>
-            {[{ v: "15+", l: "Event Brands" }, { v: "45+", l: "Events in 2026" }, { v: "8", l: "Cities" }, { v: "50K+", l: "Attendees" }].map(s => (
-              <div key={s.l}>
-                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "clamp(32px,3.5vw,52px)", color: "var(--gold)", lineHeight: 1 }}>{s.v}</div>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--muted)", marginTop: 4 }}>{s.l}</div>
-              </div>
-            ))}
-          </div>
+      {/* Content */}
+      <div style={{ position: "relative", zIndex: 3, textAlign: "center", maxWidth: 900, padding: "120px var(--gutter) 80px" }}>
+        {/* LARGE LOGO on first load */}
+        <div style={{
+          opacity: loaded ? 1 : 0, transform: loaded ? "scale(1)" : "scale(0.85)",
+          transition: "all 1.2s var(--ease) 0.2s", marginBottom: 32
+        }}>
+          <img src="/images/huglife-logo-white-nobg.png" alt="HugLife" style={{
+            height: "clamp(80px,14vw,160px)", margin: "0 auto", display: "block"
+          }} />
+        </div>
+
+        <p style={{
+          fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(16px,2vw,22px)",
+          fontWeight: 300, fontStyle: "italic", lineHeight: 1.6, color: "var(--ivory)",
+          letterSpacing: "0.08em",
+          opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease 0.6s",
+          marginBottom: 12
+        }}>
+          We Create Atmosphere.
+        </p>
+
+        <p style={{
+          fontFamily: "'DM Sans',sans-serif", fontSize: "var(--text-body)", lineHeight: 1.8,
+          color: "var(--muted)", maxWidth: 520, margin: "0 auto 40px",
+          opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease 0.9s"
+        }}>
+          15+ event brands. 45+ events in 2026. Music, art, food, culture, fashion — curated experiences that connect communities across America.
+        </p>
+
+        <div style={{ display: "flex", gap: 14, justifyContent: "center", opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease 1.1s", flexWrap: "wrap" }}>
+          <a href="#calendar" className="cta-gold">View Calendar</a>
+          <a href="#tickets" className="cta-outline">Get Tickets</a>
+        </div>
+
+        <div style={{
+          fontFamily: "'DM Sans',sans-serif", fontSize: "9px", letterSpacing: "0.55em",
+          textTransform: "uppercase", color: "var(--gold)", marginTop: 40,
+          opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease 1.3s",
+          display: "flex", alignItems: "center", gap: 12, justifyContent: "center"
+        }}>
+          <span style={{ width: 32, height: 1, background: "linear-gradient(90deg, transparent, var(--gold))" }} />
+          Atlanta · Houston · LA · DC · Charlotte
+          <span style={{ width: 32, height: 1, background: "linear-gradient(90deg, var(--gold), transparent)" }} />
         </div>
       </div>
     </section>
   );
 }
 
-/* ═══ EVENT BRANDS — Poster Wall ═══ */
+/* ═══ ABOUT — ivory/white background section (25% white) ═══ */
+function About() {
+  return (
+    <section style={{
+      background: "var(--ivory)", padding: "var(--pad) var(--gutter)",
+      position: "relative", overflow: "hidden"
+    }}>
+      <SectionBg src={SECTION_BG[0]} opacity={0.04} />
+      <div style={{ maxWidth: 1400, margin: "0 auto", position: "relative", zIndex: 2 }}>
+        <Rev>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px,6vw,80px)", alignItems: "center" }} className="mob-stack">
+            <div>
+              <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", letterSpacing: "0.48em", textTransform: "uppercase", color: "var(--gold-deep)", marginBottom: 16 }}>The Creative Group</div>
+              <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "var(--text-section)", lineHeight: 0.95, color: "var(--black)", textTransform: "uppercase", marginBottom: 24 }}>
+                Elevated Events.<br />
+                <span style={{ color: "var(--gold-deep)" }}>Remarkable Moods.</span><br />
+                Custom Energy.
+              </h2>
+              <div className="gold-divider" style={{ marginBottom: 24, maxWidth: 120 }} />
+              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "var(--text-body-lg)", lineHeight: 1.8, color: "#333", maxWidth: 480 }}>
+                HugLife is a multi-brand event collective building curated experiences across music, art, food, fashion, and culture. From intimate dinners to festival-scale productions — we create the atmosphere.
+              </p>
+            </div>
+            <div style={{ position: "relative" }}>
+              <img src="/images/huglife-elevated.png" alt="HugLife Elevated Events" style={{
+                width: "100%", borderRadius: 0, display: "block",
+                boxShadow: "0 24px 64px rgba(0,0,0,0.3)"
+              }} />
+              {/* Gold frame accent */}
+              <div style={{ position: "absolute", top: -8, left: -8, right: 8, bottom: 8, border: "1px solid var(--gold-deep)", pointerEvents: "none", opacity: 0.3 }} />
+            </div>
+          </div>
+        </Rev>
+      </div>
+    </section>
+  );
+}
+
+/* ═══ EVENT BRANDS — black section with brand cards ═══ */
 function EventBrands() {
   return (
-    <section id="events" style={{ background: "var(--base)", padding: "var(--pad) var(--gutter)" }}>
-      <div style={{ maxWidth: 1400, margin: "0 auto" }}>
+    <section id="events" style={{
+      background: "var(--black)", padding: "var(--pad) var(--gutter)",
+      position: "relative", overflow: "hidden"
+    }}>
+      <SectionBg src={SECTION_BG[1]} opacity={0.05} />
+      <div style={{ maxWidth: 1400, margin: "0 auto", position: "relative", zIndex: 2 }}>
         <Rev>
-          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", letterSpacing: "0.48em", textTransform: "uppercase", color: "var(--pink)", marginBottom: 16 }}>Event Brands</div>
-          <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "var(--text-section)", lineHeight: 0.95, color: "var(--cream)", textTransform: "uppercase" }}>The Universe</h2>
+          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", letterSpacing: "0.48em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 16 }}>The Portfolio</div>
+          <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "var(--text-section)", lineHeight: 0.95, color: "var(--white)", textTransform: "uppercase", marginBottom: 48 }}>
+            Our <span style={{ color: "var(--gold)" }}>Brands</span>
+          </h2>
         </Rev>
-        <Rev className="stagger" style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 3 }}>
-          {EVENT_BRANDS.map(b => (
-            <div key={b.name} className="brand-card" style={{ background: b.bg, position: "relative", overflow: "hidden", borderTop: `3px solid ${b.accent}` }}>
-              {/* BG glow */}
-              <div style={{ position: "absolute", top: 0, right: 0, width: "60%", height: "60%", background: `radial-gradient(circle at 100% 0%,${b.accent}15,transparent 70%)`, pointerEvents: "none" }} />
-              {/* Flyer image or placeholder */}
-              {b.flyer ? (
-                <div style={{ width: "100%", aspectRatio: "3/4", overflow: "hidden" }}>
-                  <Img src={b.flyer} alt={b.name} style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.8s var(--ease)" }} />
-                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(transparent 40%, rgba(0,0,0,0.85))" }} />
-                </div>
-              ) : (
-                <div style={{ padding: "28px 16px", paddingTop: 20 }}>
-                  <div style={{ width: 48, height: 48, borderRadius: "50%", background: `${b.accent}12`, border: `1px solid ${b.accent}25`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>
-                    <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 22, color: b.accent }}>{b.name[0]}</span>
-                  </div>
+
+        <Rev className="stagger" style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 3 }} >
+          {EVENT_BRANDS.map((b, i) => (
+            <div key={i} className="brand-card" style={{
+              background: "var(--surface)", minHeight: 260, display: "flex",
+              flexDirection: "column", justifyContent: "flex-end", position: "relative"
+            }}>
+              {/* Scattered flyer as card BG */}
+              {b.flyer && (
+                <div style={{
+                  position: "absolute", inset: 0, opacity: 0.12,
+                  filter: "brightness(0.3) saturate(0.5)",
+                  backgroundImage: `url(${b.flyer})`,
+                  backgroundSize: "cover", backgroundPosition: "center",
+                  pointerEvents: "none", zIndex: 0
+                }} />
+              )}
+              {/* Gradient overlay */}
+              <div style={{
+                position: "absolute", inset: 0, zIndex: 1,
+                background: `linear-gradient(180deg, transparent 20%, ${b.flyer ? "rgba(28,28,28,0.85)" : "var(--surface)"} 70%)`
+              }} />
+              {/* Brand logo if available */}
+              {b.logo && (
+                <div style={{ position: "absolute", top: 16, left: 16, zIndex: 3 }}>
+                  <Img src={b.logo} alt={b.name} style={{ height: 28, objectFit: "contain", opacity: 0.6, filter: "brightness(1.2)" }} />
                 </div>
               )}
-              {/* Label overlay */}
-              <div style={{ position: b.flyer ? "absolute" : "relative", bottom: 0, left: 0, right: 0, padding: b.flyer ? "20px 14px 14px" : "0 16px 20px", zIndex: 2 }}>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", fontWeight: 600, letterSpacing: "0.35em", textTransform: "uppercase", color: b.accent, marginBottom: 4 }}>{b.type}</div>
-                <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "clamp(18px,2vw,28px)", color: "var(--cream)", textTransform: "uppercase", letterSpacing: "0.03em" }}>{b.name}</div>
-                <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "10px", lineHeight: 1.6, color: "var(--muted)", marginTop: 4 }}>{b.desc}</p>
+              {/* Content */}
+              <div style={{ position: "relative", zIndex: 2, padding: "20px 16px 18px" }}>
+                <div style={{
+                  fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", fontWeight: 600,
+                  letterSpacing: "0.35em", textTransform: "uppercase", color: b.accent, marginBottom: 4
+                }}>{b.type}</div>
+                <div style={{
+                  fontFamily: "'Bebas Neue',sans-serif", fontSize: "clamp(18px,2vw,28px)",
+                  color: "var(--white)", textTransform: "uppercase", letterSpacing: "0.03em"
+                }}>{b.name}</div>
+                <p style={{
+                  fontFamily: "'DM Sans',sans-serif", fontSize: "10px", lineHeight: 1.6,
+                  color: "var(--muted)", marginTop: 4
+                }}>{b.desc}</p>
               </div>
+              {/* Gold accent line at bottom */}
+              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 2, background: b.accent, opacity: 0.4, zIndex: 3 }} />
             </div>
           ))}
         </Rev>
@@ -262,86 +386,98 @@ function EventBrands() {
   );
 }
 
-/* ═══ CALENDAR ═══ */
+/* ═══ MARQUEE — gold-accented ═══ */
+function Marquee() {
+  const txt = "NOIR · REMIX · WRST BHVR · TASTE OF ART · GANGSTA GOSPEL · CRVNGS · STELLA · UNDERGROUND KING · THE KULTURE · FOREVER FUTBOL · ";
+  return (
+    <div style={{ background: "var(--gold-deep)", overflow: "hidden", padding: "14px 0" }}>
+      <div className="marquee-track">
+        {[0, 1, 2].map(k => (
+          <span key={k} style={{
+            fontFamily: "'Bebas Neue',sans-serif", fontSize: "clamp(14px,1.5vw,20px)",
+            letterSpacing: "0.15em", color: "var(--black)", whiteSpace: "nowrap", padding: "0 8px"
+          }}>{txt}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ═══ CALENDAR — ivory/white section (25% white) ═══ */
 function Calendar() {
   const [activeMonth, setActiveMonth] = useState(0);
   const m = CALENDAR_2026[activeMonth];
   return (
-    <section id="calendar" style={{ background: `linear-gradient(180deg,var(--surface) 0%,var(--base) 100%)`, padding: "var(--pad) var(--gutter)", position: "relative", overflow: "hidden" }}>
-      {/* BG image */}
-      <div style={{ position: "absolute", inset: 0, opacity: 0.04, filter: "brightness(0.2)", backgroundImage: "url(/images/lifestyle-club.png)", backgroundSize: "cover", backgroundPosition: "center", pointerEvents: "none" }} />
+    <section id="calendar" style={{
+      background: "var(--white)", padding: "var(--pad) var(--gutter)",
+      position: "relative", overflow: "hidden"
+    }}>
+      <SectionBg src={SECTION_BG[2]} opacity={0.035} />
       <div style={{ maxWidth: 1400, margin: "0 auto", position: "relative", zIndex: 2 }}>
         <Rev>
-          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", letterSpacing: "0.48em", textTransform: "uppercase", color: "var(--pink)", marginBottom: 16 }}>2026 Season</div>
-          <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "var(--text-section)", lineHeight: 0.95, color: "var(--cream)", textTransform: "uppercase", marginBottom: 48 }}>The Calendar</h2>
+          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", letterSpacing: "0.48em", textTransform: "uppercase", color: "var(--gold-deep)", marginBottom: 16 }}>2026 Season</div>
+          <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "var(--text-section)", lineHeight: 0.95, color: "var(--black)", textTransform: "uppercase", marginBottom: 48 }}>
+            The <span style={{ color: "var(--gold-deep)" }}>Calendar</span>
+          </h2>
         </Rev>
 
         {/* Month tabs */}
-        <div style={{ display: "flex", gap: 0, marginBottom: 32, borderBottom: "1px solid var(--border)", overflowX: "auto" }}>
+        <div style={{ display: "flex", gap: 0, marginBottom: 32, borderBottom: "1px solid rgba(11,11,11,0.08)", overflowX: "auto" }}>
           {CALENDAR_2026.map((mo, i) => (
-            <button key={mo.month} onClick={() => setActiveMonth(i)} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: activeMonth === i ? 700 : 400, letterSpacing: "0.1em", textTransform: "uppercase", color: activeMonth === i ? "var(--pink)" : "var(--muted)", background: "none", border: "none", borderBottom: activeMonth === i ? "2px solid var(--pink)" : "2px solid transparent", padding: "12px 20px", cursor: "pointer", transition: "all 0.3s", whiteSpace: "nowrap" }}>{mo.month}</button>
+            <button key={mo.month} onClick={() => setActiveMonth(i)} style={{
+              fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: activeMonth === i ? 700 : 400,
+              letterSpacing: "0.1em", textTransform: "uppercase",
+              color: activeMonth === i ? "var(--gold-deep)" : "#999",
+              background: "none", border: "none",
+              borderBottom: activeMonth === i ? "2px solid var(--gold-deep)" : "2px solid transparent",
+              padding: "12px 20px", cursor: "pointer", transition: "all 0.3s", whiteSpace: "nowrap"
+            }}>{mo.month}</button>
           ))}
         </div>
 
-        {/* Events list */}
+        {/* Events list — on white bg, black text, gold accents */}
         <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {m.events.map((ev, i) => (
-            <div key={i} style={{ display: "grid", gridTemplateColumns: "100px 1fr 40px", gap: 16, padding: "18px 20px", background: "var(--dark)", alignItems: "center", borderLeft: `3px solid ${ev.color}`, transition: "background 0.3s" }} onMouseEnter={e => (e.currentTarget.style.background = "var(--surface2)")} onMouseLeave={e => (e.currentTarget.style.background = "var(--dark)")}>
-              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600, color: "var(--cream)", letterSpacing: "0.02em" }}>{ev.day}</div>
-              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 20, color: "var(--cream)", textTransform: "uppercase", letterSpacing: "0.03em" }}>{ev.name}</div>
+            <div key={i} style={{
+              display: "grid", gridTemplateColumns: "100px 1fr 40px", gap: 16,
+              padding: "18px 20px", background: "rgba(11,11,11,0.03)", alignItems: "center",
+              borderLeft: `3px solid ${ev.color}`, transition: "background 0.3s"
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = "rgba(11,11,11,0.06)")}
+            onMouseLeave={e => (e.currentTarget.style.background = "rgba(11,11,11,0.03)")}
+            >
+              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600, color: "var(--black)", letterSpacing: "0.02em" }}>{ev.day}</div>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 20, color: "var(--black)", textTransform: "uppercase", letterSpacing: "0.03em" }}>{ev.name}</div>
               <div style={{ width: 10, height: 10, borderRadius: "50%", background: ev.color, justifySelf: "end" }} />
             </div>
           ))}
         </div>
 
-        <div style={{ marginTop: 20, fontFamily: "'DM Mono',monospace", fontSize: "var(--text-caption)", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--muted)" }}>
-          {m.events.length} events in {m.month} · <span style={{ color: "var(--gold)" }}>{CALENDAR_2026.reduce((a, b) => a + b.events.length, 0)} total in 2026</span>
+        <div style={{ marginTop: 20, fontFamily: "'DM Mono',monospace", fontSize: "var(--text-caption)", letterSpacing: "0.2em", textTransform: "uppercase", color: "#999" }}>
+          {m.events.length} events in {m.month} · <span style={{ color: "var(--gold-deep)" }}>{CALENDAR_2026.reduce((a, b) => a + b.events.length, 0)} total in 2026</span>
         </div>
       </div>
     </section>
   );
 }
 
-/* ═══ LIFESTYLE GALLERY — even rows per SOP ═══ */
-function Gallery() {
-  return (
-    <section style={{ background: "var(--dark)", padding: "var(--pad) 0", position: "relative", overflow: "hidden" }}>
-      <div style={{ padding: "0 var(--gutter)", maxWidth: 1400, margin: "0 auto 48px" }}>
-        <Rev>
-          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", letterSpacing: "0.48em", textTransform: "uppercase", color: "var(--pink)", marginBottom: 16 }}>The Experience</div>
-          <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "var(--text-section)", lineHeight: 0.95, color: "var(--cream)", textTransform: "uppercase" }}>This Is What<br /><span style={{ color: "var(--gold)" }}>It Feels Like.</span></h2>
-        </Rev>
-      </div>
-      {/* Even 3x2 grid — uniform aspect ratios per SOP */}
-      <Rev className="rev-scale" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 3, padding: "0 3px" }}>
-        {IMAGES.map((img, i) => (
-          <div key={i} style={{ position: "relative", overflow: "hidden", aspectRatio: "16/10" }}>
-            <img src={img.src} alt={img.label} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.8s var(--ease)" }} onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.04)")} onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")} />
-            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "40px 20px 16px", background: "linear-gradient(transparent,rgba(0,0,0,0.75))" }}>
-              <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", fontWeight: 600, letterSpacing: "0.4em", textTransform: "uppercase", color: "var(--pink)" }}>{img.label}</div>
-            </div>
-          </div>
-        ))}
-      </Rev>
-    </section>
-  );
-}
-
-/* ═══ TICKETS ═══ */
+/* ═══ TICKETS — black section, gold prestige ═══ */
 function TicketHub() {
   const [activeMonth, setActiveMonth] = useState("All");
   const filtered = activeMonth === "All" ? TICKETS : TICKETS.filter(e => e.month === activeMonth);
   return (
-    <section id="tickets" style={{ background: "var(--dark)", padding: "var(--pad) var(--gutter)", position: "relative", overflow: "hidden" }}>
-      {/* BG */}
-      <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at 30% 50%,var(--pink-glow) 0%,transparent 50%),radial-gradient(ellipse at 70% 50%,var(--gold-glow) 0%,transparent 50%)` }} />
-      <div style={{ position: "absolute", inset: 0, opacity: 0.04, filter: "brightness(0.2)", backgroundImage: "url(/images/lifestyle-concert.png)", backgroundSize: "cover", backgroundPosition: "center", pointerEvents: "none" }} />
+    <section id="tickets" style={{
+      background: "var(--black)", padding: "var(--pad) var(--gutter)",
+      position: "relative", overflow: "hidden"
+    }}>
+      <SectionBg src={SECTION_BG[3]} opacity={0.05} />
+      <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 30% 50%, var(--gold-glow) 0%, transparent 50%), radial-gradient(ellipse at 70% 50%, rgba(201,166,70,0.06) 0%, transparent 50%)" }} />
       <div style={{ maxWidth: 1400, margin: "0 auto", position: "relative", zIndex: 2 }}>
         <Rev>
-          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", letterSpacing: "0.5em", textTransform: "uppercase", color: "var(--pink)", marginBottom: 16 }}>2026 Event Calendar</div>
+          <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", letterSpacing: "0.5em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 16 }}>2026 Event Calendar</div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24, marginBottom: 48 }}>
-            <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "clamp(48px,8vw,100px)", lineHeight: 0.9, color: "var(--cream)", textTransform: "uppercase" }}>
-              Get Your<br /><span style={{ color: "var(--pink)" }}>Tickets.</span>
+            <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "clamp(48px,8vw,100px)", lineHeight: 0.9, color: "var(--white)", textTransform: "uppercase" }}>
+              Get Your<br /><span style={{ color: "var(--gold)" }}>Tickets.</span>
             </h2>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#4ADE80", boxShadow: "0 0 8px #4ADE80", animation: "pulse 2s ease-in-out infinite" }} />
@@ -353,21 +489,36 @@ function TicketHub() {
         {/* Month filter */}
         <div style={{ display: "flex", gap: 0, marginBottom: 24, flexWrap: "wrap" }}>
           {MONTHS.map(m => (
-            <button key={m} onClick={() => setActiveMonth(m)} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, fontWeight: activeMonth === m ? 700 : 400, letterSpacing: "0.15em", textTransform: "uppercase", color: activeMonth === m ? "var(--pink)" : "var(--muted)", background: activeMonth === m ? "rgba(217,71,168,0.08)" : "transparent", border: `1px solid ${activeMonth === m ? "rgba(217,71,168,0.3)" : "var(--border)"}`, padding: "10px 20px", cursor: "pointer", transition: "all 0.3s" }}>{m}</button>
+            <button key={m} onClick={() => setActiveMonth(m)} style={{
+              fontFamily: "'DM Sans',sans-serif", fontSize: 10, fontWeight: activeMonth === m ? 700 : 400,
+              letterSpacing: "0.15em", textTransform: "uppercase",
+              color: activeMonth === m ? "var(--gold)" : "var(--muted)",
+              background: activeMonth === m ? "rgba(201,166,70,0.08)" : "transparent",
+              border: `1px solid ${activeMonth === m ? "rgba(201,166,70,0.3)" : "var(--border)"}`,
+              padding: "10px 20px", cursor: "pointer", transition: "all 0.3s"
+            }}>{m}</button>
           ))}
         </div>
 
         {/* Ticket grid */}
         <div className="grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 3 }}>
           {filtered.map((event, i) => (
-            <a key={i} href={event.url} target="_blank" rel="noopener noreferrer" style={{ background: "var(--surface)", padding: "24px 20px", display: "flex", flexDirection: "column", gap: 10, borderLeft: `3px solid ${event.color}`, transition: "all 0.4s var(--ease)", textDecoration: "none" }} onMouseEnter={e => { e.currentTarget.style.background = "var(--surface2)"; e.currentTarget.style.transform = "translateY(-2px)"; }} onMouseLeave={e => { e.currentTarget.style.background = "var(--surface)"; e.currentTarget.style.transform = "translateY(0)"; }}>
+            <a key={i} href={event.url} target="_blank" rel="noopener noreferrer" style={{
+              background: "var(--surface)", padding: "24px 20px",
+              display: "flex", flexDirection: "column", gap: 10,
+              borderLeft: `3px solid ${event.color}`, transition: "all 0.4s var(--ease)",
+              textDecoration: "none"
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = "var(--surface2)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = "var(--surface)"; e.currentTarget.style.transform = "translateY(0)"; }}
+            >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 700, color: event.color }}>{event.date}</div>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", color: "rgba(242,235,221,0.3)", background: "rgba(242,235,221,0.04)", padding: "3px 8px" }}>{event.city}</div>
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", color: "var(--muted)", background: "var(--faint)", padding: "3px 8px" }}>{event.city}</div>
               </div>
-              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "clamp(18px,2vw,26px)", color: "var(--cream)", textTransform: "uppercase", letterSpacing: "0.03em", lineHeight: 1.1 }}>{event.name}</div>
-              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, color: "rgba(242,235,221,0.35)", letterSpacing: "0.1em" }}>{event.tag}</div>
-              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: event.color, display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "clamp(18px,2vw,26px)", color: "var(--white)", textTransform: "uppercase", letterSpacing: "0.03em", lineHeight: 1.1 }}>{event.name}</div>
+              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, color: "var(--muted)", letterSpacing: "0.1em" }}>{event.tag}</div>
+              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--gold)", display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
                 Buy Tickets <span style={{ fontSize: 14 }}>→</span>
               </div>
             </a>
@@ -375,13 +526,13 @@ function TicketHub() {
         </div>
 
         {/* Group CTA */}
-        <div style={{ marginTop: 3, background: "var(--surface)", padding: "28px 32px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 20 }}>
+        <div style={{ marginTop: 3, background: "var(--surface)", padding: "28px 32px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 20, borderLeft: "3px solid var(--gold)" }}>
           <div>
-            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", letterSpacing: "0.4em", textTransform: "uppercase", color: "var(--pink)", marginBottom: 6 }}>Groups · Schools · Corporate</div>
-            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 22, color: "var(--cream)", textTransform: "uppercase" }}>Need 10+ tickets?</div>
+            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", letterSpacing: "0.4em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 6 }}>Groups · Schools · Corporate</div>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 22, color: "var(--white)", textTransform: "uppercase" }}>Need 10+ tickets?</div>
           </div>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <a href="mailto:thekollectiveworldwide@gmail.com?subject=Group Ticket Inquiry" className="cta-pink">Book a Group</a>
+            <a href="mailto:thekollectiveworldwide@gmail.com?subject=Group Ticket Inquiry" className="cta-gold">Book a Group</a>
             <a href="mailto:thekollectiveworldwide@gmail.com?subject=Corporate Event Inquiry" className="cta-outline">Corporate Events</a>
           </div>
         </div>
@@ -390,34 +541,39 @@ function TicketHub() {
   );
 }
 
-/* ═══ CTA CLOSE ═══ */
+/* ═══ CTA CLOSE — gold-accented ivory ═══ */
 function CTAClose() {
   return (
-    <section style={{ background: "var(--dark)", padding: "clamp(100px,16vh,180px) var(--gutter)", position: "relative", overflow: "hidden" }}>
-      <div style={{ position: "absolute", inset: 0, opacity: 0.04, pointerEvents: "none", backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }} />
-      <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at 40% 50%,var(--pink-glow),transparent 55%),radial-gradient(ellipse at 60% 50%,var(--gold-glow),transparent 55%)` }} />
+    <section style={{
+      background: "var(--ivory)", padding: "clamp(100px,16vh,180px) var(--gutter)",
+      position: "relative", overflow: "hidden"
+    }}>
+      <SectionBg src={SECTION_BG[0]} opacity={0.035} />
+      <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 50%, rgba(201,166,70,0.06), transparent 55%)" }} />
       <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 2 }}>
         <Rev>
-          <img src="/images/huglife-logo.png" alt="HugLife" style={{ height: 56, margin: "0 auto 28px", display: "block", filter: "invert(1)", opacity: 0.4 }} />
-          <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "clamp(48px,8vw,120px)", color: "var(--cream)", lineHeight: 0.9, textTransform: "uppercase", marginBottom: 20 }}>
-            Just<br /><span style={{ color: "var(--pink)" }}>HugLife.</span>
+          <img src="/images/huglife-logo-white-nobg.png" alt="HugLife" style={{ height: 56, margin: "0 auto 28px", display: "block", filter: "brightness(0) saturate(0)", opacity: 0.15 }} />
+          <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "clamp(48px,8vw,120px)", color: "var(--black)", lineHeight: 0.9, textTransform: "uppercase", marginBottom: 20 }}>
+            Just<br /><span style={{ color: "var(--gold-deep)" }}>HugLife.</span>
           </h2>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, lineHeight: 1.8, color: "var(--muted)", maxWidth: 440, margin: "0 auto 40px" }}>The events that connect communities. The experiences that become memories. Join us in 2026.</p>
-          <a href="#calendar" className="cta-pink" style={{ padding: "15px 48px" }}>View Full Calendar</a>
+          <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(16px,2vw,20px)", fontWeight: 300, fontStyle: "italic", lineHeight: 1.8, color: "#555", maxWidth: 440, margin: "0 auto 40px" }}>
+            The events that connect communities. The experiences that become memories. Join us in 2026.
+          </p>
+          <a href="#calendar" className="cta-gold" style={{ padding: "15px 48px" }}>View Full Calendar</a>
         </Rev>
       </div>
     </section>
   );
 }
 
-/* ═══ FOOTER ═══ */
+/* ═══ FOOTER — black with gold + white details ═══ */
 function Footer() {
   return (
-    <footer style={{ background: "var(--dark)", borderTop: "1px solid var(--border)", padding: "56px var(--gutter) 36px" }}>
+    <footer style={{ background: "var(--black)", borderTop: "1px solid var(--border)", padding: "56px var(--gutter) 36px" }}>
       <div style={{ maxWidth: 1400, margin: "0 auto" }}>
         <div className="mob-stack" style={{ display: "grid", gridTemplateColumns: "1.5fr repeat(3,1fr)", gap: 40, marginBottom: 48 }}>
           <div>
-            <img src="/images/huglife-logo.png" alt="HugLife" style={{ height: 36, marginBottom: 14, filter: "invert(1)" }} />
+            <img src="/images/huglife-logo-white-nobg.png" alt="HugLife" style={{ height: 40, marginBottom: 14 }} />
             <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, lineHeight: 1.7, color: "var(--muted)" }}>Events. Culture. Community.<br />A KHG Enterprise.</p>
           </div>
           {[
@@ -426,28 +582,35 @@ function Footer() {
             { h: "Connect", l: ["@justhuglife", "thekollectiveworldwide@gmail.com", "Atlanta, GA"] },
           ].map(col => (
             <div key={col.h}>
-              <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", fontWeight: 600, letterSpacing: "0.4em", textTransform: "uppercase", color: "var(--pink)", marginBottom: 16 }}>{col.h}</div>
+              <div style={{ fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", fontWeight: 600, letterSpacing: "0.4em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 16 }}>{col.h}</div>
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 8 }}>
                 {col.l.map(item => <li key={item} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--muted)" }}>{item}</li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div style={{ borderTop: "1px solid var(--border)", paddingTop: 20, fontFamily: "'DM Sans',sans-serif", fontSize: 10, color: "rgba(242,235,221,0.15)" }}>© 2026 HugLife Events. A KHG Enterprise.</div>
+        <div className="gold-divider" style={{ marginBottom: 20 }} />
+        <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, color: "rgba(247,245,240,0.15)" }}>© 2026 HugLife Events. A KHG Enterprise.</div>
       </div>
     </footer>
   );
 }
 
-/* ═══ MAIN ═══ */
-export default function HugLifeV5() {
+/* ═══ MAIN — SECTION ORDER ═══
+  Hero (black + video) → About (ivory) → Brands (black) → 
+  Marquee (gold) → Calendar (white) → Tickets (black) → 
+  CTA (ivory) → Footer (black)
+  = Alternating exactly per the 50/25/25 ratio
+═══════════════════════════════════════════════════════ */
+export default function HugLifeV6() {
   return (
-    <div style={{ background: "var(--base)" }}>
+    <div style={{ background: "var(--black)" }}>
       <Nav />
       <Hero />
+      <About />
       <EventBrands />
+      <Marquee />
       <Calendar />
-      <Gallery />
       <TicketHub />
       <CTAClose />
       <Footer />
