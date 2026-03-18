@@ -212,69 +212,74 @@ function Hero() {
         <source src="/images/huglife-hero.mp4" type="video/mp4" />
       </video>
 
-      {/* Dark overlay for readability */}
+      {/* Subtle bottom gradient only — keep video fully visible */}
       <div style={{
         position: "absolute", inset: 0, zIndex: 1,
-        background: "linear-gradient(180deg, rgba(11,11,11,0.4) 0%, rgba(11,11,11,0.7) 60%, rgba(11,11,11,0.95) 100%)"
+        background: "linear-gradient(180deg, rgba(11,11,11,0.15) 0%, rgba(11,11,11,0.05) 40%, rgba(11,11,11,0.5) 80%, rgba(11,11,11,0.92) 100%)"
       }} />
 
-      {/* Gold glow orbs */}
-      <div style={{ position: "absolute", top: "-10%", right: "-8%", width: "55vw", height: "55vw", borderRadius: "50%", background: "radial-gradient(circle, var(--gold-glow), transparent 60%)", animation: "float 8s ease-in-out infinite", pointerEvents: "none", zIndex: 1 }} />
-
-      {/* Grain */}
-      <div style={{ position: "absolute", inset: 0, opacity: 0.04, pointerEvents: "none", zIndex: 2, backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }} />
-
-      {/* Scroll indicator */}
-      <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 10, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-        <div style={{ width: 1, height: 32, background: "rgba(201,166,70,0.3)", animation: "scrollLine 2s ease-in-out infinite" }} />
-        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 6, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(201,166,70,0.25)" }}>Scroll</div>
+      {/* LOGO — top left corner, perimeter */}
+      <div style={{
+        position: "absolute", top: "clamp(80px,10vh,120px)", left: "var(--gutter)",
+        zIndex: 5, opacity: loaded ? 1 : 0, transform: loaded ? "translateY(0)" : "translateY(-20px)",
+        transition: "all 1.2s var(--ease) 0.2s"
+      }}>
+        <img src="/images/huglife-logo-white-nobg.png" alt="HugLife" style={{
+          height: "clamp(50px,8vw,100px)", display: "block"
+        }} />
       </div>
 
-      {/* Content */}
-      <div style={{ position: "relative", zIndex: 3, textAlign: "center", maxWidth: 900, padding: "120px var(--gutter) 80px" }}>
-        {/* LARGE LOGO on first load */}
-        <div style={{
-          opacity: loaded ? 1 : 0, transform: loaded ? "scale(1)" : "scale(0.85)",
-          transition: "all 1.2s var(--ease) 0.2s", marginBottom: 32
-        }}>
-          <img src="/images/huglife-logo-white-nobg.png" alt="HugLife" style={{
-            height: "clamp(80px,14vw,160px)", margin: "0 auto", display: "block"
-          }} />
+      {/* Cities — top right corner, perimeter */}
+      <div style={{
+        position: "absolute", top: "clamp(90px,10vh,130px)", right: "var(--gutter)",
+        zIndex: 5, opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease 0.6s",
+        fontFamily: "'DM Sans',sans-serif", fontSize: "8px", letterSpacing: "0.45em",
+        textTransform: "uppercase", color: "rgba(201,166,70,0.6)", textAlign: "right"
+      }}>
+        Atlanta · Houston · LA<br />DC · Charlotte · Miami
+      </div>
+
+      {/* BOTTOM BAR — tagline + CTAs pinned to bottom edge */}
+      <div style={{
+        position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 5,
+        padding: "0 var(--gutter) clamp(32px,5vh,56px)",
+        display: "flex", justifyContent: "space-between", alignItems: "flex-end",
+        flexWrap: "wrap", gap: 20
+      }}>
+        {/* Left: tagline */}
+        <div style={{ opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease 0.8s" }}>
+          <p style={{
+            fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(18px,2.5vw,28px)",
+            fontWeight: 300, fontStyle: "italic", lineHeight: 1.4, color: "var(--ivory)",
+            letterSpacing: "0.06em", marginBottom: 6
+          }}>
+            We Create Atmosphere.
+          </p>
+          <p style={{
+            fontFamily: "'DM Sans',sans-serif", fontSize: "11px", lineHeight: 1.6,
+            color: "rgba(247,245,240,0.4)", maxWidth: 360
+          }}>
+            15+ event brands · 45+ events in 2026
+          </p>
         </div>
 
-        <p style={{
-          fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(16px,2vw,22px)",
-          fontWeight: 300, fontStyle: "italic", lineHeight: 1.6, color: "var(--ivory)",
-          letterSpacing: "0.08em",
-          opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease 0.6s",
-          marginBottom: 12
+        {/* Right: CTAs */}
+        <div style={{
+          display: "flex", gap: 14, opacity: loaded ? 1 : 0,
+          transition: "opacity 0.8s ease 1s", flexWrap: "wrap"
         }}>
-          We Create Atmosphere.
-        </p>
-
-        <p style={{
-          fontFamily: "'DM Sans',sans-serif", fontSize: "var(--text-body)", lineHeight: 1.8,
-          color: "var(--muted)", maxWidth: 520, margin: "0 auto 40px",
-          opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease 0.9s"
-        }}>
-          15+ event brands. 45+ events in 2026. Music, art, food, culture, fashion — curated experiences that connect communities across America.
-        </p>
-
-        <div style={{ display: "flex", gap: 14, justifyContent: "center", opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease 1.1s", flexWrap: "wrap" }}>
           <a href="#calendar" className="cta-gold">View Calendar</a>
           <a href="#tickets" className="cta-outline">Get Tickets</a>
         </div>
+      </div>
 
-        <div style={{
-          fontFamily: "'DM Sans',sans-serif", fontSize: "9px", letterSpacing: "0.55em",
-          textTransform: "uppercase", color: "var(--gold)", marginTop: 40,
-          opacity: loaded ? 1 : 0, transition: "opacity 0.8s ease 1.3s",
-          display: "flex", alignItems: "center", gap: 12, justifyContent: "center"
-        }}>
-          <span style={{ width: 32, height: 1, background: "linear-gradient(90deg, transparent, var(--gold))" }} />
-          Atlanta · Houston · LA · DC · Charlotte
-          <span style={{ width: 32, height: 1, background: "linear-gradient(90deg, var(--gold), transparent)" }} />
-        </div>
+      {/* Scroll indicator — bottom center */}
+      <div style={{
+        position: "absolute", bottom: 8, left: "50%", transform: "translateX(-50%)",
+        zIndex: 4, display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
+        opacity: loaded ? 0.4 : 0, transition: "opacity 1s ease 1.4s"
+      }}>
+        <div style={{ width: 1, height: 20, background: "rgba(201,166,70,0.3)", animation: "scrollLine 2s ease-in-out infinite" }} />
       </div>
     </section>
   );
