@@ -15,16 +15,16 @@ import { useState, useEffect, useRef } from "react";
 const SB = "https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics";
 
 const EVENT_BRANDS = [
-  { name: "NOIR",             type: "Upscale Night",     accent: "#D2B98B", desc: "Exclusive all-black dress code. Elegance meets nightlife.", flyer: `${SB}/noir_event/03_event_flyers/NOIR_NEWS.png`, logo: `${SB}/noir_event/01_logos/noir-logo.png` },
-  { name: "REMIX",            type: "DJ Mashup",         accent: "#B6E03E", desc: "Genre-bending music mashups. No rules, just vibes.", flyer: `${SB}/remix_event/03-event-flyers/remix-dj-dates-cities.png`, logo: `${SB}/remix_event/01-logos/remix-logo.png` },
-  { name: "WRST BHVR",        type: "Food Fights",       accent: "#BB2C35", desc: "Napkin Wars. Food fights meet fine dining. ATL + DC.", flyer: `${SB}/wrst_bhvr_event/03-event-flyers/wrst-bhvr-napkin-wars-crime-scene.png`, logo: `${SB}/wrst_bhvr_event/01-logos/wrst-bhvr-logo.png` },
-  { name: "Taste of Art",     type: "Art & Culture",     accent: "#A75C43", desc: "Live art, culture, and the creative underground.", flyer: `${SB}/taste_of_art/03_event_flyers/TASTE_MAIN2.JPEG`, logo: `${SB}/taste_of_art/01_logos/taste-of-art-logo.png` },
-  { name: "Gangsta Gospel",   type: "Sacred × Street",   accent: "#3C5B8A", desc: "Where sacred meets street. Father's Day tradition.", flyer: `${SB}/gangsta_gospel/03_event_flyers/GANGSTA_DATE.png`, logo: `${SB}/gangsta_gospel/01_logos/gangsta-gospel-logo.png` },
-  { name: "CRVNGS",           type: "Food Festival",     accent: "#C85A1A", desc: "Culinary exhibition. Food truck editions. Pure flavor." },
-  { name: "Stella",           type: "RnB Concert",       accent: "#D947A8", desc: "RnB nights that bring the soul back. Live vocals." },
-  { name: "Underground King", type: "Indie Concert",     accent: "#6D4AE0", desc: "Underground music. Raw talent. No filter." },
-  { name: "The Kulture",      type: "Streetwear Market",  accent: "#D9B44A", desc: "Fashion, streetwear, and urban culture marketplace." },
-  { name: "Forever Futbol",   type: "Museum Experience",  accent: "#C6A65B", desc: "World Cup immersive experience. ATL · DC · LAX.", logo: `${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png` },
+  { name: "NOIR",             type: "Upscale Night",     accent: "#D2B98B", desc: "Exclusive all-black dress code. Elegance meets nightlife.", flyer: `${SB}/noir_event/03_event_flyers/NOIR_NEWS.png`, logo: "/images/logos/noir_logo.png" },
+  { name: "REMIX",            type: "DJ Mashup",         accent: "#B6E03E", desc: "Genre-bending music mashups. No rules, just vibes.", flyer: `${SB}/remix_event/03-event-flyers/remix-dj-dates-cities.png`, logo: "/images/logos/remix_logo.png" },
+  { name: "WRST BHVR",        type: "Food Fights",       accent: "#BB2C35", desc: "Napkin Wars. Food fights meet fine dining. ATL + DC.", flyer: `${SB}/wrst_bhvr_event/03-event-flyers/wrst-bhvr-napkin-wars-crime-scene.png`, logo: "/images/logos/wrst_bhvr_logo.png" },
+  { name: "Taste of Art",     type: "Art & Culture",     accent: "#A75C43", desc: "Live art, culture, and the creative underground.", flyer: `${SB}/taste_of_art/03_event_flyers/TASTE_MAIN2.JPEG`, logo: "/images/logos/taste_of_art_logo.png" },
+  { name: "Gangsta Gospel",   type: "Sacred × Street",   accent: "#3C5B8A", desc: "Where sacred meets street. Father's Day tradition.", flyer: `${SB}/gangsta_gospel/03_event_flyers/GANGSTA_DATE.png`, logo: "/images/logos/gangsta_gospel_logo.png" },
+  { name: "CRVNGS",           type: "Food Festival",     accent: "#C85A1A", desc: "Culinary exhibition. Food truck editions. Pure flavor.", logo: "/images/logos/crvngs_logo.png" },
+  { name: "Stella",           type: "RnB Concert",       accent: "#D947A8", desc: "RnB nights that bring the soul back. Live vocals.", logo: "/images/logos/stella_logo.png" },
+  { name: "Underground King", type: "Indie Concert",     accent: "#6D4AE0", desc: "Underground music. Raw talent. No filter.", logo: "/images/logos/underground_king_logo.png" },
+  { name: "The Kulture",      type: "Streetwear Market",  accent: "#D9B44A", desc: "Fashion, streetwear, and urban culture marketplace.", logo: "/images/logos/the_kulture_logo.png" },
+  { name: "Forever Futbol",   type: "Museum Experience",  accent: "#C6A65B", desc: "World Cup immersive experience. ATL · DC · LAX.", logo: "/images/logos/forever_futbol_logo.png" },
 ];
 
 const CALENDAR_2026 = [
@@ -348,14 +348,15 @@ function EventBrands() {
         <Rev className="stagger" style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 3 }} >
           {EVENT_BRANDS.map((b, i) => (
             <div key={i} className="brand-card" style={{
-              background: "var(--surface)", minHeight: 260, display: "flex",
-              flexDirection: "column", justifyContent: "flex-end", position: "relative"
+              background: "var(--surface)", minHeight: 280, display: "flex",
+              flexDirection: "column", justifyContent: "center", alignItems: "center",
+              position: "relative", padding: "32px 16px 20px"
             }}>
               {/* Scattered flyer as card BG */}
               {b.flyer && (
                 <div style={{
-                  position: "absolute", inset: 0, opacity: 0.12,
-                  filter: "brightness(0.3) saturate(0.5)",
+                  position: "absolute", inset: 0, opacity: 0.10,
+                  filter: "brightness(0.25) saturate(0.4)",
                   backgroundImage: `url(${b.flyer})`,
                   backgroundSize: "cover", backgroundPosition: "center",
                   pointerEvents: "none", zIndex: 0
@@ -364,31 +365,31 @@ function EventBrands() {
               {/* Gradient overlay */}
               <div style={{
                 position: "absolute", inset: 0, zIndex: 1,
-                background: `linear-gradient(180deg, transparent 20%, ${b.flyer ? "rgba(28,28,28,0.85)" : "var(--surface)"} 70%)`
+                background: "linear-gradient(180deg, rgba(28,28,28,0.3) 0%, rgba(28,28,28,0.7) 100%)"
               }} />
-              {/* Brand logo if available */}
-              {b.logo && (
-                <div style={{ position: "absolute", top: 16, left: 16, zIndex: 3 }}>
-                  <Img src={b.logo} alt={b.name} style={{ height: 28, objectFit: "contain", opacity: 0.6, filter: "brightness(1.2)" }} />
-                </div>
-              )}
-              {/* Content */}
-              <div style={{ position: "relative", zIndex: 2, padding: "20px 16px 18px" }}>
-                <div style={{
-                  fontFamily: "'DM Mono',monospace", fontSize: "var(--text-micro)", fontWeight: 600,
-                  letterSpacing: "0.35em", textTransform: "uppercase", color: b.accent, marginBottom: 4
-                }}>{b.type}</div>
-                <div style={{
-                  fontFamily: "'Bebas Neue',sans-serif", fontSize: "clamp(18px,2vw,28px)",
-                  color: "var(--white)", textTransform: "uppercase", letterSpacing: "0.03em"
-                }}>{b.name}</div>
+              {/* LOGO — centered, the hero of each card */}
+              <div style={{ position: "relative", zIndex: 2, flex: 1, display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+                {b.logo ? (
+                  <Img src={b.logo} alt={b.name} style={{
+                    maxHeight: 100, maxWidth: "85%", objectFit: "contain"
+                  }} />
+                ) : (
+                  <div style={{
+                    fontFamily: "'Bebas Neue',sans-serif", fontSize: "clamp(28px,3vw,42px)",
+                    color: "var(--white)", textTransform: "uppercase", letterSpacing: "0.03em",
+                    textAlign: "center"
+                  }}>{b.name}</div>
+                )}
+              </div>
+              {/* Description below logo */}
+              <div style={{ position: "relative", zIndex: 2, textAlign: "center", marginTop: 12 }}>
                 <p style={{
-                  fontFamily: "'DM Sans',sans-serif", fontSize: "10px", lineHeight: 1.6,
-                  color: "var(--muted)", marginTop: 4
+                  fontFamily: "'DM Sans',sans-serif", fontSize: "9px", lineHeight: 1.5,
+                  color: "var(--muted)", maxWidth: 200, margin: "0 auto"
                 }}>{b.desc}</p>
               </div>
-              {/* Gold accent line at bottom */}
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 2, background: b.accent, opacity: 0.4, zIndex: 3 }} />
+              {/* Accent line at bottom */}
+              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 2, background: b.accent, opacity: 0.5, zIndex: 3 }} />
             </div>
           ))}
         </Rev>
