@@ -212,11 +212,17 @@ function Hero() {
         <source src="/images/huglife-hero.mp4" type="video/mp4" />
       </video>
 
-      {/* Subtle bottom gradient only — keep video fully visible */}
-      <div style={{
-        position: "absolute", inset: 0, zIndex: 1,
-        background: "linear-gradient(180deg, rgba(11,11,11,0.15) 0%, rgba(11,11,11,0.05) 40%, rgba(11,11,11,0.5) 80%, rgba(11,11,11,0.92) 100%)"
-      }} />
+      {/* BORDER BLUR — all 4 edges fade into black */}
+      {/* Top edge */}
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "18vh", zIndex: 1, background: "linear-gradient(180deg, rgba(11,11,11,0.85) 0%, rgba(11,11,11,0) 100%)", pointerEvents: "none" }} />
+      {/* Bottom edge */}
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "22vh", zIndex: 1, background: "linear-gradient(0deg, rgba(11,11,11,0.95) 0%, rgba(11,11,11,0) 100%)", pointerEvents: "none" }} />
+      {/* Left edge */}
+      <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "12vw", zIndex: 1, background: "linear-gradient(90deg, rgba(11,11,11,0.7) 0%, rgba(11,11,11,0) 100%)", pointerEvents: "none" }} />
+      {/* Right edge */}
+      <div style={{ position: "absolute", top: 0, bottom: 0, right: 0, width: "12vw", zIndex: 1, background: "linear-gradient(270deg, rgba(11,11,11,0.7) 0%, rgba(11,11,11,0) 100%)", pointerEvents: "none" }} />
+      {/* Corner vignette for extra depth */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "radial-gradient(ellipse at center, transparent 40%, rgba(11,11,11,0.6) 100%)", pointerEvents: "none" }} />
 
       {/* LOGO — top left corner, perimeter */}
       <div style={{
