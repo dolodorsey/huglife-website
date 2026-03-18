@@ -371,7 +371,8 @@ function EventBrands() {
               <div style={{ position: "relative", zIndex: 2, flex: 1, display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
                 {b.logo ? (
                   <Img src={b.logo} alt={b.name} style={{
-                    maxHeight: 100, maxWidth: "85%", objectFit: "contain"
+                    maxHeight: 140, maxWidth: "90%", objectFit: "contain",
+                    filter: "drop-shadow(0 4px 16px rgba(0,0,0,0.5))"
                   }} />
                 ) : (
                   <div style={{
