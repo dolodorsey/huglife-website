@@ -27,11 +27,11 @@ const BRANDS = [
 ];
 
 const CATEGORIES = [
-  { name: "Nightlife", img: "/images/lifestyle-club.png", desc: "Curated after-dark experiences across 8 cities" },
-  { name: "Music & Concerts", img: "/images/lifestyle-concert.png", desc: "From intimate R&B sets to stadium-scale festivals" },
-  { name: "Food & Culture", img: "/images/lifestyle-festival.png", desc: "Food truck fests, art shows, cultural immersions" },
-  { name: "Community", img: "/images/lifestyle-stadium.png", desc: "Block parties, game days, and group experiences" },
-  { name: "Experiences", img: "/images/lifestyle-boat.png", desc: "VIP access, golden hour moments, and more" },
+  { name: "Nightlife", img: "/images/cat-nightlife.jpg", desc: "Curated after-dark experiences across 8 cities" },
+  { name: "Music & Concerts", img: "/images/cat-music.jpg", desc: "From intimate R&B sets to stadium-scale festivals" },
+  { name: "Food & Culture", img: "/images/cat-food.jpg", desc: "Food truck fests, art shows, cultural immersions" },
+  { name: "Community", img: "/images/cat-community.jpg", desc: "Block parties, game days, and group experiences" },
+  { name: "Experiences", img: "/images/cat-experiences.jpg", desc: "VIP access, golden hour moments, and more" },
 ];
 
 const TICKETS = [
@@ -134,8 +134,7 @@ export default function HugLife() {
   /* ── HERO (fullscreen image like Tibico) ── */
   const Hero = (
     <section style={{ position: "relative", height: "100vh", minHeight: 700, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-      {/* PLACEHOLDER: Replace with real HugLife event hero photo */}
-      <img src="/images/huglife-atmosphere-hero.png" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+      <img src="/images/hero-event.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
       <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.4) 100%)" }} />
       <div style={{ position: "relative", zIndex: 2, textAlign: "center", maxWidth: 800, padding: "0 24px" }}>
         <img src="/images/huglife-logo-white-nobg.png" alt="HugLife" style={{ height: "clamp(50px,8vw,80px)", margin: "0 auto 24px", filter: "brightness(10)" }} />
@@ -363,10 +362,10 @@ export default function HugLife() {
   const MeetFounder = (
     <section id="about" style={{ padding: "clamp(60px,10vh,100px) clamp(24px,4vw,60px)" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(32px,5vw,80px)", alignItems: "center" }} className="mob-stack">
-        {/* PLACEHOLDER: Replace with real founder photo */}
+        {/* Founder photo */}
         <R>
           <div style={{ position: "relative", overflow: "hidden", aspectRatio: "4/5" }}>
-            <img src="/images/huglife-elevated.png" alt="Dr. Dorsey" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <img src="/images/founder-section.jpg" alt="Dr. Dorsey" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
         </R>
         <R>
@@ -390,8 +389,8 @@ export default function HugLife() {
   const PhotoStrip = (
     <section style={{ padding: "0", overflow: "hidden" }}>
       <div className="hscroll" style={{ gap: 4, padding: 0 }}>
-        {/* PLACEHOLDER: Replace with real BTS event photos */}
-        {["/images/lifestyle-club.png", "/images/lifestyle-concert.png", "/images/lifestyle-festival.png", "/images/lifestyle-stadium.png", "/images/lifestyle-boat.png", "/images/lifestyle-beach.png", "/images/huglife-rooftop.png", "/images/huglife-atmosphere.png"].map((img, i) => (
+        {/* BTS event photos */}
+        {["/images/bts-1.jpg", "/images/bts-2.jpg", "/images/bts-3.jpg", "/images/bts-4.jpg", "/images/bts-5.jpg", "/images/bts-6.jpg", "/images/bts-7.jpg", "/images/bts-8.jpg"].map((img, i) => (
           <div key={i} style={{ width: 260, height: 260, flexShrink: 0, overflow: "hidden" }}>
             <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} loading="lazy" />
           </div>
