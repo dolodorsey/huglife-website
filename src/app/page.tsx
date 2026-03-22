@@ -26,12 +26,14 @@ const BRANDS = [
   { name: "Forever Futbol", type: "Museum", logo: "/images/logos/forever_futbol_logo.png", accent: "#C9A84C", desc: "World Cup immersive experience." },
 ];
 
+const SB = "https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics";
+
 const CATEGORIES = [
-  { name: "Nightlife", img: "/images/cat-nightlife.jpg", desc: "Curated after-dark experiences across 8 cities" },
-  { name: "Music & Concerts", img: "/images/cat-music.jpg", desc: "From intimate R&B sets to stadium-scale festivals" },
-  { name: "Food & Culture", img: "/images/cat-food.jpg", desc: "Food truck fests, art shows, cultural immersions" },
-  { name: "Community", img: "/images/cat-community.jpg", desc: "Block parties, game days, and group experiences" },
-  { name: "Experiences", img: "/images/cat-experiences.jpg", desc: "VIP access, golden hour moments, and more" },
+  { name: "Nightlife", img: `${SB}/pronto-energy/lifestyle/club-selfie-girls.png`, desc: "Curated after-dark experiences across 8 cities" },
+  { name: "Music & Concerts", img: `${SB}/pronto-energy/lifestyle/festival-crowd-all-flavors.png`, desc: "From intimate R&B sets to stadium-scale festivals" },
+  { name: "Food & Culture", img: `${SB}/casper-group/food/premium-burger.png`, desc: "Food truck fests, art shows, cultural immersions" },
+  { name: "Community", img: `${SB}/pronto-energy/lifestyle/beach-girls-sunset.png`, desc: "Block parties, game days, and group experiences" },
+  { name: "Experiences", img: `${SB}/pronto-energy/lifestyle/cheers-boat-sunset.png`, desc: "VIP access, golden hour moments, and more" },
 ];
 
 const TICKETS = [
@@ -134,7 +136,7 @@ export default function HugLife() {
   /* ── HERO (fullscreen image like Tibico) ── */
   const Hero = (
     <section style={{ position: "relative", height: "100vh", minHeight: 700, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-      <img src="/images/hero-event.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+      <img src={`${SB}/huglife/website/homescreen.jpg`} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
       <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.4) 100%)" }} />
       <div style={{ position: "relative", zIndex: 2, textAlign: "center", maxWidth: 800, padding: "0 24px" }}>
         <img src="/images/huglife-logo-white-nobg.png" alt="HugLife" style={{ height: "clamp(50px,8vw,80px)", margin: "0 auto 24px", filter: "brightness(10)" }} />
@@ -244,6 +246,77 @@ export default function HugLife() {
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  );
+
+  /* ── KHG ECOSYSTEM — Product Brands (like Tibico's featured product) ── */
+  const EcosystemSection = (
+    <section style={{ background: "var(--bg2)", padding: "clamp(60px,10vh,100px) clamp(24px,4vw,60px)", borderTop: "1px solid var(--border)" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <R>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <p style={{ fontFamily: S.sans, fontSize: 12, fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--accent)", marginBottom: 12 }}>The KHG Ecosystem</p>
+            <h2 style={{ fontFamily: S.serif, fontSize: "clamp(32px,5vw,56px)", fontWeight: 400, fontStyle: "italic", color: "var(--text)" }}>Powered by Our Brands</h2>
+            <p style={{ fontFamily: S.sans, fontSize: 14, color: "var(--muted)", maxWidth: 520, margin: "12px auto 0" }}>
+              Every HugLife event is fueled by the KHG family — premium energy, hydration, food, and culture experiences.
+            </p>
+          </div>
+        </R>
+        <R className="reveal-s" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+          {/* Pronto Energy */}
+          <a href="https://pronto-energy-website.vercel.app" target="_blank" rel="noopener noreferrer" style={{ background: "var(--white)", border: "1px solid var(--border)", overflow: "hidden", textDecoration: "none", transition: "all 0.4s var(--ease)" }}
+            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-6px)"; e.currentTarget.style.boxShadow = "0 16px 48px rgba(0,0,0,0.08)"; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
+            <div style={{ height: 220, overflow: "hidden" }}>
+              <img src={`${SB}/pronto_energy/website/pronto-hero.jpg`} alt="Pronto Energy" style={{ width: "100%", height: "100%", objectFit: "cover" }} loading="lazy" />
+            </div>
+            <div style={{ padding: "20px" }}>
+              <p style={{ fontFamily: S.sans, fontSize: 10, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "#C82424", marginBottom: 6 }}>Energy Drink</p>
+              <h3 style={{ fontFamily: S.serif, fontSize: 22, fontWeight: 500, color: "var(--text)", marginBottom: 4 }}>Pronto Energy</h3>
+              <p style={{ fontFamily: S.sans, fontSize: 12, color: "var(--muted)" }}>7 flavors. Event fuel.</p>
+            </div>
+          </a>
+          {/* Infinity Water */}
+          <a href="https://infinity-water-website.vercel.app" target="_blank" rel="noopener noreferrer" style={{ background: "var(--white)", border: "1px solid var(--border)", overflow: "hidden", textDecoration: "none", transition: "all 0.4s var(--ease)" }}
+            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-6px)"; e.currentTarget.style.boxShadow = "0 16px 48px rgba(0,0,0,0.08)"; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
+            <div style={{ height: 220, overflow: "hidden" }}>
+              <img src={`${SB}/infinity_water/website/all-bottles.jpg`} alt="Infinity Water" style={{ width: "100%", height: "100%", objectFit: "cover" }} loading="lazy" />
+            </div>
+            <div style={{ padding: "20px" }}>
+              <p style={{ fontFamily: S.sans, fontSize: 10, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "#4B6E9A", marginBottom: 6 }}>Premium Water</p>
+              <h3 style={{ fontFamily: S.serif, fontSize: 22, fontWeight: 500, color: "var(--text)", marginBottom: 4 }}>Infinity Water</h3>
+              <p style={{ fontFamily: S.sans, fontSize: 12, color: "var(--muted)" }}>Hydrate different.</p>
+            </div>
+          </a>
+          {/* Casper Group */}
+          <a href="https://casper-group.vercel.app" target="_blank" rel="noopener noreferrer" style={{ background: "var(--white)", border: "1px solid var(--border)", overflow: "hidden", textDecoration: "none", transition: "all 0.4s var(--ease)" }}
+            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-6px)"; e.currentTarget.style.boxShadow = "0 16px 48px rgba(0,0,0,0.08)"; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
+            <div style={{ height: 220, overflow: "hidden" }}>
+              <img src={`${SB}/casper-group/food/premium-burger.png`} alt="Casper Group" style={{ width: "100%", height: "100%", objectFit: "cover" }} loading="lazy" />
+            </div>
+            <div style={{ padding: "20px" }}>
+              <p style={{ fontFamily: S.sans, fontSize: 10, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "#5E1F24", marginBottom: 6 }}>Food & Beverage</p>
+              <h3 style={{ fontFamily: S.serif, fontSize: 22, fontWeight: 500, color: "var(--text)", marginBottom: 4 }}>Casper Group</h3>
+              <p style={{ fontFamily: S.sans, fontSize: 12, color: "var(--muted)" }}>9 restaurant concepts.</p>
+            </div>
+          </a>
+          {/* Forever Futbol */}
+          <a href="https://forever-futbol.vercel.app" target="_blank" rel="noopener noreferrer" style={{ background: "var(--white)", border: "1px solid var(--border)", overflow: "hidden", textDecoration: "none", transition: "all 0.4s var(--ease)" }}
+            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-6px)"; e.currentTarget.style.boxShadow = "0 16px 48px rgba(0,0,0,0.08)"; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
+            <div style={{ height: 220, overflow: "hidden" }}>
+              <img src={`${SB}/forever_futbol/07_packaging_merch/MERCH_1.jpeg`} alt="Forever Futbol" style={{ width: "100%", height: "100%", objectFit: "cover" }} loading="lazy" />
+            </div>
+            <div style={{ padding: "20px" }}>
+              <p style={{ fontFamily: S.sans, fontSize: 10, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "#C6A65B", marginBottom: 6 }}>Museum Experience</p>
+              <h3 style={{ fontFamily: S.serif, fontSize: 22, fontWeight: 500, color: "var(--text)", marginBottom: 4 }}>Forever Futbol</h3>
+              <p style={{ fontFamily: S.sans, fontSize: 12, color: "var(--muted)" }}>The beautiful game. Elevated.</p>
+            </div>
+          </a>
+        </R>
       </div>
     </section>
   );
@@ -365,7 +438,7 @@ export default function HugLife() {
         {/* Founder photo */}
         <R>
           <div style={{ position: "relative", overflow: "hidden", aspectRatio: "4/5" }}>
-            <img src="/images/founder-section.jpg" alt="Dr. Dorsey" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <img src={`${SB}/huglife/website/event3.jpg`} alt="Dr. Dorsey" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
         </R>
         <R>
@@ -389,8 +462,19 @@ export default function HugLife() {
   const PhotoStrip = (
     <section style={{ padding: "0", overflow: "hidden" }}>
       <div className="hscroll" style={{ gap: 4, padding: 0 }}>
-        {/* BTS event photos */}
-        {["/images/bts-1.jpg", "/images/bts-2.jpg", "/images/bts-3.jpg", "/images/bts-4.jpg", "/images/bts-5.jpg", "/images/bts-6.jpg", "/images/bts-7.jpg", "/images/bts-8.jpg"].map((img, i) => (
+        {/* Real KHG brand assets from across the ecosystem */}
+        {[
+          `${SB}/pronto-energy/lifestyle/festival-night-crew.png`,
+          `${SB}/huglife/website/event1.jpg`,
+          `${SB}/casper-group/food/lemon-pepper-wings.png`,
+          `${SB}/pronto-energy/lifestyle/stadium-fans-game-day.png`,
+          `${SB}/infinity_water/website/life1.jpg`,
+          `${SB}/huglife/website/g2.jpg`,
+          `${SB}/casper-group/food/fusion-tacos.png`,
+          `${SB}/pronto-energy/lifestyle/pool-party-girls.png`,
+          `${SB}/forever_futbol/07_packaging_merch/MERCH_1.jpeg`,
+          `${SB}/infinity_water/website/life2.jpg`,
+        ].map((img, i) => (
           <div key={i} style={{ width: 260, height: 260, flexShrink: 0, overflow: "hidden" }}>
             <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} loading="lazy" />
           </div>
@@ -468,6 +552,7 @@ export default function HugLife() {
       {EventBrands}
       {BenefitStrip}
       {CategoryCards}
+      {EcosystemSection}
       {CalendarSection}
       {TicketsSection}
       {CoreValues}
