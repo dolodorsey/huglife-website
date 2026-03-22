@@ -37,15 +37,41 @@ const CATEGORIES = [
 ];
 
 const TICKETS = [
-  { name: "TASTE OF ART", date: "Apr 18", month: "Apr", url: "https://www.eventbrite.com/e/taste-of-art-tickets-1982512459133", color: "#BF360C", tag: "Art & Culture", city: "Atlanta" },
-  { name: "NOIR", date: "May 17", month: "May", url: "https://www.eventbrite.com/e/espresso-tickets-1982507090074", color: "#C9A84C", tag: "Upscale Night", city: "Atlanta" },
-  { name: "FOREVER FUTBOL", date: "Jun 5", month: "Jun", url: "https://www.eventbrite.com/e/forever-futbol-tickets-1983442211046", color: "#C9A84C", tag: "Museum Opening", city: "Atlanta" },
-  { name: "TASTE OF ART", date: "Jun 20", month: "Jun", url: "https://www.eventbrite.com/e/taste-of-art-tickets-1982513123119", color: "#BF360C", tag: "Art & Culture", city: "Atlanta" },
-  { name: "GANGSTA GOSPEL", date: "Jun 21", month: "Jun", url: "https://www.eventbrite.com/e/gangsta-gospel-tickets-1983357015223", color: "#37474F", tag: "Gospel Hip-Hop", city: "Atlanta" },
-  { name: "REMIX", date: "Jul 11", month: "Jul", url: "https://www.eventbrite.com/e/remix-tickets-1983356687242", color: "#7CB342", tag: "DJ Night", city: "Atlanta" },
-  { name: "WRST BHVR", date: "Jul 25", month: "Jul", url: "https://www.eventbrite.com/e/napkin-wars-tickets-1983443502910", color: "#C62828", tag: "Napkin Wars", city: "Atlanta" },
-  { name: "PAWCHELLA", date: "Aug 8", month: "Aug", url: "https://www.eventbrite.com/e/pawchella-summer-tickets-1983440350481", color: "#E65100", tag: "Pet Festival", city: "Atlanta" },
-  { name: "BEAUTY & THE BEAST", date: "Sep 12", month: "Sep", url: "https://www.eventbrite.com/e/beauty-the-beast-tickets-1983359980091", color: "#AD1457", tag: "Themed Party", city: "Atlanta" },
+  { name: "SECRET SOCIETY", date: "Apr 10", month: "Apr", url: "https://www.eventbrite.com/e/secret-society-the-art-of-being-selective-tickets-1985661187063", color: "#B8943E", tag: "Midnight Affair", city: "Atlanta" },
+  { name: "TASTE OF ART", date: "Apr 18", month: "Apr", url: "https://www.eventbrite.com/e/taste-of-art-canvas-cuisine-culture-tickets-1985661188066", color: "#A75C43", tag: "Art & Culture", city: "Atlanta" },
+  { name: "THE KULTURE", date: "Apr 18", month: "Apr", url: "https://www.eventbrite.com/e/the-kulture-streetwear-market-tickets-1985661193081", color: "#D947A8", tag: "Streetwear Market", city: "Atlanta" },
+  { name: "WRST BHVR", date: "Apr 26", month: "Apr", url: "https://www.eventbrite.com/e/wrst-bhvr-napkin-wars-edt-tickets-1985661200102", color: "#BB2C35", tag: "Napkin Wars", city: "Atlanta" },
+  { name: "REMIX", date: "May 2", month: "May", url: "https://www.eventbrite.com/e/remix-the-mashup-music-experience-tickets-1985661232198", color: "#B6E03E", tag: "Mashup Night", city: "Atlanta" },
+  { name: "CINCO DE DRINKO", date: "May 5", month: "May", url: "https://www.eventbrite.com/e/cinco-de-drinko-cinco-de-mayo-tickets-1985661246240", color: "#E65100", tag: "Block Party", city: "Atlanta" },
+  { name: "SOUL SESSIONS", date: "May 10", month: "May", url: "https://www.eventbrite.com/e/soul-sessions-rnb-all-night-tickets-1985661249249", color: "#7C3AED", tag: "Live R&B", city: "Atlanta" },
+  { name: "NOIR", date: "May 17", month: "May", url: "https://www.eventbrite.com/e/noir-an-elevated-night-experience-tickets-1985661270312", color: "#D2B98B", tag: "Upscale Night", city: "Atlanta" },
+  { name: "BLOCK PARTY", date: "May 24", month: "May", url: "https://www.eventbrite.com/e/block-party-huglife-outdoor-experience-tickets-1985661300402", color: "#FF6B35", tag: "Outdoor Party", city: "Atlanta" },
+  { name: "FOREVER FUTBOL", date: "May 29", month: "May", url: "https://www.eventbrite.com/e/forever-futbol-museum-tickets-1985661262288", color: "#C6A65B", tag: "Museum Experience", city: "Atlanta" },
+  { name: "WRST BHVR", date: "May 30", month: "May", url: "https://www.eventbrite.com/e/wrst-bhvr-napkin-wars-edt-tickets-1985661204114", color: "#BB2C35", tag: "Napkin Wars", city: "Atlanta" },
+  { name: "UNDERGROUND KING", date: "Jun 12", month: "Jun", url: "https://www.eventbrite.com/e/underground-king-indie-concert-tickets-1985661283351", color: "#37474F", tag: "Indie Concert", city: "Atlanta" },
+  { name: "REMIX", date: "Jun 13", month: "Jun", url: "https://www.eventbrite.com/e/remix-the-mashup-music-experience-tickets-1985661235207", color: "#B6E03E", tag: "Mashup Night", city: "Atlanta" },
+  { name: "CRVNGS", date: "Jun 14", month: "Jun", url: "https://www.eventbrite.com/e/crvngs-culinary-food-truck-fest-tickets-1985661287363", color: "#E65100", tag: "Food Fest", city: "Atlanta" },
+  { name: "BLOCK PARTY", date: "Jun 19", month: "Jun", url: "https://www.eventbrite.com/e/block-party-huglife-outdoor-experience-tickets-1985661301405", color: "#FF6B35", tag: "Juneteenth", city: "Atlanta" },
+  { name: "TASTE OF ART", date: "Jun 20", month: "Jun", url: "https://www.eventbrite.com/e/taste-of-art-canvas-cuisine-culture-tickets-1985661189069", color: "#A75C43", tag: "Art & Culture", city: "Atlanta" },
+  { name: "THE KULTURE", date: "Jun 20", month: "Jun", url: "https://www.eventbrite.com/e/the-kulture-streetwear-market-tickets-1985661194084", color: "#D947A8", tag: "Streetwear Market", city: "Atlanta" },
+  { name: "GANGSTA GOSPEL", date: "Jun 21", month: "Jun", url: "https://www.eventbrite.com/e/gangsta-gospel-not-your-average-sunday-service-tickets-1985661280342", color: "#3C5B8A", tag: "Gospel Hip-Hop", city: "Atlanta" },
+  { name: "WRST BHVR", date: "Jun 27", month: "Jun", url: "https://www.eventbrite.com/e/wrst-bhvr-napkin-wars-edt-tickets-1985661208126", color: "#BB2C35", tag: "Napkin Wars", city: "DC" },
+  { name: "PARKING LOT PIMPIN", date: "Jul 4", month: "Jul", url: "https://www.eventbrite.com/e/parking-lot-pimpin-car-bike-show-tickets-1985661303411", color: "#FF6B35", tag: "Car & Bike Show", city: "Atlanta" },
+  { name: "CRVNGS", date: "Jul 5", month: "Jul", url: "https://www.eventbrite.com/e/crvngs-culinary-food-truck-fest-tickets-1985661288366", color: "#E65100", tag: "Food Fest", city: "Atlanta" },
+  { name: "REMIX", date: "Jul 11", month: "Jul", url: "https://www.eventbrite.com/e/remix-the-mashup-music-experience-tickets-1985661241225", color: "#B6E03E", tag: "Mashup Night", city: "Atlanta" },
+  { name: "NOIR", date: "Jul 19", month: "Jul", url: "https://www.eventbrite.com/e/noir-an-elevated-night-experience-tickets-1985661273321", color: "#D2B98B", tag: "Upscale Night", city: "Atlanta" },
+  { name: "WRST BHVR", date: "Jul 25", month: "Jul", url: "https://www.eventbrite.com/e/wrst-bhvr-napkin-wars-edt-tickets-1985661216150", color: "#BB2C35", tag: "Napkin Wars", city: "Atlanta" },
+  { name: "SOUL SESSIONS", date: "Aug 9", month: "Aug", url: "https://www.eventbrite.com/e/soul-sessions-rnb-all-night-tickets-1985661252258", color: "#7C3AED", tag: "Live R&B", city: "Atlanta" },
+  { name: "REMIX", date: "Aug 15", month: "Aug", url: "https://www.eventbrite.com/e/remix-the-mashup-music-experience-tickets-1985661242228", color: "#B6E03E", tag: "Mashup Night", city: "Atlanta" },
+  { name: "TASTE OF ART", date: "Aug 22", month: "Aug", url: "https://www.eventbrite.com/e/taste-of-art-canvas-cuisine-culture-tickets-1985661191075", color: "#A75C43", tag: "Art & Culture", city: "Atlanta" },
+  { name: "THE KULTURE", date: "Aug 22", month: "Aug", url: "https://www.eventbrite.com/e/the-kulture-streetwear-market-tickets-1985661195087", color: "#D947A8", tag: "Streetwear Market", city: "Atlanta" },
+  { name: "BEAUTY & THE BEAST", date: "Sep 12", month: "Sep", url: "https://www.eventbrite.com/e/beauty-the-beast-greek-ball-tickets-1985661306420", color: "#AD1457", tag: "Greek Ball", city: "Atlanta" },
+  { name: "NOIR", date: "Sep 6", month: "Sep", url: "https://www.eventbrite.com/e/noir-an-elevated-night-experience-tickets-1985661274324", color: "#D2B98B", tag: "Upscale Night", city: "Atlanta" },
+  { name: "SOUL SESSIONS", date: "Sep 19", month: "Sep", url: "https://www.eventbrite.com/e/soul-sessions-rnb-all-night-tickets-1985661257273", color: "#7C3AED", tag: "Live R&B", city: "Atlanta" },
+  { name: "MONSTERS BALL", date: "Oct 31", month: "Oct", url: "https://www.eventbrite.com/e/monsters-ball-halloween-tickets-1985661307423", color: "#E65100", tag: "Halloween", city: "Atlanta" },
+  { name: "NOIR", date: "Nov 15", month: "Nov", url: "https://www.eventbrite.com/e/noir-an-elevated-night-experience-tickets-1985661278336", color: "#D2B98B", tag: "Upscale Night", city: "Atlanta" },
+  { name: "BLACK BALL", date: "Nov 21", month: "Nov", url: "https://www.eventbrite.com/e/black-ball-all-black-semi-formal-tickets-1985661310432", color: "#1A1A2E", tag: "Semi Formal", city: "Atlanta" },
+  { name: "SNOW BALL", date: "Dec 12", month: "Dec", url: "https://www.eventbrite.com/e/snow-ball-winter-white-party-tickets-1985661311435", color: "#90CAF9", tag: "Winter White", city: "Atlanta" },
 ];
 
 const CALENDAR = [
@@ -71,7 +97,7 @@ const VALUES = [
   { icon: "⬡", title: "Local", desc: "Rooted in 8 cities" },
 ];
 
-const MONTHS_FILTER = ["All", "Apr", "May", "Jun", "Jul", "Aug", "Sep"];
+const MONTHS_FILTER = ["All", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 /* ── UTILITIES ── */
 function useReveal(threshold = 0.12) {
