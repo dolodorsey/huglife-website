@@ -580,7 +580,29 @@ export default function HugLife() {
   );
 
   return (
-    <main>
+    <main
+      {/* TICKETS STICKY BUTTON */}
+      <a
+        href="/tickets"
+        style={{
+          position: "fixed",
+          top: "20px",
+          right: "24px",
+          zIndex: 1000,
+          padding: "10px 20px",
+          background: "#C9A84C",
+          color: "#000",
+          fontFamily: "'DM Sans',system-ui,sans-serif",
+          fontSize: "11px",
+          fontWeight: 700,
+          letterSpacing: "3px",
+          textTransform: "uppercase",
+          textDecoration: "none",
+          boxShadow: "0 4px 20px rgba(201,168,76,0.4)",
+        }}
+      >
+        🎟 TICKETS
+      </a>>
       {Announcement}
       {Nav}
       {Hero}
