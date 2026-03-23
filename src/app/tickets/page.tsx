@@ -308,7 +308,7 @@ export default async function TicketsPage() {
                       >
                         <span>{formatDate(evt.event_date)}</span>
                         <span>·</span>
-                        <span>{evt.city}</span>
+                        <span>{evt.city}</span></div><div style={{ marginTop:"6px", fontSize:"12px", color:"#444" }}><a href="https://maps.google.com/?q=245+Ted+Turner+Drive+SW+Atlanta+GA+30303" target="_blank" rel="noopener noreferrer" style={{color:"#555",textDecoration:"none"}}>📍 The Gallery Complex · 245 Ted Turner Drive SW, Atlanta, GA 30303</a>
                       </div>
                     </div>
 
@@ -499,6 +499,7 @@ export default async function TicketsPage() {
                       <span>·</span>
                       <span>{event.city}</span>
                     </div>
+                    <div style={{ marginTop:"4px", fontSize:"11px", color:"#3a3a3a" }}>📍 The Gallery Complex</div>
                   </div>
                   <a
                     href={event.eventbrite_url}
