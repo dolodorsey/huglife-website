@@ -133,6 +133,8 @@ export default function HugLife() {
   const filteredTickets = ticketFilter === "All" ? TICKETS : TICKETS.filter(t => t.month === ticketFilter);
   const [ld, setLd] = useState(false);
   useEffect(() => { setTimeout(() => setLd(true), 200); }, []);
+  const [ld, setLd] = useState(false);
+  useEffect(() => { setTimeout(() => setLd(true), 200); }, []);
 
   /* ── ANNOUNCEMENT BAR (like Tibico's "Subscribe & Save") ── */
   const Announcement = (
@@ -187,7 +189,7 @@ export default function HugLife() {
   /* ── STATS STRIP (like Tibico's benefit icons) ── */
   const StatsStrip = (
     <R style={{ background: "var(--bg2)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
-      <div style={{ display: "flex", justifyContent: "center", gap: "clamp(24px,5vw,80px)", padding: "28px clamp(24px,4vw,60px)", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", justifyContent: "center", gap: "clamp(24px,5vw,80px)", padding: "28px clamp(24px,4vw,60px)", flexWrap: "wrap", opacity: ld ? 1 : 0, transform: ld ? "translateY(0)" : "translateY(20px)", transition: "all 1s cubic-bezier(0.16,1,0.3,1) 1.3s" }}>
         {[{ v: "15+", l: "Event Brands" }, { v: "45+", l: "Events in 2026" }, { v: "8", l: "Cities" }, { v: "50K+", l: "Attendees" }, { v: "6", l: "Years Running" }].map(s => (
           <div key={s.l} style={{ textAlign: "center" }}>
             <div style={{ fontFamily: S.serif, fontSize: "clamp(28px,3vw,44px)", fontWeight: 600, color: "var(--accent)", lineHeight: 1 }}>{s.v}</div>
@@ -372,7 +374,7 @@ export default function HugLife() {
           </div>
         </R>
         {/* Month tabs */}
-        <div style={{ display: "flex", justifyContent: "center", gap: 0, marginBottom: 32, borderBottom: "1px solid var(--border)", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: 0, marginBottom: 32, borderBottom: "1px solid var(--border)", flexWrap: "wrap", opacity: ld ? 1 : 0, transform: ld ? "translateY(0)" : "translateY(20px)", transition: "all 1s cubic-bezier(0.16,1,0.3,1) 1.3s" }}>
           {CALENDAR.map((m, i) => (
             <button key={m.month} onClick={() => setCalMonth(i)} style={{ fontFamily: S.sans, fontSize: 13, fontWeight: calMonth === i ? 600 : 400, color: calMonth === i ? "var(--accent)" : "var(--muted)", background: "none", border: "none", borderBottom: calMonth === i ? "2px solid var(--accent)" : "2px solid transparent", padding: "12px 20px", letterSpacing: "0.04em", transition: "all 0.3s" }}>{m.month}</button>
           ))}
@@ -408,7 +410,7 @@ export default function HugLife() {
           </div>
         </R>
         {/* Month filter tabs */}
-        <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 32, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 32, flexWrap: "wrap", opacity: ld ? 1 : 0, transform: ld ? "translateY(0)" : "translateY(20px)", transition: "all 1s cubic-bezier(0.16,1,0.3,1) 1.3s" }}>
           {MONTHS_FILTER.map(m => (
             <button key={m} onClick={() => setTicketFilter(m)} style={{ fontFamily: S.sans, fontSize: 12, fontWeight: ticketFilter === m ? 600 : 400, padding: "8px 20px", background: ticketFilter === m ? "var(--accent)" : "transparent", color: ticketFilter === m ? "#fff" : "var(--text2)", border: `1px solid ${ticketFilter === m ? "var(--accent)" : "var(--border)"}`, transition: "all 0.3s" }}>{m}</button>
           ))}
@@ -437,7 +439,7 @@ export default function HugLife() {
             <p style={{ fontFamily: S.sans, fontSize: 11, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--accent)", marginBottom: 4 }}>Groups · Schools · Corporate</p>
             <p style={{ fontFamily: S.serif, fontSize: 24, fontStyle: "italic", color: "var(--text)" }}>Need 10+ tickets?</p>
           </div>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", opacity: ld ? 1 : 0, transform: ld ? "translateY(0)" : "translateY(20px)", transition: "all 1s cubic-bezier(0.16,1,0.3,1) 1.3s" }}>
             <Btn href="mailto:thekollectiveworldwide@gmail.com?subject=Group Ticket Inquiry">Book a Group</Btn>
             <Btn href="mailto:thekollectiveworldwide@gmail.com?subject=Corporate Event Inquiry" variant="outline">Corporate Events</Btn>
           </div>
@@ -478,7 +480,7 @@ export default function HugLife() {
         {/* Founder photo */}
         <R>
           <div style={{ position: "relative", overflow: "hidden", aspectRatio: "4/5" }}>
-            <img src={`${SB}/huglife/website/event3.jpg`} alt="Dr. Dorsey" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <img src={`${SB}/huglife/website/event3.jpg`} alt="Dr. Dorsey" style={{ width: "100%", height: "100%", objectFit: "cover", transform: ld ? "scale(1)" : "scale(1.05)", transition: "transform 2.5s cubic-bezier(0.16,1,0.3,1)" }} />
           </div>
         </R>
         <R>
@@ -528,7 +530,7 @@ export default function HugLife() {
     <section style={{ background: "var(--dark)", padding: "clamp(60px,10vh,100px) clamp(24px,4vw,60px)", textAlign: "center" }}>
       <div style={{ maxWidth: 600, margin: "0 auto" }}>
         <R>
-          <img src="/images/huglife-logo-white-nobg.png" alt="HugLife" style={{ height: 48, margin: "0 auto 24px", filter: "brightness(10)" }} />
+          <img src="/images/huglife-logo-white-nobg.png" alt="HugLife" style={{ height: 48, margin: "0 auto 24px", filter: "brightness(10)", opacity: ld ? 1 : 0, transform: ld ? "scale(1)" : "scale(1.1)", transition: "all 1.4s cubic-bezier(0.16,1,0.3,1) 0.2s" }} />
           <h2 style={{ fontFamily: S.serif, fontSize: "clamp(28px,4vw,44px)", fontWeight: 400, fontStyle: "italic", color: "#fff", marginBottom: 12 }}>
             Stay in the loop.
           </h2>
