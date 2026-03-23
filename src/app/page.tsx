@@ -125,10 +125,14 @@ function Btn({ children, href, variant = "primary", style }: { children: React.R
 }
 
 /* ═════════════════════════════════════════════════════════════ */
+const Grain=()=><div style={{position:"fixed",inset:0,zIndex:9999,opacity:0.03,pointerEvents:"none",mixBlendMode:"overlay" as const,backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`}}/>;
+
 export default function HugLife() {
   const [calMonth, setCalMonth] = useState(0);
   const [ticketFilter, setTicketFilter] = useState("All");
   const filteredTickets = ticketFilter === "All" ? TICKETS : TICKETS.filter(t => t.month === ticketFilter);
+  const [ld, setLd] = useState(false);
+  useEffect(() => { setTimeout(() => setLd(true), 200); }, []);
 
   /* ── ANNOUNCEMENT BAR (like Tibico's "Subscribe & Save") ── */
   const Announcement = (
@@ -162,17 +166,17 @@ export default function HugLife() {
   /* ── HERO (fullscreen image like Tibico) ── */
   const Hero = (
     <section style={{ position: "relative", height: "100vh", minHeight: 700, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-      <img src={`${SB}/huglife/website/homescreen.jpg`} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+      <img src={`${SB}/huglife/website/homescreen.jpg`} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transform: ld ? "scale(1)" : "scale(1.05)", transition: "transform 2.5s cubic-bezier(0.16,1,0.3,1)" }} />
       <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.4) 100%)" }} />
       <div style={{ position: "relative", zIndex: 2, textAlign: "center", maxWidth: 800, padding: "0 24px" }}>
-        <img src="/images/huglife-logo-white-nobg.png" alt="HugLife" style={{ height: "clamp(50px,8vw,80px)", margin: "0 auto 24px", filter: "brightness(10)" }} />
-        <h1 style={{ fontFamily: S.serif, fontSize: "clamp(36px,6vw,72px)", fontWeight: 400, fontStyle: "italic", lineHeight: 1.1, color: "#fff", letterSpacing: "-0.01em" }}>
+        <img src="/images/huglife-logo-white-nobg.png" alt="HugLife" style={{ height: "clamp(50px,8vw,80px)", margin: "0 auto 24px", filter: "brightness(10)", opacity: ld ? 1 : 0, transform: ld ? "scale(1)" : "scale(1.1)", transition: "all 1.4s cubic-bezier(0.16,1,0.3,1) 0.2s" }} />
+        <h1 style={{ fontFamily: S.serif, fontSize: "clamp(36px,6vw,72px)", fontWeight: 400, fontStyle: "italic", lineHeight: 1.1, color: "#fff", letterSpacing: "-0.01em", opacity: ld ? 1 : 0, transform: ld ? "translateY(0)" : "translateY(40px)", transition: "all 1.2s cubic-bezier(0.16,1,0.3,1) 0.6s" }}>
           Crafted with culture.<br />Curated by community.
         </h1>
-        <p style={{ fontFamily: S.sans, fontSize: "clamp(14px,1.3vw,17px)", color: "rgba(255,255,255,0.8)", maxWidth: 560, margin: "20px auto 0", lineHeight: 1.7, fontWeight: 300 }}>
+        <p style={{ fontFamily: S.sans, fontSize: "clamp(14px,1.3vw,17px)", color: "rgba(255,255,255,0.8)", maxWidth: 560, margin: "20px auto 0", lineHeight: 1.7, fontWeight: 300, opacity: ld ? 1 : 0, transition: "opacity 1s ease 1s" }}>
           15+ event brands spanning music, nightlife, art, food, and culture — curated experiences that connect communities across America.
         </p>
-        <div style={{ display: "flex", gap: 14, justifyContent: "center", marginTop: 32, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: 14, justifyContent: "center", marginTop: 32, flexWrap: "wrap", opacity: ld ? 1 : 0, transform: ld ? "translateY(0)" : "translateY(20px)", transition: "all 1s cubic-bezier(0.16,1,0.3,1) 1.3s" }}>
           <Btn href="#events" variant="primary">Explore Events</Btn>
           <Btn href="#tickets" variant="outline" style={{ color: "#fff", borderColor: "rgba(255,255,255,0.5)" }}>Get Tickets</Btn>
         </div>
@@ -605,6 +609,7 @@ export default function HugLife() {
       </a>>
       {Announcement}
       {Nav}
+      <Grain/>
       {Hero}
       {StatsStrip}
       {EventBrands}
