@@ -125,14 +125,12 @@ function Btn({ children, href, variant = "primary", style }: { children: React.R
 }
 
 /* ═════════════════════════════════════════════════════════════ */
-const Grain=()=><div style={{position:"fixed",inset:0,zIndex:9999,opacity:0.03,pointerEvents:"none",mixBlendMode:"overlay" as const,backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`}}/>;
+// GRAIN DISABLED FOR BUILD TEST
 
 export default function HugLife() {
   const [calMonth, setCalMonth] = useState(0);
   const [ticketFilter, setTicketFilter] = useState("All");
   const filteredTickets = ticketFilter === "All" ? TICKETS : TICKETS.filter(t => t.month === ticketFilter);
-  const [ld, setLd] = useState(false);
-  useEffect(() => { setTimeout(() => setLd(true), 200); }, []);
   const [ld, setLd] = useState(false);
   useEffect(() => { setTimeout(() => setLd(true), 200); }, []);
 
@@ -247,17 +245,7 @@ export default function HugLife() {
           ))
         )}
       </div>
-      <style>{`@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}`}
-@media(max-width:768px){
-  .dg,.DG,[style*="gridTemplateColumns"]{grid-template-columns:1fr!important}
-  .nl,.desktop-nav{display:none!important}
-  .fg,.stat-grid,.feature-grid{grid-template-columns:1fr!important}
-  .eg{grid-template-columns:1fr!important}
-  h1,h2,.hero-title{word-break:break-word}
-  nav{padding:16px!important}
-  section{padding-left:16px!important;padding-right:16px!important}
-}
-</style>
+      <style dangerouslySetInnerHTML={{__html:`@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}@media(max-width:768px){.dg,.DG,[style*="gridTemplateColumns"]{grid-template-columns:1fr!important}.nl,.desktop-nav{display:none!important}.fg,.stat-grid,.feature-grid{grid-template-columns:1fr!important}.eg{grid-template-columns:1fr!important}h1,h2,.hero-title{word-break:break-word}nav{padding:16px!important}section{padding-left:16px!important;padding-right:16px!important}}`}}/>
     </div>
   );
 
@@ -586,7 +574,7 @@ export default function HugLife() {
   );
 
   return (
-    <main
+    <main>
       {/* TICKETS STICKY BUTTON */}
       <a
         href="/tickets"
@@ -607,11 +595,11 @@ export default function HugLife() {
           boxShadow: "0 4px 20px rgba(201,168,76,0.4)",
         }}
       >
-        🎟 TICKETS
-      </a>>
+        TICKETS
+      </a>
       {Announcement}
       {Nav}
-      <Grain/>
+      {/* Grain disabled */}
       {Hero}
       {StatsStrip}
       {EventBrands}
