@@ -547,6 +547,21 @@ export default async function TicketsPage() {
           {" "}· © 2026 The Kollective Hospitality Group
         </p>
       </section>
+      {/* VENUE */}
+      <section style={{padding:"48px 32px", textAlign:"center", borderTop:"1px solid rgba(255,255,255,0.06)"}}>
+        <p style={{fontSize:"10px", letterSpacing:"4px", color:"#C9A84C", textTransform:"uppercase", marginBottom:"16px"}}>Location</p>
+        <h3 style={{fontFamily:"'Cormorant Garamond',Georgia,serif", fontSize:"clamp(24px,4vw,40px)", fontWeight:300, marginBottom:"8px"}}>
+          The Gallery Complex
+        </h3>
+        <p style={{color:"#888", fontSize:"13px", letterSpacing:"1px", marginBottom:"20px"}}>
+          245 Ted Turner Drive SW, Atlanta, GA 30303
+        </p>
+        <a href="https://maps.google.com/?q=245+Ted+Turner+Drive+SW+Atlanta+GA+30303" target="_blank" rel="noopener noreferrer"
+          style={{display:"inline-block", padding:"12px 28px", border:"1px solid rgba(201,168,76,0.4)", color:"#C9A84C", fontSize:"11px", letterSpacing:"3px", textTransform:"uppercase", textDecoration:"none"}}>
+          Get Directions →
+        </a>
+      </section>
+
     </main>
   );
 }
