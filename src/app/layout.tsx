@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+              <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: '{"@context": "https://schema.org", "@type": "Organization", "name": "HugLife Events", "description": "Atlanta's premier event collective.", "url": "https://huglife.com", "sameAs": ["https://instagram.com/huglife"], "parentOrganization": {"@type": "Organization", "name": "The Kollective Hospitality Group"}}' }} />
       <body suppressHydrationWarning>{children}</body>
     </html>
   );
