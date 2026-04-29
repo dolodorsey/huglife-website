@@ -538,7 +538,7 @@ export default function HugLife() {
   const Footer = (
     <footer style={{ background: "var(--bg2)", borderTop: "1px solid var(--border)", padding: "60px clamp(24px,4vw,60px) 32px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div className="mob-stack" style={{ display: "grid", gridTemplateColumns: "1.5fr repeat(3,1fr)", gap: 40, marginBottom: 48 }}>
+        <div className="mob-stack" style={{ display: "grid", gridTemplateColumns: "1.5fr repeat(4,1fr)", gap: 40, marginBottom: 48 }}>
           <div>
             <img src="/images/huglife-logo-clean.png" alt="HugLife" style={{ height: 40, marginBottom: 16 }} onError={e => { (e.target as HTMLImageElement).src = "/images/huglife-logo-white-nobg.png"; }} />
             <p style={{ fontFamily: S.sans, fontSize: 13, color: "var(--muted)", lineHeight: 1.7 }}>Events. Culture. Community.<br />A KHG Enterprise.</p>
@@ -549,14 +549,41 @@ export default function HugLife() {
             </div>
           </div>
           {[
-            { h: "Events", l: ["NOIR", "REMIX", "WRST BHVR", "Taste of Art", "Gangsta Gospel", "CRVNGS", "Stella"] },
-            { h: "Company", l: ["About HugLife", "Tickets", "Sponsor", "Vendor Inquiry", "Press"] },
-            { h: "Connect", l: ["@justhuglife", "thekollectiveworldwide@gmail.com", "Atlanta, GA"] },
+            { h: "Events", l: [
+              { t: "NOIR", u: "#calendar" },
+              { t: "REMIX", u: "#calendar" },
+              { t: "WRST BHVR", u: "#calendar" },
+              { t: "Taste of Art", u: "#calendar" },
+              { t: "Gangsta Gospel", u: "#calendar" },
+              { t: "CRVNGS", u: "#calendar" },
+              { t: "Stella", u: "#calendar" },
+            ]},
+            { h: "Company", l: [
+              { t: "About HugLife", u: "#about" },
+              { t: "Tickets", u: "/tickets" },
+              { t: "Sponsor", u: "mailto:thekollectiveworldwide@gmail.com?subject=Sponsorship Inquiry" },
+              { t: "Vendor Inquiry", u: "mailto:thekollectiveworldwide@gmail.com?subject=Vendor Inquiry" },
+              { t: "Press", u: "mailto:thekollectiveworldwide@gmail.com?subject=Press Inquiry" },
+            ]},
+            { h: "Team", l: [
+              { t: "NDA", u: "https://khg-forms.vercel.app/forms/nda" },
+              { t: "Non-Compete", u: "https://khg-forms.vercel.app/forms/non-compete" },
+              { t: "Apply", u: "https://khg-forms.vercel.app/" },
+            ]},
+            { h: "Connect", l: [
+              { t: "@justhuglife", u: "https://instagram.com/justhuglife" },
+              { t: "thekollectiveworldwide@gmail.com", u: "mailto:thekollectiveworldwide@gmail.com" },
+              { t: "Atlanta, GA", u: "#" },
+            ]},
           ].map(col => (
             <div key={col.h}>
               <h4 style={{ fontFamily: S.sans, fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--text)", marginBottom: 16 }}>{col.h}</h4>
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 8 }}>
-                {col.l.map(item => <li key={item} style={{ fontFamily: S.sans, fontSize: 13, color: "var(--muted)" }}>{item}</li>)}
+                {col.l.map(item => (
+                  <li key={item.t}>
+                    <a href={item.u} style={{ fontFamily: S.sans, fontSize: 13, color: "var(--muted)", textDecoration: "none", transition: "color 0.2s" }}>{item.t}</a>
+                  </li>
+                ))}
               </ul>
             </div>
           ))}
