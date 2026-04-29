@@ -566,9 +566,9 @@ export default function HugLife() {
               { t: "Press", u: "mailto:thekollectiveworldwide@gmail.com?subject=Press Inquiry" },
             ]},
             { h: "Team", l: [
-              { t: "NDA", u: "https://khg-forms.vercel.app/forms/nda" },
-              { t: "Non-Compete", u: "https://khg-forms.vercel.app/forms/non-compete" },
-              { t: "Apply", u: "https://khg-forms.vercel.app/" },
+              { t: "NDA", u: "/forms/nda" },
+              { t: "Non-Compete", u: "/forms/non-compete" },
+              { t: "All Forms", u: "/forms" },
             ]},
             { h: "Connect", l: [
               { t: "@justhuglife", u: "https://instagram.com/justhuglife" },

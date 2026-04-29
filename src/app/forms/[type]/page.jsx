@@ -74,6 +74,15 @@ const FORMS = {
     {n:'full_name',l:'Full Legal Name',t:'text',r:1},{n:'email',l:'Email',t:'email',r:1},{n:'phone',l:'Phone',t:'tel',r:1},
     {n:'company',l:'Company / Organization',t:'text'},{n:'title',l:'Title / Role',t:'text'},
     {n:'acknowledge',l:'I acknowledge and agree to the terms of confidentiality',t:'checkbox',r:1}]},
+  'non-compete':{title:'Non-Compete Agreement',sub:'Restrictive covenant',icon:'🛡️',cat:'Business',fields:[
+    {n:'full_name',l:'Full Legal Name',t:'text',r:1},{n:'email',l:'Email',t:'email',r:1},{n:'phone',l:'Phone',t:'tel',r:1},
+    {n:'address',l:'Mailing Address',t:'textarea',r:1},
+    {n:'role',l:'Role / Position with KHG',t:'text',r:1},
+    {n:'effective_date',l:'Effective Date',t:'date',r:1},
+    {n:'duration_months',l:'Duration (months)',t:'select',r:1,o:['6','12','18','24','36']},
+    {n:'restricted_categories',l:'Restricted Categories / Industry',t:'textarea',r:1},
+    {n:'restricted_geography',l:'Restricted Geography (cities / states)',t:'text',r:1},
+    {n:'acknowledge',l:'I acknowledge and agree to the terms of this non-compete',t:'checkbox',r:1}]},
 };
 
 const CATS = ['Events','Creative','Business','Team','General'];
