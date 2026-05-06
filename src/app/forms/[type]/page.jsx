@@ -2,9 +2,8 @@
 import { useState } from 'react';
 
 const BRAND_KEY = 'huglife';
-const BRAND = { name: 'HugLife', bg: '#080604', accent: '#D4B87A', text: '#F5F0E8', font: "'Cormorant Garamond', serif" };
+const BRAND = { name: 'HugLife', accent: '#080604', accentGold: '#B8954E', font: "'Cormorant Garamond', serif" };
 const WEBHOOK = 'https://dorsey.app.n8n.cloud/webhook/khg-form-submit';
-const BG_IMG = '/images/forms-bg.png';
 
 const FORMS = {
   vendor:{title:'Vendor Application',sub:'Join our vendor network',icon:'🏪',cat:'Business',fields:[
@@ -89,80 +88,72 @@ const CATS = ['Events','Creative','Business','Team','General'];
 const CAT_ICONS = {Events:'🎪',Creative:'🎨',Business:'💼',Team:'👥',General:'📋'};
 
 function Input({field:f,value:v,onChange:c,brand:b}){
-  const base={width:'100%',padding:'14px 16px',background:'rgba(255,255,255,0.1)',border:'1px solid rgba(255,255,255,0.18)',borderRadius:8,color:'#fff',fontSize:15,fontFamily:"'DM Sans',sans-serif",outline:'none',boxSizing:'border-box',backdropFilter:'blur(8px)',transition:'border-color 0.3s'};
-  const focus=e=>e.target.style.borderColor=b.accent+'80';
-  const blur=e=>e.target.style.borderColor='rgba(255,255,255,0.18)';
+  const base={width:'100%',padding:'16px 18px',background:'#FAFAFA',border:'1.5px solid #E5E5E5',borderRadius:8,color:'#080604',fontSize:16,fontFamily:"'DM Sans',sans-serif",outline:'none',boxSizing:'border-box',transition:'border-color 0.2s'};
+  const focus=e=>e.target.style.borderColor=b.accentGold;
+  const blur=e=>e.target.style.borderColor='#E5E5E5';
   if(f.t==='textarea')return<textarea name={f.n} required={f.r} rows={4} value={v||''} onChange={e=>c(f.n,e.target.value)} style={{...base,resize:'vertical'}} onFocus={focus} onBlur={blur}/>;
-  if(f.t==='select')return<select name={f.n} required={f.r} value={v||''} onChange={e=>c(f.n,e.target.value)} style={{...base,color:v?'#fff':'rgba(255,255,255,0.6)',cursor:'pointer',appearance:'none'}}><option value="" style={{background:'#111'}}>Select...</option>{(f.o||[]).map(o=><option key={o} value={o} style={{background:'#111',color:'#fff'}}>{o}</option>)}</select>;
-  if(f.t==='checkbox')return<label style={{display:'flex',alignItems:'flex-start',gap:12,cursor:'pointer',fontSize:14,fontFamily:"'DM Sans',sans-serif",lineHeight:1.5,color:'rgba(255,255,255,0.95)'}}><input type="checkbox" name={f.n} required={f.r} checked={v||false} onChange={e=>c(f.n,e.target.checked)} style={{marginTop:3,accentColor:b.accent,width:18,height:18,flexShrink:0}}/>{f.l}</label>;
+  if(f.t==='select')return<select name={f.n} required={f.r} value={v||''} onChange={e=>c(f.n,e.target.value)} style={{...base,color:v?'#080604':'#888',cursor:'pointer'}}><option value="">Select...</option>{(f.o||[]).map(o=><option key={o} value={o}>{o}</option>)}</select>;
+  if(f.t==='checkbox')return<label style={{display:'flex',alignItems:'flex-start',gap:14,cursor:'pointer',fontSize:15,fontFamily:"'DM Sans',sans-serif",lineHeight:1.6,color:'#1a1a1a'}}><input type="checkbox" name={f.n} required={f.r} checked={v||false} onChange={e=>c(f.n,e.target.checked)} style={{marginTop:4,accentColor:b.accentGold,width:20,height:20,flexShrink:0}}/>{f.l}</label>;
   return<input type={f.t} name={f.n} required={f.r} value={v||''} onChange={e=>c(f.n,e.target.value)} style={base} onFocus={focus} onBlur={blur}/>;
 }
 
-function FormsIndex(){
+function FormsIndex({notFound,attemptedSlug}){
   const [filter,setFilter]=useState('All');
   const filtered=Object.entries(FORMS).filter(([,f])=>filter==='All'||f.cat===filter);
   return(
-    <div style={{minHeight:'100vh',position:'relative',overflow:'hidden'}}>
-      {/* Background */}
-      <div style={{position:'fixed',inset:0,zIndex:0}}>
-        <img src={BG_IMG} alt="" style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'center'}}/>
-        <div style={{position:'absolute',inset:0,background:'linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.8) 100%)'}}/>
-      </div>
-      {/* Grain */}
-      <div style={{position:'fixed',inset:0,opacity:0.03,pointerEvents:'none',zIndex:1,backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")`}}/>
-      {/* Content */}
-      <div style={{position:'relative',zIndex:2,padding:'clamp(80px,12vw,140px) 20px 60px'}}>
-        <div style={{maxWidth:1000,margin:'0 auto'}}>
-          {/* Header */}
-          <div style={{textAlign:'center',marginBottom:50}}>
-            <div style={{display:'inline-block',padding:'6px 20px',border:`1px solid ${BRAND.accent}40`,borderRadius:100,marginBottom:20}}>
-              <span style={{fontSize:11,letterSpacing:4,textTransform:'uppercase',color:BRAND.accent,fontFamily:"'DM Sans',sans-serif",fontWeight:500}}>{BRAND.name}</span>
-            </div>
-            <h1 style={{fontSize:'clamp(36px,7vw,64px)',fontWeight:300,lineHeight:1.05,margin:'0 0 16px',letterSpacing:'-0.03em',color:'#fff',fontFamily:BRAND.font}}>
-              Connect With Us
-            </h1>
-            <p style={{fontSize:'clamp(14px,1.5vw,17px)',color:'rgba(255,255,255,0.85)',maxWidth:520,margin:'0 auto',lineHeight:1.6,fontFamily:"'DM Sans',sans-serif"}}>
-              Whether you are a vendor, artist, sponsor, volunteer, or just want to collaborate — we would love to hear from you.
+    <div style={{minHeight:'100vh',background:'#FFFFFF',position:'relative'}}>
+      <div style={{maxWidth:1100,margin:'0 auto',padding:'clamp(60px,10vw,120px) 24px 80px'}}>
+        {notFound&&(
+          <div style={{maxWidth:560,margin:'0 auto 56px',padding:'24px 28px',background:'#FFF8E1',border:'1.5px solid #B8954E',borderRadius:12,textAlign:'center'}}>
+            <div style={{fontSize:28,marginBottom:8}}>🔍</div>
+            <h2 style={{fontSize:22,fontWeight:600,color:'#080604',margin:'0 0 6px',fontFamily:BRAND.font}}>Form Not Found</h2>
+            <p style={{fontSize:15,color:'#3a3a3a',margin:0,fontFamily:"'DM Sans',sans-serif",lineHeight:1.5}}>
+              {attemptedSlug?<>We couldn't find a form for <strong style={{color:'#080604'}}>"{attemptedSlug}"</strong>. Browse the available forms below.</>:'Browse our available forms below.'}
             </p>
           </div>
-          {/* Category Filter */}
-          <div style={{display:'flex',justifyContent:'center',gap:8,marginBottom:40,flexWrap:'wrap'}}>
-            {['All',...CATS].map(c=>(
-              <button key={c} onClick={()=>setFilter(c)} style={{
-                padding:'8px 18px',borderRadius:100,border:filter===c?`1px solid ${BRAND.accent}`:'1px solid rgba(255,255,255,0.1)',
-                background:filter===c?`${BRAND.accent}18`:'rgba(255,255,255,0.08)',
-                color:filter===c?BRAND.accent:'rgba(255,255,255,0.9)',fontSize:12,fontFamily:"'DM Sans',sans-serif",
-                fontWeight:500,letterSpacing:1,textTransform:'uppercase',cursor:'pointer',transition:'all 0.3s',backdropFilter:'blur(12px)'
-              }}>
-                {c!=='All'&&<span style={{marginRight:6}}>{CAT_ICONS[c]}</span>}{c}
-              </button>
-            ))}
+        )}
+        <div style={{textAlign:'center',marginBottom:48}}>
+          <div style={{display:'inline-block',padding:'8px 24px',border:`2px solid ${BRAND.accentGold}`,borderRadius:100,marginBottom:24}}>
+            <span style={{fontSize:12,letterSpacing:4,textTransform:'uppercase',color:BRAND.accentGold,fontFamily:"'DM Sans',sans-serif",fontWeight:600}}>{BRAND.name}</span>
           </div>
-          {/* Form Grid */}
-          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))',gap:16}}>
-            {filtered.map(([key,form])=>(
-              <a key={key} href={`/forms/${key}`} style={{
-                display:'block',padding:'24px 22px',background:'rgba(0,0,0,0.45)',backdropFilter:'blur(20px) saturate(1.3)',
-                border:'1px solid rgba(255,255,255,0.15)',borderRadius:14,textDecoration:'none',color:'#fff',
-                transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)',position:'relative',overflow:'hidden'
-              }}
-              onMouseEnter={e=>{e.currentTarget.style.background=`rgba(0,0,0,0.6)`;e.currentTarget.style.borderColor=`${BRAND.accent}35`;e.currentTarget.style.transform='translateY(-4px) scale(1.01)'}}
-              onMouseLeave={e=>{e.currentTarget.style.background='rgba(0,0,0,0.45)';e.currentTarget.style.borderColor='rgba(255,255,255,0.15)';e.currentTarget.style.transform='translateY(0) scale(1)'}}>
-                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12}}>
-                  <span style={{fontSize:28}}>{form.icon}</span>
-                  <span style={{fontSize:9,letterSpacing:2,textTransform:'uppercase',color:BRAND.accent,fontFamily:"'DM Sans',sans-serif",opacity:1,background:`${BRAND.accent}20`,padding:'4px 10px',borderRadius:100}}>{form.cat}</span>
-                </div>
-                <h3 style={{fontSize:17,fontWeight:500,margin:'0 0 6px',fontFamily:"'DM Sans',sans-serif",letterSpacing:'-0.01em'}}>{form.title}</h3>
-                <p style={{fontSize:13,color:'rgba(255,255,255,0.8)',margin:0,fontFamily:"'DM Sans',sans-serif",lineHeight:1.5}}>{form.sub}</p>
-                <div style={{position:'absolute',bottom:0,left:0,right:0,height:2,background:`linear-gradient(90deg, transparent, ${BRAND.accent}40, transparent)`,opacity:0}}/>
-              </a>
-            ))}
-          </div>
-          {/* Footer */}
-          <p style={{textAlign:'center',marginTop:50,fontSize:11,color:'rgba(255,255,255,0.5)',fontFamily:"'DM Sans',sans-serif",letterSpacing:1}}>
-            © {new Date().getFullYear()} {BRAND.name} — Powered by The Kollective Hospitality Group
+          <h1 style={{fontSize:'clamp(40px,7vw,68px)',fontWeight:400,lineHeight:1.05,margin:'0 0 20px',letterSpacing:'-0.03em',color:'#080604',fontFamily:BRAND.font}}>Connect With Us</h1>
+          <p style={{fontSize:'clamp(16px,1.5vw,18px)',color:'#3a3a3a',maxWidth:560,margin:'0 auto',lineHeight:1.6,fontFamily:"'DM Sans',sans-serif"}}>
+            Whether you are a vendor, artist, sponsor, volunteer, or just want to collaborate — we would love to hear from you.
           </p>
         </div>
+        <div style={{display:'flex',justifyContent:'center',gap:10,marginBottom:48,flexWrap:'wrap'}}>
+          {['All',...CATS].map(c=>(
+            <button key={c} onClick={()=>setFilter(c)} style={{
+              padding:'10px 22px',borderRadius:100,border:filter===c?`2px solid ${BRAND.accentGold}`:'2px solid #E5E5E5',
+              background:filter===c?`${BRAND.accentGold}15`:'#FFFFFF',
+              color:filter===c?'#080604':'#3a3a3a',fontSize:13,fontFamily:"'DM Sans',sans-serif",
+              fontWeight:600,letterSpacing:1,textTransform:'uppercase',cursor:'pointer',transition:'all 0.2s'
+            }}>
+              {c!=='All'&&<span style={{marginRight:6}}>{CAT_ICONS[c]}</span>}{c}
+            </button>
+          ))}
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(290px,1fr))',gap:18}}>
+          {filtered.map(([key,form])=>(
+            <a key={key} href={`/forms/${key}`} style={{
+              display:'block',padding:'28px 26px',background:'#FFFFFF',
+              border:'1.5px solid #E5E5E5',borderRadius:14,textDecoration:'none',color:'#080604',
+              transition:'all 0.3s ease',position:'relative',overflow:'hidden',boxShadow:'0 1px 3px rgba(0,0,0,0.04)'
+            }}
+            onMouseEnter={e=>{e.currentTarget.style.borderColor=BRAND.accentGold;e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow='0 8px 24px rgba(184,149,78,0.15)'}}
+            onMouseLeave={e=>{e.currentTarget.style.borderColor='#E5E5E5';e.currentTarget.style.transform='translateY(0)';e.currentTarget.style.boxShadow='0 1px 3px rgba(0,0,0,0.04)'}}>
+              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:14}}>
+                <span style={{fontSize:30}}>{form.icon}</span>
+                <span style={{fontSize:10,letterSpacing:2,textTransform:'uppercase',color:BRAND.accentGold,fontFamily:"'DM Sans',sans-serif",background:`${BRAND.accentGold}18`,padding:'5px 12px',borderRadius:100,fontWeight:600}}>{form.cat}</span>
+              </div>
+              <h3 style={{fontSize:19,fontWeight:600,margin:'0 0 8px',fontFamily:"'DM Sans',sans-serif",letterSpacing:'-0.01em',color:'#080604'}}>{form.title}</h3>
+              <p style={{fontSize:14,color:'#5a5a5a',margin:0,fontFamily:"'DM Sans',sans-serif",lineHeight:1.5}}>{form.sub}</p>
+            </a>
+          ))}
+        </div>
+        <p style={{textAlign:'center',marginTop:60,fontSize:12,color:'#888',fontFamily:"'DM Sans',sans-serif",letterSpacing:1}}>
+          © {new Date().getFullYear()} {BRAND.name} — Powered by The Kollective Hospitality Group
+        </p>
       </div>
     </div>
   );
@@ -179,57 +170,45 @@ export default function FormPage({params}){
     try{await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({brand_key:BRAND_KEY,form_type:type,full_name:data.full_name||'',email:data.email||'',phone:data.phone||'',form_data:data,source:'standalone_form',submitted_at:new Date().toISOString()})});setStatus('success');}catch{setStatus('error');}
   };
 
-  if(!form) return <FormsIndex/>;
+  if(!form) return <FormsIndex notFound={true} attemptedSlug={type}/>;
 
   if(status==='success') return(
-    <div style={{minHeight:'100vh',position:'relative',overflow:'hidden'}}>
-      <div style={{position:'fixed',inset:0,zIndex:0}}><img src={BG_IMG} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}}/><div style={{position:'absolute',inset:0,background:'rgba(0,0,0,0.75)'}}/></div>
-      <div style={{position:'relative',zIndex:2,display:'flex',alignItems:'center',justifyContent:'center',minHeight:'100vh',padding:20}}>
-        <div style={{textAlign:'center',maxWidth:480}}>
-          <div style={{width:72,height:72,borderRadius:'50%',border:`2px solid ${BRAND.accent}`,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 24px',fontSize:32,color:BRAND.accent}}>✓</div>
-          <h1 style={{fontSize:32,fontWeight:300,marginBottom:12,color:'#fff',fontFamily:BRAND.font}}>Submitted</h1>
-          <p style={{fontSize:15,color:'rgba(255,255,255,0.85)',fontFamily:"'DM Sans',sans-serif",lineHeight:1.6}}>Thank you{data.full_name?', '+data.full_name:''}. We received your {form.title.toLowerCase()} and will be in touch shortly.</p>
-          <a href={'/forms/'+type} style={{display:'inline-block',marginTop:32,padding:'12px 32px',border:`1px solid ${BRAND.accent}60`,color:BRAND.accent,borderRadius:6,textDecoration:'none',fontSize:13,letterSpacing:1,textTransform:'uppercase',fontFamily:"'DM Sans',sans-serif"}}>Submit Another</a>
-        </div>
+    <div style={{minHeight:'100vh',background:'#FFFFFF',display:'flex',alignItems:'center',justifyContent:'center',padding:24}}>
+      <div style={{textAlign:'center',maxWidth:520}}>
+        <div style={{width:80,height:80,borderRadius:'50%',background:`${BRAND.accentGold}18`,border:`2.5px solid ${BRAND.accentGold}`,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 28px',fontSize:36,color:BRAND.accentGold}}>✓</div>
+        <h1 style={{fontSize:38,fontWeight:400,marginBottom:14,color:'#080604',fontFamily:BRAND.font}}>Submitted</h1>
+        <p style={{fontSize:17,color:'#3a3a3a',fontFamily:"'DM Sans',sans-serif",lineHeight:1.6,margin:'0 0 36px'}}>Thank you{data.full_name?', '+data.full_name:''}. We received your {form.title.toLowerCase()} and will be in touch shortly.</p>
+        <a href={'/forms/'+type} style={{display:'inline-block',padding:'14px 36px',background:'#080604',color:'#FFFFFF',borderRadius:8,textDecoration:'none',fontSize:14,letterSpacing:1.5,textTransform:'uppercase',fontFamily:"'DM Sans',sans-serif",fontWeight:600}}>Submit Another</a>
       </div>
     </div>
   );
 
   return(
-    <div style={{minHeight:'100vh',position:'relative',overflow:'hidden'}}>
-      {/* Background */}
-      <div style={{position:'fixed',inset:0,zIndex:0}}>
-        <img src={BG_IMG} alt="" style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'center'}}/>
-        <div style={{position:'absolute',inset:0,background:'linear-gradient(180deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.85) 100%)'}}/>
-      </div>
-      <div style={{position:'fixed',inset:0,opacity:0.03,pointerEvents:'none',zIndex:1,backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")`}}/>
-      {/* Form */}
-      <div style={{position:'relative',zIndex:2,padding:'clamp(80px,12vw,120px) 20px 80px'}}>
-        <div style={{maxWidth:560,margin:'0 auto'}}>
-          <div style={{background:'rgba(0,0,0,0.5)',backdropFilter:'blur(24px) saturate(1.3)',border:'1px solid rgba(255,255,255,0.15)',borderRadius:20,padding:'clamp(28px,5vw,48px)',boxShadow:'0 20px 80px rgba(0,0,0,0.5)'}}>
-            {/* Form Header */}
-            <div style={{textAlign:'center',marginBottom:36}}>
-              <a href="/forms" style={{fontSize:11,letterSpacing:4,textTransform:'uppercase',color:BRAND.accent,textDecoration:'none',fontFamily:"'DM Sans',sans-serif",display:'inline-block',marginBottom:16,opacity:1}}>← {BRAND.name} Forms</a>
-              <div style={{fontSize:36,marginBottom:12}}>{form.icon}</div>
-              <h1 style={{fontSize:'clamp(24px,4vw,36px)',fontWeight:300,lineHeight:1.15,margin:'0 0 8px',letterSpacing:'-0.02em',color:'#fff',fontFamily:BRAND.font}}>{form.title}</h1>
-              <p style={{fontSize:14,color:'rgba(255,255,255,0.8)',fontFamily:"'DM Sans',sans-serif",margin:0}}>{form.sub}</p>
-              <div style={{width:40,height:1,background:BRAND.accent,margin:'20px auto 0',opacity:0.7}}/>
+    <div style={{minHeight:'100vh',background:'#FFFFFF'}}>
+      <div style={{padding:'clamp(60px,10vw,100px) 24px 80px'}}>
+        <div style={{maxWidth:600,margin:'0 auto'}}>
+          <div style={{background:'#FFFFFF',border:'1.5px solid #E5E5E5',borderRadius:16,padding:'clamp(32px,5vw,56px)',boxShadow:'0 4px 32px rgba(0,0,0,0.06)'}}>
+            <div style={{textAlign:'center',marginBottom:40}}>
+              <a href="/forms" style={{fontSize:12,letterSpacing:3,textTransform:'uppercase',color:BRAND.accentGold,textDecoration:'none',fontFamily:"'DM Sans',sans-serif",display:'inline-block',marginBottom:20,fontWeight:600}}>← {BRAND.name} Forms</a>
+              <div style={{fontSize:42,marginBottom:14}}>{form.icon}</div>
+              <h1 style={{fontSize:'clamp(28px,4vw,40px)',fontWeight:400,lineHeight:1.15,margin:'0 0 10px',letterSpacing:'-0.02em',color:'#080604',fontFamily:BRAND.font}}>{form.title}</h1>
+              <p style={{fontSize:16,color:'#3a3a3a',fontFamily:"'DM Sans',sans-serif",margin:0,lineHeight:1.5}}>{form.sub}</p>
+              <div style={{width:48,height:2,background:BRAND.accentGold,margin:'24px auto 0'}}/>
             </div>
-            {/* Form Fields */}
             <form onSubmit={submit}>
-              <div style={{display:'flex',flexDirection:'column',gap:18}}>
+              <div style={{display:'flex',flexDirection:'column',gap:22}}>
                 {form.fields.map(f=><div key={f.n}>
-                  {f.t!=='checkbox'&&<label style={{display:'block',fontSize:11,letterSpacing:2,textTransform:'uppercase',marginBottom:8,color:'rgba(255,255,255,0.9)',fontFamily:"'DM Sans',sans-serif",fontWeight:600}}>{f.l}{f.r?<span style={{color:BRAND.accent,marginLeft:4}}>*</span>:null}</label>}
+                  {f.t!=='checkbox'&&<label style={{display:'block',fontSize:12,letterSpacing:1.5,textTransform:'uppercase',marginBottom:10,color:'#1a1a1a',fontFamily:"'DM Sans',sans-serif",fontWeight:700}}>{f.l}{f.r?<span style={{color:BRAND.accentGold,marginLeft:4}}>*</span>:null}</label>}
                   <Input field={f} value={data[f.n]} onChange={set} brand={BRAND}/>
                 </div>)}
               </div>
-              {status==='error'&&<p style={{color:'#EF5350',fontSize:14,fontFamily:"'DM Sans',sans-serif",marginTop:16,textAlign:'center'}}>Something went wrong. Please try again.</p>}
-              <button type="submit" disabled={status==='submitting'} style={{width:'100%',marginTop:28,padding:'16px 32px',background:status==='submitting'?`${BRAND.accent}40`:BRAND.accent,color:'#000',border:'none',borderRadius:8,fontSize:13,fontWeight:600,letterSpacing:2,textTransform:'uppercase',fontFamily:"'DM Sans',sans-serif",cursor:status==='submitting'?'wait':'pointer',transition:'all 0.3s'}}>
+              {status==='error'&&<p style={{color:'#C62828',fontSize:15,fontFamily:"'DM Sans',sans-serif",marginTop:20,textAlign:'center',padding:14,background:'#FFEBEE',borderRadius:8,border:'1.5px solid #FFCDD2'}}>Something went wrong. Please try again.</p>}
+              <button type="submit" disabled={status==='submitting'} style={{width:'100%',marginTop:32,padding:'18px 32px',background:status==='submitting'?'#888':'#080604',color:'#FFFFFF',border:'none',borderRadius:10,fontSize:14,fontWeight:700,letterSpacing:2,textTransform:'uppercase',fontFamily:"'DM Sans',sans-serif",cursor:status==='submitting'?'wait':'pointer',transition:'all 0.2s'}}>
                 {status==='submitting'?'Submitting...':'Submit'}
               </button>
             </form>
           </div>
-          <p style={{textAlign:'center',marginTop:32,fontSize:11,color:'rgba(255,255,255,0.5)',fontFamily:"'DM Sans',sans-serif",letterSpacing:1}}>© {new Date().getFullYear()} {BRAND.name} — Powered by The Kollective</p>
+          <p style={{textAlign:'center',marginTop:36,fontSize:12,color:'#888',fontFamily:"'DM Sans',sans-serif",letterSpacing:1}}>© {new Date().getFullYear()} {BRAND.name} — Powered by The Kollective</p>
         </div>
       </div>
     </div>
